@@ -8,8 +8,8 @@ interface Card {
   icon: JSX.Element;
   details: string;
   image: string; // Dodaj pole na obraz
+  link: string; // Dodaj pole na link
 }
-
 
 const cards: Card[] = [
   {
@@ -18,6 +18,7 @@ const cards: Card[] = [
     icon: <Cuboid className="h-6 w-6 text-blue-400" />,
     details: "Nasze 3D Game to immersyjne doświadczenie, które przenosi graczy do fascynującego świata pełnego przygód. Wykorzystując najnowsze technologie graficzne, oferujemy realistyczne środowiska i płynną rozgrywkę. Gracze mogą tworzyć własne postacie, rozwijać umiejętności i współpracować z innymi w trybie wieloosobowym. Regularnie dodajemy nowe poziomy, wyzwania i elementy fabularne, aby zapewnić długotrwałą rozrywkę.",
     image: "/assets/webGame.png", // Ścieżka do obrazu
+    link: "https://example.com/3d-game" // Przykładowy link
   },
   {
     title: "Solar System",
@@ -25,6 +26,7 @@ const cards: Card[] = [
     icon: <Globe className="h-6 w-6 text-blue-400" />,
     details: "Nasza aplikacja Solar System to interaktywny przewodnik po Układzie Słonecznym. Użytkownicy mogą eksplorować szczegółowe modele 3D planet, księżyców i innych ciał niebieskich. Oferujemy aktualne dane astronomiczne, ciekawostki o każdym obiekcie oraz symulacje orbit i faz księżyca. Aplikacja zawiera również sekcję edukacyjną z quizami i wyzwaniami, idealnymi dla uczniów i entuzjastów astronomii.",
     image: "/assets/spaceSystem.png", // Ścieżka do obrazu
+    link: "https://example.com/solar-system" // Przykładowy link
   },
   {
     title: "Stellarium",
@@ -32,6 +34,7 @@ const cards: Card[] = [
     icon: <Telescope className="h-6 w-6 text-blue-400" />,
     details: "Stellarium to zaawansowany symulator nieba, który przynosi kosmos na wyciągnięcie ręki. Oferuje realistyczne odwzorowanie nieba z ponad 600 000 gwiazd, planetami, mgławicami i galaktykami. Użytkownicy mogą obserwować niebo z dowolnego miejsca na Ziemi i w dowolnym czasie. Aplikacja zawiera szczegółowe informacje o obiektach astronomicznych, umożliwia śledzenie sztucznych satelitów i oferuje narzędzia do planowania obserwacji astronomicznych.",
     image: "/path/to/image3.jpg", // Ścieżka do obrazu
+    link: "https://example.com/stellarium" // Przykładowy link
   },
 ];
 
@@ -74,18 +77,33 @@ function Modal({ isOpen, onClose, content }: ModalProps) {
               <img src={content.image} alt={content.title} className="w-full h-auto rounded mb-4" />
             )}
             <div className="text-gray-300 mb-4">{content?.details}</div>
-            <button
-              onClick={onClose}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
-            >
-              Zamknij
-            </button>
+            <div className="flex justify-between mt-6">
+              <button
+                onClick={onClose}
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+              >
+                Zamknij
+              </button>
+              {/* Nowy przycisk do otwierania linku */}
+              {content?.link && (
+                <a
+                  href={content.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+                >
+                  Odwiedź stronę
+                </a>
+              )}
+            </div>
           </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
   );
 }
+
+
 
 
 export default function ShimmerCards() {
