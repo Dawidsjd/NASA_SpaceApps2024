@@ -1,4 +1,3 @@
-// Moon.tsx
 import React from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
@@ -8,6 +7,7 @@ interface MoonProps {
   size: number;
   color: string;
   speed: number;
+  earthAngleRef: React.MutableRefObject<number>; // Referencja do kąta obrotu Ziemi
 }
 
 const Moon: React.FC<MoonProps> = ({
@@ -15,20 +15,19 @@ const Moon: React.FC<MoonProps> = ({
   size,
   color,
   speed,
+  earthAngleRef, // Dodajemy referencję do kąta obrotu Ziemi
 }) => {
   const moonRef = React.useRef<THREE.Mesh>(null);
-  const angleRef = React.useRef(0);
 
   useFrame(() => {
-    const x = distanceFromEarth * Math.cos(angleRef.current);
-    const z = distanceFromEarth * Math.sin(angleRef.current);
     const moonMesh = moonRef.current;
 
     if (moonMesh) {
-      moonMesh.position.set(x, 0, z); // Ustawienie pozycji księżyca wokół Ziemi
+      // Ustawiamy Księżyc na linii prostej względem Ziemi
+      const x = distanceFromEarth * Math.cos(earthAngleRef.current); // Zależne od kąta Ziemi
+      const z = distanceFromEarth * Math.sin(earthAngleRef.current); // Zależne od kąta Ziemi
+      moonMesh.position.set(x, 0, z); // Pozycja Księżyca wokół Ziemi
     }
-
-    angleRef.current += speed; // Zwiększanie kąta w każdej klatce, aby księżyc się obracał
   });
 
   return (

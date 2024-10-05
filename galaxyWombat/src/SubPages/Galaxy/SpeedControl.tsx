@@ -20,8 +20,8 @@ const SpeedControl: React.FC<SpeedControlProps> = ({
       <input
         type="range"
         min="0"
-        max="100" // Adjust max value as necessary
-        step="0.1"
+        max="10" // Adjust max value as necessary
+        step="0.2"
         value={speedMultiplier}
         onChange={(e) => onChange(parseFloat(e.target.value))}
       />

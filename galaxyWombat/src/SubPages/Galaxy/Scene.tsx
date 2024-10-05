@@ -25,6 +25,9 @@ const Scene: React.FC = () => {
 
   const [speedMultiplier, setSpeedMultiplier] = useState<number>(1);
 
+  // Referencja do kąta obrotu Ziemi
+  const earthAngleRef = React.useRef(0);
+
   const handleCloseInfo = () => {
     setSelectedPlanet(null);
   };
@@ -44,6 +47,7 @@ const Scene: React.FC = () => {
         <OrbitControls minDistance={50} maxDistance={3000} />
 
         <Sun />
+
         {planetData.map((planet) => (
           <React.Fragment key={planet.label}>
             <Planet
@@ -56,14 +60,23 @@ const Scene: React.FC = () => {
               onClick={(label, description) =>
                 setSelectedPlanet({ label, description })
               }
+              // Ziemia będzie miała swój własny kąt obrotu
+              onUpdateAngle={(angle) => {
+                if (planet.label === 'Earth') {
+                  earthAngleRef.current = angle; // Zaktualizuj kąt Ziemi
+                }
+              }}
             />
             <Orbit rho={planet.rho} color={planet.color} />
+
+            {/* Księżyc wokół Ziemi */}
             {planet.label === 'Earth' && (
               <Moon
-                distanceFromEarth={17} // Odległość Księżyca od Ziemi
+                distanceFromEarth={25} // Odległość Księżyca od Ziemi
                 size={0.27} // Proporcjonalna wielkość Księżyca względem Ziemi
                 color="blue" // Kolor Księżyca
-                speed={0.01} // Prędkość obrotu Księżyca wokół Ziemi
+                speed={0.02} // Prędkość obrotu Księżyca wokół Ziemi
+                earthAngleRef={earthAngleRef} // Referencja do kąta obrotu Ziemi
               />
             )}
           </React.Fragment>
