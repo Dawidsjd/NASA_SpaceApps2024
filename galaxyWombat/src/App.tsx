@@ -6,8 +6,8 @@ import { SparklesPreview } from './SubPages/Menu/components/SparklesPreview';
 function App() {
   return (
     <>
-      <Scene />
-      {/* <SparklesPreview/> */}
+      {/* <Scene /> */}
+      <SparklesPreview/>
     </>
   );
 }
