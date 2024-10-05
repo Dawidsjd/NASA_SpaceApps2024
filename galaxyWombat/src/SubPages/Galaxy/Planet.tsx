@@ -1,6 +1,5 @@
-// Planet.tsx
 import React from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
 import { planetData } from './orbits';
 
@@ -10,24 +9,29 @@ interface PlanetProps {
   label: string;
   rho: number;
   size: number;
-  color: string;
+  texture: string;
   speed: number;
-  speedMultiplier: number; // New prop for speed multiplier
+  speedMultiplier: number;
   onClick: (label: string, description: string) => void;
+  color: string; // Dodaj właściwość color
 }
+
 
 const Planet: React.FC<PlanetProps> = ({
   label,
   rho,
   size,
-  color,
+  texture, // Dodano pole tekstury
   speed,
-  speedMultiplier, // Use speedMultiplier here
+  speedMultiplier,
   onClick,
 }) => {
-  const adjustedRho = rho * AU; // Distance calculation
+  const adjustedRho = rho * AU;
   const angleRef = React.useRef(0);
   const planetRef = React.useRef<THREE.Mesh>(null);
+
+  // Ładujemy teksturę planety
+  const planetTexture = useLoader(THREE.TextureLoader, texture);
 
   useFrame(() => {
     const x = adjustedRho * Math.cos(angleRef.current);
@@ -36,7 +40,7 @@ const Planet: React.FC<PlanetProps> = ({
     if (planetMesh) {
       planetMesh.position.set(x, 0, z);
     }
-    angleRef.current += speed * speedMultiplier; // Update angle based on speed and multiplier
+    angleRef.current += speed * speedMultiplier;
   });
 
   return (
@@ -51,7 +55,7 @@ const Planet: React.FC<PlanetProps> = ({
       }
     >
       <sphereGeometry args={[size * 2, 32, 32]} />
-      <meshStandardMaterial color={color} />
+      <meshStandardMaterial map={planetTexture} /> {/* Używamy tekstury */}
     </mesh>
   );
 };
