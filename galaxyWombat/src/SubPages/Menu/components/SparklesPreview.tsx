@@ -95,7 +95,7 @@ export function SparklesPreview() {
       <motion.img 
         src="/assets/wombat-layout.png" 
         alt="Wombat Layout" 
-        className="absolute left-0 bottom-0 w-1/3 h-auto object-cover select-none"
+        className="absolute left-0 -bottom-3 w-1/3 h-auto object-cover select-none"
         draggable="false"
         animate={{ y: [0, -10, 0], rotate: [0, 2, -2, 0] }}
         transition={{
