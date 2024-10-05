@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { Planet, Orbit as PlanetOrbit } from './Planet';
 import { planetData } from './orbits';
@@ -10,12 +10,18 @@ import * as THREE from 'three';
 
 const AU = 150; // Astronomical Unit (scaled)
 
-const Sun: React.FC = () => (
-  <mesh position={[0, 0, 0]}>
-    <sphereGeometry args={[5, 32, 32]} />
-    <meshStandardMaterial color="yellow" />
-  </mesh>
-);
+const Sun: React.FC = () => {
+  // Załaduj teksturę Słońca
+  const sunTexture = useLoader(THREE.TextureLoader, '/assets/sun.jpg'); // Upewnij się, że ścieżka do tekstury jest poprawna
+
+  return (
+    <mesh position={[0, 0, 0]}>
+      <sphereGeometry args={[5, 32, 32]} />
+      <meshStandardMaterial map={sunTexture} /> {/* Użyj załadowanej tekstury */}
+    </mesh>
+  );
+};
+
 
 const CameraController: React.FC<{
   targetPosition: [number, number, number] | null;
