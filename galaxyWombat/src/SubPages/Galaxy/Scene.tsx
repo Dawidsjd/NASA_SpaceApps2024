@@ -48,7 +48,18 @@ const Scene: React.FC = () => {
     previousSpeed.current = speedMultiplier; // Store current speed before setting to 0
     setSpeedMultiplier(0); // Set speed to 0 when a planet is clicked
     setSelectedPlanet({ label, description });
-    targetPosition.current = position; // Set the camera target position
+
+    // Wyjątek dla planet - oddalamy tylko w osi Z
+    if (label === 'Saturn') {
+      targetPosition.current = [position[0], position[1], position[2] * 1.5]; // Saturn oddala się w osi Z
+    } else if (label === 'Jupiter') {
+      targetPosition.current = [position[0], position[1], position[2] * 2]; // Jowisz oddala się w osi Z
+    } else if (label === 'Uranus') {
+      targetPosition.current = [position[0], position[1], position[2] * 1.25]; // Uran oddala się w osi Z
+    } else {
+      targetPosition.current = position; // Ustawiamy pozycję celu dla kamery
+    }
+
     setIsMoving(true);
   };
 
