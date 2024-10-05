@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Planetary System - Reduced</title>
+    <style>
+      body, html {
+        margin: 0;
+        overflow: hidden;
+        height: 100%;
+        width: 100%;
+      }
+
+      #blocker {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+
+      .content {
+        color: white;
+        font-family: Arial, sans-serif;
+      }
+
+      #startButton {
+        padding: 10px 20px;
+        background-color: #444;
+        color: white;
+        cursor: pointer;
+      }
+
+      #aiming1 {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 21px;
+        height: 21px;
+        margin-left: -10.5px;
+        margin-top: -10.5px;
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="blocker">
+      <div class="content">
+        <h1>Explore the Solar System</h1>
+        <p>Discover planets and stars in a simple simulation.</p>
+        <div id="startButton" onclick="startExperience()">Start</div>
+      </div>
+    </div>
+
+    <div id="aiming1">
+      <img src="img/aiming4.png" width="21px" height="21px" />
+    </div>
+
+    <div id="container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+      let scene, camera, renderer, solarSystem, planets = [];
+      
+      function init() {
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Light
+        const light = new THREE.PointLight(0xffffff, 1, 500);
+        light.position.set(0, 0, 0);
+        scene.add(light);
+
+        // Sun
+        const sunTexture = new THREE.TextureLoader().load('img/sun.jpg');
+        const sunGeometry = new THREE.SphereGeometry(5, 32, 32);
+        const sunMaterial = new THREE.MeshBasicMaterial({ map: sunTexture });
+        const sun = new THREE.Mesh(sunGeometry, sunMaterial);
+        scene.add(sun);
+
+        // Planets (simple representations)
+        const planetGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+        const planetMaterial = new THREE.MeshBasicMaterial({ color: 0x44e0ff });
+        for (let i = 1; i <= 8; i++) {
+          const planet = new THREE.Mesh(planetGeometry, planetMaterial);
+          planet.position.set(i * 7, 0, 0);
+          scene.add(planet);
+          planets.push(planet);
+        }
+
+        camera.position.z = 30;
+      }
+
+      function animate() {
+        requestAnimationFrame(animate);
+        planets.forEach((planet, index) => {
+          planet.rotation.y += 0.01;
+          planet.position.x = Math.cos(Date.now() * 0.001 * (index + 1)) * (index + 7);
+          planet.position.z = Math.sin(Date.now() * 0.001 * (index + 1)) * (index + 7);
+        });
+        renderer.render(scene, camera);
+      }
+
+      function startExperience() {
+        document.getElementById("blocker").style.display = "none";
+        document.getElementById("aiming1").style.display = "block";
+        init();
+        animate();
+      }
+
+      window.addEventListener('resize', function () {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+      });
+    </script>
+  </body>
+</html>
