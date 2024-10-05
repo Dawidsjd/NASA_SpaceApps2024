@@ -8,6 +8,13 @@ import SpeedControl from './SpeedControl'; // Import SpeedControl
 
 const AU = 150; // Astronomical Unit (scaled)
 
+const Sun: React.FC = () => (
+  <mesh position={[0, 0, 0]}>
+    <sphereGeometry args={[5, 32, 32]} />
+    <meshStandardMaterial color="yellow" />
+  </mesh>
+);
+
 const Scene: React.FC = () => {
   const [selectedPlanet, setSelectedPlanet] = useState<{
     label: string;
@@ -34,6 +41,7 @@ const Scene: React.FC = () => {
         <pointLight position={[10, 10, 10]} />
         <OrbitControls minDistance={50} maxDistance={3000} />
 
+        <Sun />
         {planetData.map((planet) => (
           <React.Fragment key={planet.label}>
             <Planet
