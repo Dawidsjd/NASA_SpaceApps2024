@@ -206,7 +206,7 @@ const Scene: React.FC = () => {
         src="/assets/icon-dark.png" // Zmień na właściwą ścieżkę do logo
         alt="Logo"
         draggable="false"
-        className="absolute top-10 right-10 w-24 h-24 select-none opacity-20" // Dodaj klasę select-none
+        className="absolute top-10 right-10 w-24 h-24 select-none opacity-25" // Dodaj klasę select-none
         style={{ userSelect: 'none' }} // Wyłącza możliwość wybierania logo
       />
     </div>
