@@ -1,10 +1,11 @@
 import React from 'react';
 import StartLayout from './SubPages/Menu/StartLayout';
+import Scene from './SubPages/Galaxy/Scene';
 
 function App() {
   return (
     <>
-    <StartLayout/>
+      <Scene />
     </>
   );
 }
