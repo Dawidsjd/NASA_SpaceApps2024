@@ -1,4 +1,3 @@
-// Planet.tsx
 import React from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
@@ -12,7 +11,7 @@ interface PlanetProps {
   size: number;
   color: string;
   speed: number;
-  speedMultiplier: number; // New prop for speed multiplier
+  speedMultiplier: number;
   onClick: (label: string, description: string) => void;
 }
 
@@ -22,10 +21,10 @@ const Planet: React.FC<PlanetProps> = ({
   size,
   color,
   speed,
-  speedMultiplier, // Use speedMultiplier here
+  speedMultiplier,
   onClick,
 }) => {
-  const adjustedRho = rho * AU; // Distance calculation
+  const adjustedRho = rho * AU;
   const angleRef = React.useRef(0);
   const planetRef = React.useRef<THREE.Mesh>(null);
 

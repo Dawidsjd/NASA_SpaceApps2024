@@ -33,13 +33,13 @@ export const planetData: PlanetData[] = [
       'Venus is the second planet from the Sun and is similar in structure to Earth.',
   },
   {
-    label: 'Earth/Moon Barycenter',
+    label: 'Earth',
     lambda: 20,
     phi: 8,
     rho: 0.15,
     size: 1.0,
-    color: 'blue',
-    speed: 0.015, // 0.03 decreased by 50%
+    color: 'green',
+    speed: 0.015,
     description:
       'Earth is the third planet from the Sun and the only astronomical object known to support life.',
   },
@@ -91,7 +91,7 @@ export const planetData: PlanetData[] = [
     label: 'Neptune',
     lambda: 10,
     phi: 1,
-    rho: 1.7,
+    rho: 1.8,
     size: 3.88,
     color: 'darkblue',
     speed: 0.0025, // 0.005 decreased by 50%

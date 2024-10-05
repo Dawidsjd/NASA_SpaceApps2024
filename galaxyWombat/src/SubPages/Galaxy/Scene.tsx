@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
-import { Planet, Orbit } from './Planet'; // Updated import
+import { Planet, Orbit } from './Planet';
 import { planetData } from './orbits';
+import * as THREE from 'three';
 import PlanetDetails from './PlanetDetails';
-import SpeedControl from './SpeedControl'; // Import SpeedControl
+import SpeedControl from './SpeedControl';
+import Moon from './Moon';
 
 const AU = 150; // Astronomical Unit (scaled)
 
@@ -21,7 +23,7 @@ const Scene: React.FC = () => {
     description: string;
   } | null>(null);
 
-  const [speedMultiplier, setSpeedMultiplier] = useState<number>(1); // State for speed multiplier
+  const [speedMultiplier, setSpeedMultiplier] = useState<number>(1);
 
   const handleCloseInfo = () => {
     setSelectedPlanet(null);
@@ -50,12 +52,20 @@ const Scene: React.FC = () => {
               size={planet.size}
               color={planet.color}
               speed={planet.speed}
-              speedMultiplier={speedMultiplier} // Pass speed multiplier
+              speedMultiplier={speedMultiplier}
               onClick={(label, description) =>
                 setSelectedPlanet({ label, description })
               }
             />
             <Orbit rho={planet.rho} color={planet.color} />
+            {planet.label === 'Earth' && (
+              <Moon
+                distanceFromEarth={17} // Odległość Księżyca od Ziemi
+                size={0.27} // Proporcjonalna wielkość Księżyca względem Ziemi
+                color="blue" // Kolor Księżyca
+                speed={0.01} // Prędkość obrotu Księżyca wokół Ziemi
+              />
+            )}
           </React.Fragment>
         ))}
       </Canvas>
@@ -63,7 +73,7 @@ const Scene: React.FC = () => {
       {/* Speed control */}
       <SpeedControl
         speedMultiplier={speedMultiplier}
-        onChange={setSpeedMultiplier} // Update speedMultiplier on slider change
+        onChange={setSpeedMultiplier}
       />
 
       {/* Popup planet details */}
