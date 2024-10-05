@@ -123,6 +123,7 @@ const Scene: React.FC = () => {
             size={4}
             color={asteroid.color}
             speed={asteroid.speed}
+            texture={asteroid.texture}
             distanceFromSun={asteroid.distanceFromSun}
             description={asteroid.description} // Pass the description here
             speedMultiplier={speedMultiplier}
