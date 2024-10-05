@@ -20,7 +20,14 @@ export function SparklesPreview() {
           particleColor="#FFFFFF"
         />
       </div>
-      
+
+      {/* Ikona w prawym górnym rogu */}
+      <img
+        src="/assets/icon.png" // Ścieżka do ikony
+        alt="Ikona"
+        className="absolute top-10 right-10 w-24 h-24" // Ustal rozmiar i położenie
+      />
+
       <h1 
         className="font-bold text-center tracking-wider z-10 text-white"
         style={{ 
@@ -52,7 +59,7 @@ export function SparklesPreview() {
       )}
 
       {isExploring && ( // Warunkowe renderowanie kontenerów
-        <ShimmerCards/>
+        <ShimmerCards />
       )}
 
       {/* Zdjęcie po lewej stronie */}
