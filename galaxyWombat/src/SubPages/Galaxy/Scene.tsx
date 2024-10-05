@@ -21,7 +21,6 @@ const Sun: React.FC = () => {
   );
 };
 
-
 const CameraController: React.FC<{ targetPosition: [number, number, number] | null; isMoving: boolean }> = ({ targetPosition, isMoving }) => {
   const cameraRef = useRef<THREE.PerspectiveCamera>(null); // Referencja do kamery
 
@@ -74,41 +73,43 @@ const Scene: React.FC = () => {
         }}
       >
         <CameraController targetPosition={targetPosition.current} isMoving={isMoving} />
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} />
+        
+        {/* Dodaj różne źródła światła */}
+        <ambientLight intensity={0.5} /> {/* Delikatne światło otoczenia */}
+        <hemisphereLight intensity={0.3} color="white" groundColor="blue" /> {/* Światło hemisferyczne */}
+        <directionalLight position={[10, 10, 10]} intensity={1} /> {/* Światło kierunkowe */}
 
         <Sun />
         {planetData.map((planet) => (
           <React.Fragment key={planet.label}>
             <Planet
-  label={planet.label}
-  rho={planet.rho}
-  size={planet.size}
-  color={planet.color}
-  texture={planet.texture}  // Dodaj teksturę
-  speed={planet.speed}
-  speedMultiplier={speedMultiplier}
-  onClick={(label, description) =>
-    handlePlanetClick(label, description, [
-      planet.rho * AU * Math.cos(planet.speed), // Oblicz pozycję X
-      90, // Y
-      planet.rho * AU * Math.sin(planet.speed) // Oblicz pozycję Z
-    ])
-  }
-/>
-
+              label={planet.label}
+              rho={planet.rho}
+              size={planet.size}
+              color={planet.color}
+              texture={planet.texture}  // Dodaj teksturę
+              speed={planet.speed}
+              speedMultiplier={speedMultiplier}
+              onClick={(label, description) =>
+                handlePlanetClick(label, description, [
+                  planet.rho * AU * Math.cos(planet.speed), // Oblicz pozycję X
+                  90, // Y
+                  planet.rho * AU * Math.sin(planet.speed) // Oblicz pozycję Z
+                ])
+              }
+            />
             <Orbit rho={planet.rho} color={planet.color} />
           </React.Fragment>
         ))}
       </Canvas>
 
-      {/* Speed control */}
+      {/* Kontroler prędkości */}
       <SpeedControl
         speedMultiplier={speedMultiplier}
         onChange={setSpeedMultiplier}
       />
 
-      {/* Popup planet details */}
+      {/* Popup szczegóły planety */}
       {selectedPlanet && (
         <PlanetDetails
           label={selectedPlanet.label}
