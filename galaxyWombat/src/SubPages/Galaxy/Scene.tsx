@@ -10,7 +10,7 @@ import Sun from './Sun'; // Assuming Sun is in a separate file
 import CameraController from './CameraController'; // Assuming CameraController is in a separate file
 import Asteroid from './Asteroid'; // Import the new Asteroid component
 import { Sphere } from '@react-three/drei';
-import * as THREE from 'three'; // Import THREE for the texture loader
+import * as THREE from 'three';
 
 const AU = 150; // Astronomical Unit (scaled)
 
@@ -91,18 +91,21 @@ const Scene: React.FC = () => {
   const orbitsVisible = !selectedPlanet && !selectedAsteroid; // Orbits should only be visible when no planet or asteroid is selected
 
   return (
-    <div className='bg-black'>
+    <div className="bg-black">
       {loading ? (
-        <div className='bg-black w-full h-screen' >
-          <div style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          fontSize: '2rem',
-          color: 'white',
-        }}><span className="loading loading-bars loading-lg w-16 h-auto"></span></div>
-          
+        <div className="bg-black w-full h-screen">
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              fontSize: '2rem',
+              color: 'white',
+            }}
+          >
+            <span className="loading loading-bars loading-lg w-16 h-auto"></span>
+          </div>
         </div>
       ) : (
         <Canvas
@@ -113,9 +116,9 @@ const Scene: React.FC = () => {
         >
           {/* Sphere background */}
           <Sphere args={[1000, 1000, 1000]} position={[0, 0, 0]}>
-            <meshBasicMaterial 
-              map={new THREE.TextureLoader().load('/public/assets/bg-1.jpg')} 
-              side={THREE.BackSide} 
+            <meshBasicMaterial
+              map={new THREE.TextureLoader().load('/public/assets/bg-1.jpg')}
+              side={THREE.BackSide}
             />
           </Sphere>
 
@@ -146,16 +149,16 @@ const Scene: React.FC = () => {
                 }}
                 angleRef={anglesRef.current} // Pass angleRef
               />
-              
+
               {/* Glow effect around the planet */}
-              <pointLight 
+              <pointLight
                 position={[planet.rho * AU, 0, 0]} // Positioning the light near the planet
                 intensity={150} // Intensity of the glow
                 distance={planet.rho * AU + 10} // Distance for the light to affect
                 decay={2} // How quickly the light fades
                 color={'red'} // Glow color matching the planet
               />
-              
+
               {orbitsVisible && (
                 <PlanetOrbit rho={planet.rho} color={planet.color} />
               )}
@@ -206,7 +209,7 @@ const Scene: React.FC = () => {
         src="/assets/icon-dark.png" // Zmień na właściwą ścieżkę do logo
         alt="Logo"
         draggable="false"
-        className="absolute top-10 right-10 w-24 h-24 select-none opacity-20" // Dodaj klasę select-none
+        className="absolute top-5 right-5 w-24 h-24 select-none opacity-40" // Dodaj klasę select-none
         style={{ userSelect: 'none' }} // Wyłącza możliwość wybierania logo
       />
     </div>
