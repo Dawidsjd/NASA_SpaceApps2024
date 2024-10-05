@@ -1435,6 +1435,8 @@
     var y = document.getElementById('aiming1').offsetTop + 10;
     return { x: x, y: y };
   }
+
+  
   function mouseMove(e) {
     mouse.x =
       ((document.getElementById('aiming1').offsetLeft + 10) /
@@ -1585,6 +1587,8 @@
   }
 
   function onMouseClick(event) {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
     if (document.getElementById('content').style.display == 'none' && !esc) {
       raycaster1.setFromCamera(mouse, camera);
       raycaster1.near = 0.1;
@@ -1611,6 +1615,34 @@
   }
 
   window.addEventListener('mousedown', onMouseClick, false);
+
+  function rotateUFOToCursor(ufo, camera, scene) {
+    raycaster.setFromCamera(mouse, camera);
+
+    // Set the intersection point in the scene (can be on a plane or other objects)
+    const intersects = raycaster.intersectObjects(scene.children, true);
+
+    if (intersects.length > 0) {
+        const point = intersects[0].point;  // The point in 3D space where the cursor intersects
+
+        // Lock the Y position of the UFO to prevent it from tilting up/down
+        const ufoPosition = ufo.position.clone();
+        
+        // Create a target position for the UFO, but ensure it only rotates around the Y-axis
+        const targetPosition = new THREE.Vector3(point.x, ufoPosition.y, point.z); // Fix Y
+
+        // Get the direction vector from the UFO to the target, ignoring the Y-axis
+        const direction = targetPosition.clone().sub(ufoPosition).normalize();
+
+        // Calculate the angle for rotation only around the Y-axis
+        const angle = Math.atan2(direction.x, direction.z); // Y-axis rotation
+
+        // Apply the rotation, rotate 180 degrees (π radians) to reverse it
+        ufo.rotation.set(0, angle + Math.PI, 0);  // Flip 180 degrees on Y-axis
+    }
+}
+
+
 
   function operation_method_1(delta) {
     if (!ufo || !ufo.children || !ufo.children[10]) return;
@@ -2066,6 +2098,9 @@
   }
 
   function animate() {
+
+
+
     if (esc) {
       document.querySelector('body').style.cursor =
         'url(./img/cursor.png),default';
@@ -2077,6 +2112,7 @@
 
     const delta = clock.getDelta();
     requestAnimationFrame(animate);
+      rotateUFOToCursor(ufo, camera, scene);
     if (loaded_items > 0 && loaded_items == load_items) hide_loading();
     else return;
     timeStamp += delta;
@@ -2309,6 +2345,7 @@
     renderer.setSize(width, height);
     //and update the aspect ratio of the camera
     camera.aspect = width / height;
+    
 
     //update the projection matrix given the new values
     camera.updateProjectionMatrix();
@@ -2329,6 +2366,13 @@
   function goIsland() {
     window.location.href = 'island.html';
   }
+// Funkcja obsługująca ruch myszy
+function onMouseMove(event) {
+  // Przekształcanie pozycji kursora na współrzędne NDC (Normal Device Coordinates)
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+}
+
 
 </script>
 
