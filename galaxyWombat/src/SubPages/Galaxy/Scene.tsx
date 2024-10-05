@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Planet, Orbit as PlanetOrbit } from './Planet';
 import { planetData } from './orbits';
@@ -9,10 +9,13 @@ import SpeedControl from './SpeedControl';
 import Sun from './Sun'; // Assuming Sun is in a separate file
 import CameraController from './CameraController'; // Assuming CameraController is in a separate file
 import Asteroid from './Asteroid'; // Import the new Asteroid component
+import { Sphere } from '@react-three/drei';
+import * as THREE from 'three'; // Import THREE for the texture loader
 
 const AU = 150; // Astronomical Unit (scaled)
 
 const Scene: React.FC = () => {
+  const [loading, setLoading] = useState(true); // State for loading
   const [selectedPlanet, setSelectedPlanet] = useState<null | {
     label: string;
     description: string;
@@ -26,6 +29,17 @@ const Scene: React.FC = () => {
   const [isMoving, setIsMoving] = useState<boolean>(false);
   const previousSpeed = useRef<number>(1);
   const anglesRef = useRef(new Map<string, number>()); // Store angles for planets
+
+  useEffect(() => {
+    // Simulate loading process, replace this with actual loading logic if needed
+    const loadAssets = async () => {
+      // Simulate loading delay
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setLoading(false);
+    };
+
+    loadAssets();
+  }, []);
 
   const handleClosePlanetInfo = () => {
     setSelectedPlanet(null);
@@ -77,62 +91,95 @@ const Scene: React.FC = () => {
   const orbitsVisible = !selectedPlanet && !selectedAsteroid; // Orbits should only be visible when no planet or asteroid is selected
 
   return (
-    <>
-      <Canvas
-        style={{
-          width: '100vw',
-          height: '100vh',
-          background: 'url(/public/background.jpg)',
-        }}
-      >
-        <CameraController
-          targetPosition={targetPosition.current}
-          isMoving={isMoving}
-        />
-        <ambientLight intensity={0.5} />
-        <hemisphereLight intensity={0.3} color="white" groundColor="blue" />
-        <directionalLight position={[10, 10, 10]} intensity={1} />
-        <Sun />
-        {planetData.map((planet) => (
-          <React.Fragment key={planet.label}>
-            <Planet
-              label={planet.label}
-              rho={planet.rho}
-              size={planet.size}
-              color={planet.color}
-              description={planet.description}
-              texture={planet.texture}
-              speed={planet.speed}
-              rotationSpeed={planet.rotationSpeed}
-              speedMultiplier={speedMultiplier}
-              onClick={(label, description, position) => {
-                handlePlanetClick(label, description, position);
-              }}
-              angleRef={anglesRef.current} // Pass angleRef
+    <div className='bg-black'>
+      {loading ? (
+        <div className='bg-black w-full h-screen' >
+          <div style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          fontSize: '2rem',
+          color: 'white',
+        }}><span className="loading loading-bars loading-lg w-16 h-auto"></span></div>
+          
+        </div>
+      ) : (
+        <Canvas
+          style={{
+            width: '100vw',
+            height: '100vh',
+          }}
+        >
+          {/* Sphere background */}
+          <Sphere args={[1000, 1000, 1000]} position={[0, 0, 0]}>
+            <meshBasicMaterial 
+              map={new THREE.TextureLoader().load('/public/assets/bg-1.jpg')} 
+              side={THREE.BackSide} 
             />
-            {orbitsVisible && (
-              <PlanetOrbit rho={planet.rho} color={planet.color} />
-            )}
-          </React.Fragment>
-        ))}
+          </Sphere>
 
-        {asteroidData.map((asteroid) => (
-          <Asteroid
-            key={asteroid.label}
-            label={asteroid.label}
-            size={4}
-            color={asteroid.color}
-            speed={asteroid.speed}
-            texture={asteroid.texture}
-            distanceFromSun={asteroid.distanceFromSun}
-            description={asteroid.description} // Pass the description here
-            speedMultiplier={speedMultiplier}
-            onClick={(label, description, position) =>
-              handleAsteroidClick(label, description, position)
-            }
+          <CameraController
+            targetPosition={targetPosition.current}
+            isMoving={isMoving}
           />
-        ))}
-      </Canvas>
+          <ambientLight intensity={0.5} />
+          <hemisphereLight intensity={0.3} color="white" groundColor="blue" />
+          <directionalLight position={[10, 10, 10]} intensity={1} />
+          <Sun />
+
+          {planetData.map((planet) => (
+            <React.Fragment key={planet.label}>
+              {/* Planet Component */}
+              <Planet
+                label={planet.label}
+                rho={planet.rho}
+                size={planet.size}
+                color={planet.color}
+                description={planet.description}
+                texture={planet.texture}
+                speed={planet.speed}
+                rotationSpeed={planet.rotationSpeed}
+                speedMultiplier={speedMultiplier}
+                onClick={(label, description, position) => {
+                  handlePlanetClick(label, description, position);
+                }}
+                angleRef={anglesRef.current} // Pass angleRef
+              />
+              
+              {/* Glow effect around the planet */}
+              <pointLight 
+                position={[planet.rho * AU, 0, 0]} // Positioning the light near the planet
+                intensity={150} // Intensity of the glow
+                distance={planet.rho * AU + 10} // Distance for the light to affect
+                decay={2} // How quickly the light fades
+                color={'red'} // Glow color matching the planet
+              />
+              
+              {orbitsVisible && (
+                <PlanetOrbit rho={planet.rho} color={planet.color} />
+              )}
+            </React.Fragment>
+          ))}
+
+          {asteroidData.map((asteroid) => (
+            <Asteroid
+              key={asteroid.label}
+              label={asteroid.label}
+              size={4}
+              color={asteroid.color}
+              speed={asteroid.speed}
+              texture={asteroid.texture}
+              distanceFromSun={asteroid.distanceFromSun}
+              description={asteroid.description} // Pass the description here
+              speedMultiplier={speedMultiplier}
+              onClick={(label, description, position) =>
+                handleAsteroidClick(label, description, position)
+              }
+            />
+          ))}
+        </Canvas>
+      )}
 
       <SpeedControl
         speedMultiplier={speedMultiplier}
@@ -158,10 +205,11 @@ const Scene: React.FC = () => {
       <img
         src="/assets/icon-dark.png" // Zmień na właściwą ścieżkę do logo
         alt="Logo"
-        className="absolute top-4 right-4 w-24 h-24 select-none" // Dodaj klasę select-none
+        draggable="false"
+        className="absolute top-10 right-10 w-24 h-24 select-none opacity-20" // Dodaj klasę select-none
         style={{ userSelect: 'none' }} // Wyłącza możliwość wybierania logo
       />
-    </>
+    </div>
   );
 };
 
