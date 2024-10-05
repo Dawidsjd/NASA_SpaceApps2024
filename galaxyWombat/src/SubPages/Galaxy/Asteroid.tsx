@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
 
 const AU = 150; // Astronomical Unit (scaled)
@@ -11,6 +11,7 @@ interface AsteroidProps {
   speed: number;
   distanceFromSun: number;
   speedMultiplier: number;
+  texture: string;
   description: string; // Add description prop
   onClick: (
     label: string,
@@ -23,6 +24,7 @@ const Asteroid: React.FC<AsteroidProps> = ({
   label,
   size,
   color,
+  texture,
   speed,
   distanceFromSun,
   speedMultiplier,
@@ -31,6 +33,8 @@ const Asteroid: React.FC<AsteroidProps> = ({
 }) => {
   const angleRef = useRef(Math.random() * Math.PI * 2);
   const asteroidRef = useRef<THREE.Mesh>(null);
+
+  const asteroidTexture = useLoader(THREE.TextureLoader, texture);
 
   useFrame(() => {
     const radius = distanceFromSun * AU;
@@ -59,7 +63,7 @@ const Asteroid: React.FC<AsteroidProps> = ({
   return (
     <mesh ref={asteroidRef} onClick={handleClick}>
       <sphereGeometry args={[size, 16, 16]} />
-      <meshStandardMaterial color={color} />
+      <meshStandardMaterial map={asteroidTexture} />
     </mesh>
   );
 };
