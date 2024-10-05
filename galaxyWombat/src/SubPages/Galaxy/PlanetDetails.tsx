@@ -42,10 +42,10 @@ const PlanetDetails: React.FC<PlanetDetailsProps> = ({
 
   return (
     <div
-      ref={popupRef} // Dodanie referencji do div
+      ref={popupRef}
       style={{
         position: 'absolute',
-        top: 10,
+        top: 100,
         left: 10,
         border: '1px solid blue',
         background: 'gray',
