@@ -55,7 +55,7 @@ const Planet: React.FC<PlanetProps> = ({
   );
 };
 
-const Orbit: React.FC<{ rho: number }> = ({ rho }) => {
+const Orbit: React.FC<{ rho: number; color: string }> = ({ rho, color }) => {
   const points = [];
   for (let i = 0; i <= 360; i++) {
     const angle = (i * Math.PI) / 180;
@@ -67,7 +67,8 @@ const Orbit: React.FC<{ rho: number }> = ({ rho }) => {
   return (
     <line>
       <bufferGeometry attach="geometry" {...orbitGeometry} />
-      <lineBasicMaterial attach="material" color="white" />
+      <lineBasicMaterial attach="material" color={color} />{' '}
+      {/* Ustawienie koloru orbity */}
     </line>
   );
 };
@@ -86,6 +87,7 @@ const Scene: React.FC = () => {
   } | null>(null);
 
   const handleCloseInfo = () => {
+    console.log(`Closing info for ${selectedPlanet?.label}`);
     setSelectedPlanet(null);
   };
 
@@ -93,7 +95,11 @@ const Scene: React.FC = () => {
     <>
       <Canvas
         camera={{ position: [0, 0, 400], fov: 60 }}
-        style={{ width: '100vw', height: '100vh', background: '#000' }}
+        style={{
+          width: '100vw',
+          height: '100vh',
+          background: 'url(/public/background.jpg)',
+        }}
       >
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />
@@ -109,14 +115,17 @@ const Scene: React.FC = () => {
               size={planet.size}
               color={planet.color}
               speed={planet.speed}
-              onClick={setSelectedPlanet}
+              onClick={(label, description) =>
+                setSelectedPlanet({ label, description })
+              }
             />
-            <Orbit rho={planet.rho} />
+            <Orbit rho={planet.rho} color={planet.color} />{' '}
+            {/* Przekazanie koloru do orbity */}
           </React.Fragment>
         ))}
       </Canvas>
 
-      {/* Display planet information in a popup */}
+      {/* Popup planet details */}
       {selectedPlanet && (
         <PlanetDetails
           label={selectedPlanet.label}

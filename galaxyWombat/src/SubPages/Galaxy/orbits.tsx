@@ -1,12 +1,12 @@
 export interface PlanetData {
   label: string;
-  description: string; // Dodajemy pole description
-  lambda: number; // λ (arcsec)
-  phi: number; // φ (arcsec)
-  rho: number; // ρ (1000 km)
-  size: number; // Relative size of the planet
-  color: string; // Color for the planet
-  speed: number; // Orbital speed (radians/second)
+  description: string;
+  lambda: number;
+  phi: number;
+  rho: number;
+  size: number;
+  color: string;
+  speed: number;
 }
 
 export const planetData: PlanetData[] = [
@@ -17,7 +17,7 @@ export const planetData: PlanetData[] = [
     rho: 0.05,
     size: 0.383,
     color: 'gray',
-    speed: 0.047,
+    speed: 0.0235, // 0.047 decreased by 50%
     description:
       'Mercury is the closest planet to the Sun and the smallest planet in the Solar System.',
   },
@@ -28,7 +28,7 @@ export const planetData: PlanetData[] = [
     rho: 0.1,
     size: 0.949,
     color: 'yellow',
-    speed: 0.035,
+    speed: 0.0175, // 0.035 decreased by 50%
     description:
       'Venus is the second planet from the Sun and is similar in structure to Earth.',
   },
@@ -39,7 +39,7 @@ export const planetData: PlanetData[] = [
     rho: 0.15,
     size: 1.0,
     color: 'blue',
-    speed: 0.03,
+    speed: 0.015, // 0.03 decreased by 50%
     description:
       'Earth is the third planet from the Sun and the only astronomical object known to support life.',
   },
@@ -50,7 +50,7 @@ export const planetData: PlanetData[] = [
     rho: 0.2,
     size: 0.532,
     color: 'red',
-    speed: 0.024,
+    speed: 0.012, // 0.024 decreased by 50%
     description:
       'Mars is the fourth planet from the Sun and is often called the "Red Planet".',
   },
@@ -61,7 +61,7 @@ export const planetData: PlanetData[] = [
     rho: 0.5,
     size: 11.21,
     color: 'orange',
-    speed: 0.013,
+    speed: 0.0065, // 0.013 decreased by 50%
     description:
       'Jupiter is the fifth planet from the Sun and the largest planet in the Solar System.',
   },
@@ -72,7 +72,7 @@ export const planetData: PlanetData[] = [
     rho: 0.9,
     size: 9.45,
     color: 'lightyellow',
-    speed: 0.009,
+    speed: 0.0045, // 0.009 decreased by 50%
     description:
       'Saturn is the sixth planet from the Sun and is known for its stunning rings.',
   },
@@ -83,7 +83,7 @@ export const planetData: PlanetData[] = [
     rho: 1.3,
     size: 4.01,
     color: 'lightblue',
-    speed: 0.007,
+    speed: 0.0035, // 0.007 decreased by 50%
     description:
       'Uranus is the seventh planet from the Sun and is unique for its sideways rotation.',
   },
@@ -94,7 +94,7 @@ export const planetData: PlanetData[] = [
     rho: 1.7,
     size: 3.88,
     color: 'darkblue',
-    speed: 0.005,
+    speed: 0.0025, // 0.005 decreased by 50%
     description:
       'Neptune is the eighth and farthest planet from the Sun in the Solar System.',
   },

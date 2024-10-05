@@ -1,5 +1,4 @@
-// src/PlanetDetails.tsx
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface PlanetDetailsProps {
   label: string;
@@ -12,8 +11,38 @@ const PlanetDetails: React.FC<PlanetDetailsProps> = ({
   description,
   onClose,
 }) => {
+  const popupRef = useRef<HTMLDivElement | null>(null); // Referencja do kontenera popupu
+
+  useEffect(() => {
+    // Funkcja do obsługi naciśnięcia klawisza
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose(); // Zamknij popup przy naciśnięciu Escape
+      }
+    };
+
+    // Funkcja do obsługi kliknięcia poza popup
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target as Node)
+      ) {
+        onClose(); // Zamknij popup, jeśli kliknięto poza
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown); // Usunięcie nasłuchiwacza
+      document.removeEventListener('mousedown', handleClickOutside); // Usunięcie nasłuchiwacza
+    };
+  }, [onClose]);
+
   return (
     <div
+      ref={popupRef} // Dodanie referencji do div
       style={{
         position: 'absolute',
         top: 10,
@@ -22,6 +51,7 @@ const PlanetDetails: React.FC<PlanetDetailsProps> = ({
         background: 'gray',
         color: 'white',
         padding: '10px',
+        zIndex: 1000,
       }}
     >
       <h2>{label}</h2>
