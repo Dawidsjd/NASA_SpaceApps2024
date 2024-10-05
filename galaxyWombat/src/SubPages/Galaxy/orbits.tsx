@@ -23,7 +23,7 @@ export const planetData: PlanetData[] = [
     speed: 0.0235, // orbital speed
     rotationSpeed: 0.000003229, // calculated from rotation period
     description:
-      'Mercury is the closest planet to the Sun and the smallest planet in the Solar System.',
+      "Distance from the Sun: Closest planet to the Sun (~58 million km / 36 million miles).\nSize: Smallest planet in the Solar System.\nSurface: Rocky, cratered, and similar to Earth's Moon.",
   },
   {
     label: 'Venus',
@@ -36,7 +36,7 @@ export const planetData: PlanetData[] = [
     speed: 0.0175, // orbital speed
     rotationSpeed: -0.000001016, // calculated from rotation period
     description:
-      'Venus is the second planet from the Sun and is similar in structure to Earth.',
+      'Distance from the Sun: Second planet from the Sun (~108 million km / 67 million miles).\nSize: Similar to Earth in size and mass.\n Surface: Volcanic and covered with thick clouds of sulfuric acid.',
   },
   {
     label: 'Earth',
@@ -49,7 +49,7 @@ export const planetData: PlanetData[] = [
     speed: 0.015, // orbital speed
     rotationSpeed: 0.00043931, // calculated from rotation period
     description:
-      'Earth is the third planet from the Sun and the only astronomical object known to support life.',
+      'Distance from the Sun: Third planet from the Sun (~150 million km / 93 million miles).\nSize: Fifth largest planet in the Solar System.\nSurface: 70% covered by oceans, with varied landscapes.',
   },
   {
     label: 'Mars',
@@ -62,7 +62,7 @@ export const planetData: PlanetData[] = [
     speed: 0.012, // orbital speed
     rotationSpeed: 0.00042416, // calculated from rotation period
     description:
-      'Mars is the fourth planet from the Sun and is often called the "Red Planet".',
+      'Distance from the Sun: Fourth planet from the Sun (~227 million km / 141 million miles).\nSize: Second smallest planet in the Solar System.\nSurface: Rocky and dusty, with a thin atmosphere composed mainly of carbon dioxide, and features like volcanoes, valleys, and polar ice caps.',
   },
   {
     label: 'Jupiter',
@@ -75,7 +75,7 @@ export const planetData: PlanetData[] = [
     speed: 0.0065, // orbital speed
     rotationSpeed: 0.0006492, // calculated from rotation period
     description:
-      'Jupiter is the fifth planet from the Sun and the largest planet in the Solar System.',
+      'Distance from the Sun: Fifth planet from the Sun (~778 million km / 484 million miles).\nSize: Largest planet in the Solar System.\nSurface: Gas giant, mostly hydrogen and helium, with no solid surface.',
   },
   {
     label: 'Saturn',
@@ -88,7 +88,7 @@ export const planetData: PlanetData[] = [
     speed: 0.0045, // orbital speed
     rotationSpeed: 0.0005865, // calculated from rotation period
     description:
-      'Saturn is the sixth planet from the Sun and is known for its stunning rings.',
+      'Distance from the Sun: Sixth planet from the Sun (~1.43 billion km / 886 million miles).\nSize: Second largest planet in the Solar System.\nSurface: Gas giant, primarily hydrogen and helium, with a famous ring system.',
   },
   {
     label: 'Uranus',
@@ -101,7 +101,7 @@ export const planetData: PlanetData[] = [
     speed: 0.0035, // orbital speed
     rotationSpeed: -0.0003651, // calculated from rotation period
     description:
-      'Uranus is the seventh planet from the Sun and is unique for its sideways rotation.',
+      'Distance from the Sun: Closest planet to the Sun (~58 million km / 36 million miles). Size: Smallest planet in the Solar System. Surface: Rocky, cratered, and similar to Earths Moon. Temperature: Extreme temperatures, from very hot (430°C/800°F) during the day to very cold (-180°C/-290°F) at night. Atmosphere: Almost no atmosphere, mainly thin traces of oxygen, sodium, and hydrogen.',
   },
   {
     label: 'Neptune',
@@ -114,6 +114,6 @@ export const planetData: PlanetData[] = [
     speed: 0.0025, // orbital speed
     rotationSpeed: 0.0003936, // calculated from rotation period
     description:
-      'Neptune is the eighth and farthest planet from the Sun in the Solar System.',
+      'Distance from the Sun: Eighth planet from the Sun (~4.5 billion km / 2.8 billion miles).\nSize: Slightly smaller than Uranus but more massive.\nSurface: Ice giant, with a composition similar to Uranus, made of hydrogen, helium, and methane.',
   },
 ];

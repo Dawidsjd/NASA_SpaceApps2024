@@ -23,7 +23,10 @@ const PlanetDetails: React.FC<PlanetDetailsProps> = ({
     };
 
     const handleClickOutside = (event: MouseEvent) => {
-      if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target as Node)
+      ) {
         handleClose();
       }
     };
@@ -49,13 +52,26 @@ const PlanetDetails: React.FC<PlanetDetailsProps> = ({
         ref={popupRef}
         className="relative max-w-5xl p-8 bg-gray-900 rounded-xl shadow-lg flex items-center overflow-visible"
         initial={{ opacity: 0, scale: 0.9, y: 50 }}
-        animate={{ opacity: isVisible ? 1 : 0, scale: isVisible ? 1 : 0.9, y: isVisible ? 0 : 50 }}
+        animate={{
+          opacity: isVisible ? 1 : 0,
+          scale: isVisible ? 1 : 0.9,
+          y: isVisible ? 0 : 50,
+        }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
       >
         {/* Tekst po lewej stronie */}
         <div className="flex-1 mr-10">
-          <h2 className="text-3xl font-bold text-white mb-4">{label}</h2> {/* Zmieniono z text-2xl na text-3xl */}
-          <p className="text-lg text-gray-400 mb-6">{description}</p> {/* Zmieniono z text-gray-400 na text-lg */}
+          <h2 className="text-3xl font-bold text-white mb-4">{label}</h2>{' '}
+          {/* Zmieniono z text-2xl na text-3xl */}
+          <p className="text-lg text-gray-400 mb-6">
+            {description.split('\n').map((line, index) => (
+              <span key={index}>
+                {line}
+                <br /> {/* Dodaje nową linię */}
+              </span>
+            ))}
+          </p>{' '}
+          {/* Zmieniono z text-gray-400 na text-lg */}
           <div className="flex justify-between items-center">
             <button
               onClick={handleClose} // Zmieniono na handleClose, aby dodać animację
@@ -71,7 +87,7 @@ const PlanetDetails: React.FC<PlanetDetailsProps> = ({
           src="/assets/wombat-hand.png"
           alt="Wombat Hand"
           draggable="false"
-          className="w-96 h-auto absolute -right-56 -top-20 transform -translate-y-1/2 select-none"
+          className="w-96 h-auto absolute -right-56 -top-24 transform -translate-y-1/2 select-none"
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: isVisible ? 1 : 0, x: isVisible ? 0 : 100 }}
           transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
