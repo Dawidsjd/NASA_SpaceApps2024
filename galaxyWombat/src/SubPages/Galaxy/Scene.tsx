@@ -10,7 +10,6 @@ import Sun from './Sun'; // Assuming Sun is in a separate file
 import CameraController from './CameraController'; // Assuming CameraController is in a separate file
 import Asteroid from './Asteroid'; // Import the new Asteroid component
 import { Sphere } from '@react-three/drei';
-import { Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three'; // Import THREE for the texture loader
 
 const AU = 150; // Astronomical Unit (scaled)
@@ -88,17 +87,14 @@ const Scene: React.FC = () => {
         }}
       >
 
-
-
-        
         {/* Sphere background */}
         <Sphere args={[1000, 1000, 1000]} position={[0, 0, 0]}>
           <meshBasicMaterial 
-            map={new THREE.TextureLoader().load('/public/background.jpg')} 
+            map={new THREE.TextureLoader().load('/public/assets/bg-1.jpg')} 
             side={THREE.BackSide} 
           />
         </Sphere>
-        
+
         <CameraController
           targetPosition={targetPosition.current}
           isMoving={isMoving}
@@ -107,8 +103,10 @@ const Scene: React.FC = () => {
         <hemisphereLight intensity={0.3} color="white" groundColor="blue" />
         <directionalLight position={[10, 10, 10]} intensity={1} />
         <Sun />
+
         {planetData.map((planet) => (
           <React.Fragment key={planet.label}>
+            {/* Planet Component */}
             <Planet
               label={planet.label}
               rho={planet.rho}
@@ -124,6 +122,16 @@ const Scene: React.FC = () => {
               }}
               angleRef={anglesRef.current} // Pass angleRef
             />
+            
+            {/* Glow effect around the planet */}
+            <pointLight 
+              position={[planet.rho * AU, 0, 0]} // Positioning the light near the planet
+              intensity={150} // Intensity of the glow
+              distance={planet.rho * AU + 10} // Distance for the light to affect
+              decay={2} // How quickly the light fades
+              color={'red'} // Glow color matching the planet
+            />
+            
             {orbitsVisible && (
               <PlanetOrbit rho={planet.rho} color={planet.color} />
             )}
