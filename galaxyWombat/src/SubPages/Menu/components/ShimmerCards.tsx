@@ -40,7 +40,7 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   content: Card | null;
-  onProceed: () => void;
+  onProceed: (path: string) => void; // Change the parameter type to accept a path
 }
 
 function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
@@ -83,7 +83,7 @@ function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
                 Close
               </button>
               <button
-                onClick={onProceed}
+                onClick={() => onProceed(content ? content.title : "")}
                 className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-300"
               >
                 Proceed
@@ -108,8 +108,12 @@ export default function ShimmerCards() {
     setSelectedCard(null);
   };
 
-  const proceedToScene = () => {
-    navigate("/scene"); // Redirecting to the scene component page
+  const proceedToScene = (title: string) => {
+    if (title === "3D Game") {
+      navigate("/game"); // Redirecting to the game component page
+    } else if (title === "Solar System" || title === "Stellarium") {
+      navigate("/scene"); // Redirecting to the scene component page
+    }
   };
 
   return (
