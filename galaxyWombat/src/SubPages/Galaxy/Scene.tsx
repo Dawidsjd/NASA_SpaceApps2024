@@ -1,27 +1,32 @@
+// Scene.tsx
 import React, { useState, useRef } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
-import { Planet, Orbit } from './Planet';
+import { Planet, Orbit as PlanetOrbit } from './Planet';
 import { planetData } from './orbits';
+import { asteroidData } from './asteroids';
 import PlanetDetails from './PlanetDetails';
+import AsteroidDetails from './AsteroidDetails'; // Import AsteroidDetails
 import SpeedControl from './SpeedControl';
 import * as THREE from 'three';
 
 const AU = 150; // Astronomical Unit (scaled)
 
 const Sun: React.FC = () => {
-  // Załaduj teksturę Słońca
-  const sunTexture = useLoader(THREE.TextureLoader, '/assets/sun.jpg'); // Upewnij się, że ścieżka do tekstury jest poprawna
+  const sunTexture = useLoader(THREE.TextureLoader, '/assets/sun.jpg');
 
   return (
     <mesh position={[0, 0, 0]}>
       <sphereGeometry args={[5, 32, 32]} />
-      <meshStandardMaterial map={sunTexture} /> {/* Użyj załadowanej tekstury */}
+      <meshStandardMaterial map={sunTexture} />
     </mesh>
   );
 };
 
-const CameraController: React.FC<{ targetPosition: [number, number, number] | null; isMoving: boolean }> = ({ targetPosition, isMoving }) => {
+const CameraController: React.FC<{
+  targetPosition: [number, number, number] | null;
+  isMoving: boolean;
+}> = ({ targetPosition, isMoving }) => {
   const cameraRef = useRef<THREE.PerspectiveCamera>(null); // Referencja do kamery
 
   useFrame(() => {
@@ -29,38 +34,102 @@ const CameraController: React.FC<{ targetPosition: [number, number, number] | nu
       const currentPos = cameraRef.current.position;
       const target = new THREE.Vector3(...targetPosition);
 
-      currentPos.lerp(target, 0.1); // Płynne przejście
-      cameraRef.current.lookAt(0, 0, 0); // Ustaw kamerę, aby patrzyła na Słońce
+      currentPos.lerp(target, 0.1);
+      cameraRef.current.lookAt(0, 0, 0);
     }
   });
 
   return (
     <>
-      <PerspectiveCamera ref={cameraRef} makeDefault position={[0, 0, 400]} fov={60} />
+      <PerspectiveCamera
+        ref={cameraRef}
+        makeDefault
+        position={[0, 0, 400]}
+        fov={60}
+      />
       <OrbitControls minDistance={50} maxDistance={3000} />
     </>
   );
 };
 
+const Asteroid: React.FC<{
+  label: string;
+  size: number;
+  color: string;
+  speed: number;
+  distanceFromSun: number;
+  speedMultiplier: number;
+  onClick: (label: string, description: string) => void; // New onClick prop
+}> = ({
+  label,
+  size,
+  color,
+  speed,
+  distanceFromSun,
+  speedMultiplier,
+  onClick,
+}) => {
+  const angleRef = React.useRef(Math.random() * Math.PI * 2);
+  const asteroidRef = React.useRef<THREE.Mesh>(null);
+
+  useFrame(() => {
+    const radius = distanceFromSun * AU;
+    const x = radius * Math.cos(angleRef.current);
+    const z = radius * Math.sin(angleRef.current);
+    const y = Math.sin(angleRef.current * 2) * 0.5;
+    const asteroidMesh = asteroidRef.current;
+
+    if (asteroidMesh) {
+      asteroidMesh.position.set(x, y, z);
+    }
+
+    angleRef.current += speed * speedMultiplier;
+  });
+
+  return (
+    <mesh ref={asteroidRef} onClick={() => onClick(label)}>
+      {' '}
+      {/* Handle click */}
+      <sphereGeometry args={[size, 16, 16]} />
+      <meshStandardMaterial color={color} />
+    </mesh>
+  );
+};
+
 const Scene: React.FC = () => {
-  const [selectedPlanet, setSelectedPlanet] = useState<{
+  const [selectedPlanet, setSelectedPlanet] = useState<null | {
     label: string;
     description: string;
-  } | null>(null);
-
+  }>(null);
+  const [selectedAsteroid, setSelectedAsteroid] = useState<null | {
+    label: string;
+    description: string;
+  }>(null); // New state for selected asteroid
   const [speedMultiplier, setSpeedMultiplier] = useState<number>(1);
-  const targetPosition = useRef<[number, number, number] | null>(null); // Referencja do pozycji docelowej kamery
-  const [isMoving, setIsMoving] = useState<boolean>(false); // Flaga informująca, czy kamera ma się poruszać
+  const targetPosition = useRef<[number, number, number] | null>(null);
+  const [isMoving, setIsMoving] = useState<boolean>(false);
 
-  const handleCloseInfo = () => {
+  const handleClosePlanetInfo = () => {
     setSelectedPlanet(null);
-    setIsMoving(false); // Zatrzymaj ruch kamery po zamknięciu szczegółów
+    setIsMoving(false);
   };
 
-  const handlePlanetClick = (label: string, description: string, position: [number, number, number]) => {
+  const handleCloseAsteroidInfo = () => {
+    setSelectedAsteroid(null); // Reset asteroid selection
+  };
+
+  const handlePlanetClick = (
+    label: string,
+    description: string,
+    position: [number, number, number]
+  ) => {
     setSelectedPlanet({ label, description });
-    targetPosition.current = position; // Ustaw docelową pozycję kamery
-    setIsMoving(true); // Rozpocznij ruch kamery
+    targetPosition.current = position;
+    setIsMoving(true);
+  };
+
+  const handleAsteroidClick = (label: string, description: string) => {
+    setSelectedAsteroid({ label, description }); // Set selected asteroid
   };
 
   return (
@@ -72,13 +141,20 @@ const Scene: React.FC = () => {
           background: 'url(/public/background.jpg)',
         }}
       >
-        <CameraController targetPosition={targetPosition.current} isMoving={isMoving} />
-        
+        <CameraController
+          targetPosition={targetPosition.current}
+          isMoving={isMoving}
+        />
         {/* Dodaj różne źródła światła */}
         <ambientLight intensity={0.5} /> {/* Delikatne światło otoczenia */}
-        <hemisphereLight intensity={0.3} color="white" groundColor="blue" /> {/* Światło hemisferyczne */}
-        <directionalLight position={[10, 10, 10]} intensity={1} /> {/* Światło kierunkowe */}
-
+        <hemisphereLight
+          intensity={0.3}
+          color="white"
+          groundColor="blue"
+        />{' '}
+        {/* Światło hemisferyczne */}
+        <directionalLight position={[10, 10, 10]} intensity={1} />{' '}
+        {/* Światło kierunkowe */}
         <Sun />
         {planetData.map((planet) => (
           <React.Fragment key={planet.label}>
@@ -87,19 +163,33 @@ const Scene: React.FC = () => {
               rho={planet.rho}
               size={planet.size}
               color={planet.color}
-              texture={planet.texture}  // Dodaj teksturę
+              texture={planet.texture}
               speed={planet.speed}
               speedMultiplier={speedMultiplier}
               onClick={(label, description) =>
                 handlePlanetClick(label, description, [
-                  planet.rho * AU * Math.cos(planet.speed), // Oblicz pozycję X
-                  90, // Y
-                  planet.rho * AU * Math.sin(planet.speed) // Oblicz pozycję Z
+                  planet.rho * AU * Math.cos(planet.speed),
+                  90,
+                  planet.rho * AU * Math.sin(planet.speed),
                 ])
               }
             />
-            <Orbit rho={planet.rho} color={planet.color} />
+            <PlanetOrbit rho={planet.rho} color={planet.color} />
           </React.Fragment>
+        ))}
+        {asteroidData.map((asteroid) => (
+          <Asteroid
+            key={asteroid.label}
+            label={asteroid.label}
+            size={4}
+            color={asteroid.color}
+            speed={asteroid.speed}
+            distanceFromSun={asteroid.distanceFromSun}
+            speedMultiplier={speedMultiplier}
+            onClick={(label) =>
+              handleAsteroidClick(label, asteroid.description)
+            } // Pass description
+          />
         ))}
       </Canvas>
 
@@ -114,7 +204,15 @@ const Scene: React.FC = () => {
         <PlanetDetails
           label={selectedPlanet.label}
           description={selectedPlanet.description}
-          onClose={handleCloseInfo}
+          onClose={handleClosePlanetInfo}
+        />
+      )}
+
+      {selectedAsteroid && ( // Render AsteroidDetails if an asteroid is selected
+        <AsteroidDetails
+          label={selectedAsteroid.label}
+          description={selectedAsteroid.description}
+          onClose={handleCloseAsteroidInfo}
         />
       )}
     </>

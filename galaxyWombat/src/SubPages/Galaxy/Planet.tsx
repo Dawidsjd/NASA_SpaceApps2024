@@ -16,7 +16,6 @@ interface PlanetProps {
   color: string; // Dodaj właściwość color
 }
 
-
 const Planet: React.FC<PlanetProps> = ({
   label,
   rho,
