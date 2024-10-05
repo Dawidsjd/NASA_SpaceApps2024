@@ -1,6 +1,7 @@
 // src/orbits.ts
 export interface PlanetData {
   label: string;
+  description: string; // Dodajemy pole description
   lambda: number; // λ (arcsec)
   phi: number; // φ (arcsec)
   rho: number; // ρ (1000 km)
@@ -12,15 +13,19 @@ export interface PlanetData {
 export const planetData: PlanetData[] = [
   {
     label: 'Mercury',
+    description:
+      'Mercury is the closest planet to the Sun and the smallest in the Solar System.',
     lambda: 15,
     phi: 1,
     rho: 0.05,
     size: 0.383,
     color: 'gray',
-    speed: 0.047, // Prędkość orbitalna (w radianach na sekundę)
+    speed: 0.047, // Orbital speed (in radians per second)
   },
   {
     label: 'Venus',
+    description:
+      'Venus is the second planet from the Sun and is similar in size to Earth.',
     lambda: 20,
     phi: 1,
     rho: 0.1,
@@ -29,7 +34,9 @@ export const planetData: PlanetData[] = [
     speed: 0.035,
   },
   {
-    label: 'Earth/Moon Barycenter',
+    label: 'Earth',
+    description:
+      'Earth is the third planet from the Sun and the only astronomical object known to harbor life.',
     lambda: 20,
     phi: 8,
     rho: 0.15,
@@ -39,6 +46,8 @@ export const planetData: PlanetData[] = [
   },
   {
     label: 'Mars',
+    description:
+      'Mars is the fourth planet from the Sun and is often referred to as the "Red Planet".',
     lambda: 40,
     phi: 2,
     rho: 0.2,
@@ -48,6 +57,8 @@ export const planetData: PlanetData[] = [
   },
   {
     label: 'Jupiter',
+    description:
+      'Jupiter is the fifth planet from the Sun and the largest in the Solar System.',
     lambda: 400,
     phi: 10,
     rho: 0.5,
@@ -57,6 +68,8 @@ export const planetData: PlanetData[] = [
   },
   {
     label: 'Saturn',
+    description:
+      'Saturn is the sixth planet from the Sun and is known for its prominent ring system.',
     lambda: 600,
     phi: 25,
     rho: 0.9,
@@ -66,6 +79,8 @@ export const planetData: PlanetData[] = [
   },
   {
     label: 'Uranus',
+    description:
+      'Uranus is the seventh planet from the Sun and is unique for its tilt and blue color.',
     lambda: 50,
     phi: 2,
     rho: 1.3,
@@ -75,6 +90,8 @@ export const planetData: PlanetData[] = [
   },
   {
     label: 'Neptune',
+    description:
+      'Neptune is the eighth and farthest planet from the Sun in our solar system.',
     lambda: 10,
     phi: 1,
     rho: 1.7,

@@ -1,63 +1,67 @@
 // src/Scene.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
-import { planetData, PlanetData } from './orbits';
+import { planetData } from './orbits';
+import PlanetDetails from './PlanetDetails';
 
-const AU = 150; // Zwiększenie wartości jednostki astronomicznej (jeszcze większy odstęp)
+const AU = 150; // Astronomical Unit (scaled)
 
-const MERCURY_OFFSET = 1.5; // Zwiększamy odległość Merkurego o 50%
-
-interface PlanetProps extends PlanetData {
-  isMercury?: boolean; // Dodatkowy argument dla Merkurego
+interface PlanetProps {
+  label: string;
+  rho: number;
+  size: number;
+  color: string;
+  speed: number;
+  onClick: (label: string, description: string) => void;
 }
 
 const Planet: React.FC<PlanetProps> = ({
+  label,
   rho,
   size,
   color,
   speed,
-  isMercury = false,
+  onClick,
 }) => {
-  const adjustedRho = isMercury ? rho * MERCURY_OFFSET : rho;
-
-  // Zmienna do przechowywania aktualnego kąta
+  const adjustedRho = rho * AU; // Distance calculation
   const angleRef = React.useRef(0);
+  const planetRef = React.useRef<THREE.Mesh>(null);
 
-  // Animacja planet
   useFrame(() => {
-    angleRef.current += speed; // Zwiększ kąt o prędkość
-    const x = adjustedRho * AU * Math.cos(angleRef.current); // Oblicz nową pozycję X
-    const z = adjustedRho * AU * Math.sin(angleRef.current); // Oblicz nową pozycję Z
-    // Ustaw nową pozycję
-    const planetMesh = planetRef.current as any;
+    // Movement is paused for now
+    const x = adjustedRho * Math.cos(angleRef.current);
+    const z = adjustedRho * Math.sin(angleRef.current);
+    const planetMesh = planetRef.current;
     if (planetMesh) {
       planetMesh.position.set(x, 0, z);
     }
   });
 
-  const planetRef = React.useRef<THREE.Mesh>(null);
-
   return (
-    <mesh ref={planetRef} position={[adjustedRho * AU, 0, 0]}>
+    <mesh
+      ref={planetRef}
+      onClick={() =>
+        onClick(
+          label,
+          planetData.find((p) => p.label === label)?.description ||
+            'No description available.'
+        )
+      }
+    >
       <sphereGeometry args={[size * 2, 32, 32]} />
       <meshStandardMaterial color={color} />
     </mesh>
   );
 };
 
-const Orbit: React.FC<{ rho: number; isMercury?: boolean }> = ({
-  rho,
-  isMercury = false,
-}) => {
-  const adjustedRho = isMercury ? rho * MERCURY_OFFSET : rho;
-
+const Orbit: React.FC<{ rho: number }> = ({ rho }) => {
   const points = [];
   for (let i = 0; i <= 360; i++) {
     const angle = (i * Math.PI) / 180;
-    const x = adjustedRho * AU * Math.cos(angle);
-    const y = adjustedRho * AU * Math.sin(angle);
+    const x = rho * AU * Math.cos(angle);
+    const y = rho * AU * Math.sin(angle);
     points.push(new THREE.Vector3(x, 0, y));
   }
   const orbitGeometry = new THREE.BufferGeometry().setFromPoints(points);
@@ -77,6 +81,15 @@ const Sun: React.FC = () => (
 );
 
 const Scene: React.FC = () => {
+  const [selectedPlanet, setSelectedPlanet] = useState<{
+    label: string;
+    description: string;
+  } | null>(null);
+
+  const handleCloseInfo = () => {
+    setSelectedPlanet(null);
+  };
+
   return (
     <Canvas
       camera={{ position: [0, 0, 400], fov: 60 }}
@@ -84,19 +97,34 @@ const Scene: React.FC = () => {
     >
       <ambientLight intensity={0.5} />
       <pointLight position={[10, 10, 10]} />
-      <OrbitControls minDistance={50} maxDistance={3000} /> <Sun />
-      {planetData.map((planet) => (
-        <React.Fragment key={planet.label}>
-          <Planet
-            rho={planet.rho}
-            size={planet.size}
-            color={planet.color}
-            speed={planet.speed}
-            isMercury={planet.label === 'Mercury'}
-          />
-          <Orbit rho={planet.rho} isMercury={planet.label === 'Mercury'} />
-        </React.Fragment>
-      ))}
+      <OrbitControls minDistance={50} maxDistance={3000} />
+
+      <Sun />
+
+      {planetData.map((planet) => {
+        return (
+          <React.Fragment key={planet.label}>
+            <Planet
+              label={planet.label}
+              rho={planet.rho}
+              size={planet.size}
+              color={planet.color}
+              speed={planet.speed}
+              onClick={setSelectedPlanet}
+            />
+            <Orbit rho={planet.rho} />
+          </React.Fragment>
+        );
+      })}
+
+      {/* Display planet information in a popup */}
+      {selectedPlanet && (
+        <PlanetDetails
+          label={selectedPlanet.label}
+          description={selectedPlanet.description}
+          onClose={handleCloseInfo}
+        />
+      )}
     </Canvas>
   );
 };

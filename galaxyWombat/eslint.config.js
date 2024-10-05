@@ -25,7 +25,7 @@ export default tseslint.config(
       ],
       'no-unused-vars': 'off',
       'no-undef': 'off',
-      'no-explicit-any': 'off',
+      '@typescript-eslint/no-explicit-any': 'off', // Wyłącz regułę dla typu any
     },
   }
 );
