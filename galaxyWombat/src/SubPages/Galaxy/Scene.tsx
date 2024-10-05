@@ -79,18 +79,21 @@ const Asteroid: React.FC<{
   color: string;
   speed: number;
   distanceFromSun: number;
+  description: string; // Add description prop
   speedMultiplier: number;
   onClick: (
     label: string,
     description: string,
     position: [number, number, number]
-  ) => void; // Include position
+  ) => void; // Include position and description
 }> = ({
   label,
   size,
   color,
   speed,
+  texture,
   distanceFromSun,
+  description, // Use description from asteroid data
   speedMultiplier,
   onClick,
 }) => {
@@ -101,7 +104,7 @@ const Asteroid: React.FC<{
     const radius = distanceFromSun * AU;
     const x = radius * Math.cos(angleRef.current);
     const z = radius * Math.sin(angleRef.current);
-    const y = Math.sin(angleRef.current * 2) * 0.5; // Optional, if you want to add vertical movement
+    const y = Math.sin(angleRef.current * 2) * 0.5; // Optional vertical movement
 
     if (asteroidRef.current) {
       asteroidRef.current.position.set(x, y, z);
@@ -117,7 +120,7 @@ const Asteroid: React.FC<{
     const y = Math.sin(angleRef.current * 2) * 0.5;
 
     if (asteroidRef.current) {
-      onClick(label, 'Asteroid Description', [x, y, z]);
+      onClick(label, description, [x, y, z]); // Pass correct description
     }
   };
 
@@ -164,7 +167,7 @@ const Scene: React.FC = () => {
     const angle = anglesRef.current.get(label) || 0; // Get the angle or default to 0
     const x = rho * AU * Math.cos(angle);
     const z = rho * AU * Math.sin(angle);
-    const y = 0; // Optional: Adjust if you want a height value
+    const y = 0; // Adjust if you want a height value
 
     previousSpeed.current = speedMultiplier; // Store current speed before setting to 0
     setSpeedMultiplier(0); // Set speed to 0 when a planet is clicked
@@ -230,10 +233,12 @@ const Scene: React.FC = () => {
             color={asteroid.color}
             speed={asteroid.speed}
             distanceFromSun={asteroid.distanceFromSun}
+            description={asteroid.description} // Pass the correct description
             speedMultiplier={speedMultiplier}
-            onClick={(label, description, position) =>
-              handleAsteroidClick(label, description, position)
-            } // Pass both label and description
+            onClick={
+              (label, description, position) =>
+                handleAsteroidClick(label, description, position) // Ensure description is passed
+            }
           />
         ))}
       </Canvas>

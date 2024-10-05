@@ -48,7 +48,6 @@ const AsteroidDetails: React.FC<AsteroidDetailsProps> = ({
 
   return (
     <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 z-1000 flex items-center justify-center space-x-4">
-      {/* Dialog */}
       <motion.div
         ref={popupRef}
         className="relative max-w-5xl p-8 bg-gray-900 rounded-xl shadow-lg flex items-center overflow-visible"
@@ -75,8 +74,8 @@ const AsteroidDetails: React.FC<AsteroidDetailsProps> = ({
 
         {/* Image overlapping the div */}
         <motion.img
-          src="/assets/wombat-hand.png" // Use a suitable image for asteroids
-          alt="Wombat Hand"
+          src="/assets/wombat-hand.png" // You can replace this with the relevant asteroid texture
+          alt="Asteroid"
           className="w-96 h-auto absolute -right-56 -top-20 transform -translate-y-1/2"
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: isVisible ? 1 : 0, x: isVisible ? 0 : 100 }}
