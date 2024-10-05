@@ -1,4 +1,3 @@
-// src/Scene.tsx
 import React, { useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
@@ -30,13 +29,13 @@ const Planet: React.FC<PlanetProps> = ({
   const planetRef = React.useRef<THREE.Mesh>(null);
 
   useFrame(() => {
-    // Movement is paused for now
     const x = adjustedRho * Math.cos(angleRef.current);
     const z = adjustedRho * Math.sin(angleRef.current);
     const planetMesh = planetRef.current;
     if (planetMesh) {
       planetMesh.position.set(x, 0, z);
     }
+    angleRef.current += speed; // Update the angle based on speed
   });
 
   return (
@@ -91,18 +90,18 @@ const Scene: React.FC = () => {
   };
 
   return (
-    <Canvas
-      camera={{ position: [0, 0, 400], fov: 60 }}
-      style={{ width: '100vw', height: '100vh' }}
-    >
-      <ambientLight intensity={0.5} />
-      <pointLight position={[10, 10, 10]} />
-      <OrbitControls minDistance={50} maxDistance={3000} />
+    <>
+      <Canvas
+        camera={{ position: [0, 0, 400], fov: 60 }}
+        style={{ width: '100vw', height: '100vh', background: '#000' }}
+      >
+        <ambientLight intensity={0.5} />
+        <pointLight position={[10, 10, 10]} />
+        <OrbitControls minDistance={50} maxDistance={3000} />
 
-      <Sun />
+        <Sun />
 
-      {planetData.map((planet) => {
-        return (
+        {planetData.map((planet) => (
           <React.Fragment key={planet.label}>
             <Planet
               label={planet.label}
@@ -114,8 +113,8 @@ const Scene: React.FC = () => {
             />
             <Orbit rho={planet.rho} />
           </React.Fragment>
-        );
-      })}
+        ))}
+      </Canvas>
 
       {/* Display planet information in a popup */}
       {selectedPlanet && (
@@ -125,7 +124,7 @@ const Scene: React.FC = () => {
           onClose={handleCloseInfo}
         />
       )}
-    </Canvas>
+    </>
   );
 };
 
