@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ArrowRight, Cuboid, Globe, Telescope, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom"; // Import z react-router-dom
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom"; // Import from react-router-dom
 import Scene from "../../Galaxy/Scene";
 
 interface Card {
@@ -15,23 +15,23 @@ interface Card {
 const cards: Card[] = [
   {
     title: "3D Game",
-    description: "Zanurz się w interaktywnym świecie gier 3D, gdzie możesz eksplorować różnorodne poziomy i wyzwania.",
+    description: "Immerse yourself in an interactive 3D game world, where you can explore diverse levels and challenges.",
     icon: <Cuboid className="h-6 w-6 text-blue-400" />,
-    details: "Nasze 3D Game to immersyjne doświadczenie, które przenosi graczy do fascynującego świata pełnego przygód. Wykorzystując najnowsze technologie graficzne, oferujemy realistyczne środowiska i płynną rozgrywkę. Gracze mogą tworzyć własne postacie, rozwijać umiejętności i współpracować z innymi w trybie wieloosobowym. Regularnie dodajemy nowe poziomy, wyzwania i elementy fabularne, aby zapewnić długotrwałą rozrywkę.",
+    details: "Our 3D Game is an immersive experience that transports players to a fascinating world full of adventures. Utilizing the latest graphic technologies, we offer realistic environments and smooth gameplay. Players can create their own characters, develop skills, and collaborate with others in multiplayer mode. We regularly add new levels, challenges, and story elements to ensure long-lasting entertainment.",
     image: "/assets/webGame.png",
   },
   {
     title: "Solar System",
-    description: "Odkryj tajemnice Układu Słonecznego i poznaj planety, które go tworzą.",
+    description: "Discover the mysteries of the Solar System and learn about the planets that compose it.",
     icon: <Globe className="h-6 w-6 text-blue-400" />,
-    details: "Nasza aplikacja Solar System to interaktywny przewodnik po Układzie Słonecznym. Użytkownicy mogą eksplorować szczegółowe modele 3D planet, księżyców i innych ciał niebieskich. Oferujemy aktualne dane astronomiczne, ciekawostki o każdym obiekcie oraz symulacje orbit i faz księżyca. Aplikacja zawiera również sekcję edukacyjną z quizami i wyzwaniami, idealnymi dla uczniów i entuzjastów astronomii.",
+    details: "Our Solar System app is an interactive guide to the Solar System. Users can explore detailed 3D models of planets, moons, and other celestial bodies. We provide up-to-date astronomical data, interesting facts about each object, and simulations of orbits and moon phases. The app also includes an educational section with quizzes and challenges, perfect for students and astronomy enthusiasts.",
     image: "/assets/spaceSystem.png",
   },
   {
     title: "Stellarium",
-    description: "Stellarium to symulator nieba, który pozwala na obserwację gwiazd, planet...",
+    description: "Stellarium is a sky simulator that allows you to observe stars, planets...",
     icon: <Telescope className="h-6 w-6 text-blue-400" />,
-    details: "Stellarium to zaawansowany symulator nieba, który przynosi kosmos na wyciągnięcie ręki. Oferuje realistyczne odwzorowanie nieba z ponad 600 000 gwiazd, planetami, mgławicami i galaktykami. Użytkownicy mogą obserwować niebo z dowolnego miejsca na Ziemi i w dowolnym czasie. Aplikacja zawiera szczegółowe informacje o obiektach astronomicznych, umożliwia śledzenie sztucznych satelitów i oferuje narzędzia do planowania obserwacji astronomicznych.",
+    details: "Stellarium is an advanced sky simulator that brings the cosmos to your fingertips. It offers realistic representations of the sky with over 600,000 stars, planets, nebulae, and galaxies. Users can observe the sky from anywhere on Earth and at any time. The app contains detailed information about astronomical objects, allows tracking of artificial satellites, and provides tools for planning astronomical observations.",
     image: "/path/to/image3.jpg",
   },
 ];
@@ -51,7 +51,7 @@ function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50"
+          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50 backdrop-blur-sm"
           onClick={onClose}
         >
           <motion.div
@@ -65,12 +65,12 @@ function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
             <button
               onClick={onClose}
               className="absolute top-4 right-4 text-gray-400 hover:text-white"
-              aria-label="Zamknij"
+              aria-label="Close"
             >
               <X className="h-6 w-6" />
             </button>
             <h2 className="text-2xl font-bold text-white mb-4">{content?.title}</h2>
-            {/* Wyświetlanie obrazu */}
+            {/* Displaying image */}
             {content?.image && (
               <img src={content.image} alt={content.title} className="w-full h-auto rounded mb-4" />
             )}
@@ -80,13 +80,13 @@ function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
                 onClick={onClose}
                 className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
               >
-                Zamknij
+                Close
               </button>
               <button
                 onClick={onProceed}
                 className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-300"
               >
-                Przejdź dalej
+                Proceed
               </button>
             </div>
           </motion.div>
@@ -98,7 +98,7 @@ function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
 
 export default function ShimmerCards() {
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
-  const navigate = useNavigate(); // Używamy hooka useNavigate do nawigacji
+  const navigate = useNavigate(); // Using useNavigate hook for navigation
 
   const openModal = (card: Card) => {
     setSelectedCard(card);
@@ -109,7 +109,7 @@ export default function ShimmerCards() {
   };
 
   const proceedToScene = () => {
-    navigate("/scene"); // Przekierowanie na stronę z komponentem Scene
+    navigate("/scene"); // Redirecting to the scene component page
   };
 
   return (
@@ -128,7 +128,7 @@ export default function ShimmerCards() {
             <p className="text-gray-400 mb-4">{card.description}</p>
           </div>
           <button className="flex items-center text-blue-400 hover:text-blue-300 transition-colors mt-auto">
-            Dowiedz się więcej <ArrowRight className="ml-2 h-4 w-4" />
+            Learn More <ArrowRight className="ml-2 h-4 w-4" />
           </button>
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover:via-white/20 bg-[length:200%_100%] animate-shimmer"></div>
         </div>
@@ -137,7 +137,7 @@ export default function ShimmerCards() {
         isOpen={selectedCard !== null}
         onClose={closeModal}
         content={selectedCard}
-        onProceed={proceedToScene} // Przekazanie funkcji nawigacji do Modal
+        onProceed={proceedToScene} // Passing navigation function to Modal
       />
     </div>
   );
