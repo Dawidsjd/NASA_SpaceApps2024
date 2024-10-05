@@ -1,3 +1,4 @@
+// Scene.tsx
 import React, { useState, useRef } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
@@ -7,127 +8,12 @@ import { asteroidData } from './asteroids';
 import PlanetDetails from './PlanetDetails';
 import AsteroidDetails from './AsteroidDetails';
 import SpeedControl from './SpeedControl';
+import Sun from './Sun'; // Assuming Sun is in a separate file
+import CameraController from './CameraController'; // Assuming CameraController is in a separate file
+import Asteroid from './Asteroid'; // Import the new Asteroid component
 import * as THREE from 'three';
 
 const AU = 150; // Astronomical Unit (scaled)
-
-const Sun: React.FC = () => {
-  const sunTexture = useLoader(THREE.TextureLoader, '/assets/sun.jpg');
-
-  return (
-    <mesh position={[0, 0, 0]}>
-      <sphereGeometry args={[5, 32, 32]} />
-      <meshStandardMaterial map={sunTexture} />
-    </mesh>
-  );
-};
-
-const CameraController: React.FC<{
-  targetPosition: [number, number, number] | null;
-  isMoving: boolean;
-}> = ({ targetPosition, isMoving }) => {
-  const cameraRef = useRef<THREE.PerspectiveCamera>(null);
-  const zoomDistance = 10; // Adjust this value for how close you want to zoom in
-  const smoothSpeed = 0.1; // Smoothness of the camera movement
-
-  useFrame(() => {
-    if (cameraRef.current && targetPosition && isMoving) {
-      const currentPos = cameraRef.current.position.clone();
-      const target = new THREE.Vector3(...targetPosition).add(
-        new THREE.Vector3(0, 0, zoomDistance)
-      );
-
-      // Smoothly move the camera towards the target position
-      currentPos.lerp(target, smoothSpeed);
-      cameraRef.current.position.copy(currentPos);
-
-      // Look at the target position (the planet or asteroid)
-      cameraRef.current.lookAt(
-        targetPosition[0],
-        targetPosition[1],
-        targetPosition[2]
-      );
-
-      // Stop moving if the camera is close enough to the target
-      if (currentPos.distanceTo(target) < 0.5) {
-        cameraRef.current.position.copy(target); // Snap to the desired position
-      }
-    }
-  });
-
-  return (
-    <>
-      <PerspectiveCamera
-        ref={cameraRef}
-        makeDefault
-        position={[0, 0, 500]} // Initial camera position; can adjust as necessary
-        fov={60}
-      />
-      <OrbitControls
-        minDistance={10} // Set a minimum distance to prevent zooming in too close
-        maxDistance={3000} // Maximum distance to zoom out
-        enablePan={true} // Allow panning
-        enableZoom={true} // Allow zooming
-      />
-    </>
-  );
-};
-
-const Asteroid: React.FC<{
-  label: string;
-  size: number;
-  color: string;
-  speed: number;
-  distanceFromSun: number;
-  speedMultiplier: number;
-  onClick: (
-    label: string,
-    description: string,
-    position: [number, number, number]
-  ) => void; // Include position
-}> = ({
-  label,
-  size,
-  color,
-  speed,
-  distanceFromSun,
-  speedMultiplier,
-  onClick,
-}) => {
-  const angleRef = useRef(Math.random() * Math.PI * 2);
-  const asteroidRef = useRef<THREE.Mesh>(null);
-
-  useFrame(() => {
-    const radius = distanceFromSun * AU;
-    const x = radius * Math.cos(angleRef.current);
-    const z = radius * Math.sin(angleRef.current);
-    const y = Math.sin(angleRef.current * 2) * 0.5; // Optional, if you want to add vertical movement
-
-    if (asteroidRef.current) {
-      asteroidRef.current.position.set(x, y, z);
-    }
-
-    angleRef.current += speed * speedMultiplier;
-  });
-
-  const handleClick = () => {
-    const radius = distanceFromSun * AU;
-    const x = radius * Math.cos(angleRef.current);
-    const z = radius * Math.sin(angleRef.current);
-    const y = Math.sin(angleRef.current * 2) * 0.5;
-
-    if (asteroidRef.current) {
-      onClick(label, 'Asteroid Description', [x, y, z]);
-    }
-  };
-
-  return (
-    <mesh ref={asteroidRef} onClick={handleClick}>
-      <sphereGeometry args={[size, 16, 16]} />
-      <meshStandardMaterial color={color} />
-    </mesh>
-  );
-};
 
 const Scene: React.FC = () => {
   const [selectedPlanet, setSelectedPlanet] = useState<null | {
@@ -164,23 +50,20 @@ const Scene: React.FC = () => {
     previousSpeed.current = speedMultiplier; // Zapisujemy aktualną prędkość przed zatrzymaniem
     setSpeedMultiplier(0); // Zatrzymujemy prędkość po kliknięciu
     setSelectedPlanet({ label, description });
-  
+
     // Wyjątek dla planet - oddalamy tylko w osi Z
     if (label === 'Saturn') {
-      targetPosition.current = [position[0] , position[1], position[2] * 1.5]; // Saturn oddala się w osi Z
+      targetPosition.current = [position[0], position[1], position[2] * 1.5]; // Saturn oddala się w osi Z
     } else if (label === 'Jupiter') {
       targetPosition.current = [position[0], position[1], position[2] * 2]; // Jowisz oddala się w osi Z
     } else if (label === 'Uranus') {
-      targetPosition.current = [position[0] , position[1], position[2]* 1.25]; // Uran oddala się w osi Z
+      targetPosition.current = [position[0], position[1], position[2] * 1.25]; // Uran oddala się w osi Z
     } else {
       targetPosition.current = position; // Ustawiamy pozycję celu dla kamery
     }
-  
+
     setIsMoving(true);
   };
-  
-  
-  
 
   const handleAsteroidClick = (
     label: string,
@@ -212,26 +95,24 @@ const Scene: React.FC = () => {
         <directionalLight position={[10, 10, 10]} intensity={1} />
         <Sun />
         {planetData.map((planet) => (
-  <React.Fragment key={planet.label}>
-    <Planet
-      label={planet.label}
-      rho={planet.rho}
-      size={planet.size}
-      color={planet.color}
-      texture={planet.texture}
-      speed={planet.speed}
-      rotationSpeed={planet.rotationSpeed}
-      speedMultiplier={speedMultiplier}
-      onClick={(label, description, position) => {
-        handlePlanetClick(label, description, position);
-      }}
-      angleRef={anglesRef.current} // Przekaż angleRef
-    />
-    <PlanetOrbit rho={planet.rho} color={planet.color} />
-  </React.Fragment>
-))}
-
-
+          <React.Fragment key={planet.label}>
+            <Planet
+              label={planet.label}
+              rho={planet.rho}
+              size={planet.size}
+              color={planet.color}
+              texture={planet.texture}
+              speed={planet.speed}
+              rotationSpeed={planet.rotationSpeed}
+              speedMultiplier={speedMultiplier}
+              onClick={(label, description, position) => {
+                handlePlanetClick(label, description, position);
+              }}
+              angleRef={anglesRef.current} // Przekaż angleRef
+            />
+            <PlanetOrbit rho={planet.rho} color={planet.color} />
+          </React.Fragment>
+        ))}
 
         {asteroidData.map((asteroid) => (
           <Asteroid
