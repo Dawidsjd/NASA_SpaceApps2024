@@ -1,4 +1,3 @@
-// Planet.tsx
 import React from 'react';
 import { useFrame, useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
@@ -8,14 +7,14 @@ const AU = 150; // Astronomical Unit (scaled)
 
 interface PlanetProps {
   label: string;
-  rho: number;
-  size: number;
-  texture: string;
+  rho: number; // Orbital radius in AU
+  size: number; // Size of the planet
+  texture: string; // Texture file path
   speed: number; // Orbital speed
   rotationSpeed: number; // New prop for rotation speed
-  speedMultiplier: number;
-  onClick: (label: string, description: string) => void;
-  color: string;
+  speedMultiplier: number; // Speed multiplier for animation
+  onClick: (label: string, description: string) => void; // Callback when planet is clicked
+  color: string; // Color of the orbit line
 }
 
 const Planet: React.FC<PlanetProps> = ({
@@ -24,44 +23,50 @@ const Planet: React.FC<PlanetProps> = ({
   size,
   texture,
   speed,
-  rotationSpeed, // Add rotationSpeed prop
+  rotationSpeed,
   speedMultiplier,
   onClick,
 }) => {
-  const adjustedRho = rho * AU;
-  const angleRef = React.useRef(0);
-  const rotationRef = React.useRef(0); // Track rotation
-  const planetRef = React.useRef<THREE.Mesh>(null);
+  const adjustedRho = rho * AU; // Adjusted radius in 3D space
+  const angleRef = React.useRef(0); // Reference for orbital angle
+  const planetRef = React.useRef<THREE.Mesh>(null); // Reference for the planet mesh
 
   // Load the planet texture
   const planetTexture = useLoader(THREE.TextureLoader, texture);
 
+  // Use frame for position and rotation updates
   useFrame(() => {
-    // Orbital movement
-    const x = adjustedRho * Math.cos(angleRef.current);
-    const z = adjustedRho * Math.sin(angleRef.current);
+    // Calculate the planet's orbital position
+    const angle = angleRef.current; // Reference for orbital angle
+    const x = adjustedRho * Math.cos(angle); // Calculate x position
+    const z = adjustedRho * Math.sin(angle); // Calculate z position
     const planetMesh = planetRef.current;
+
     if (planetMesh) {
-      planetMesh.position.set(x, 0, z);
+      planetMesh.position.set(x, 0, z); // Set the position of the planet
+
       // Rotate the planet around its own axis
       planetMesh.rotation.y += rotationSpeed * speedMultiplier; // Use speedMultiplier for rotation
     }
-    angleRef.current += speed * speedMultiplier;
+
+    // Update the angle for the next frame
+    angleRef.current += speed * speedMultiplier; // Update angle for next frame
   });
+
+  const handleClick = () => {
+    const description =
+      planetData.find((p) => p.label === label)?.description ||
+      'No description available.';
+    onClick(label, description); // Call the click handler with the planet label and description
+  };
 
   return (
     <mesh
       ref={planetRef}
-      onClick={() =>
-        onClick(
-          label,
-          planetData.find((p) => p.label === label)?.description ||
-            'No description available.'
-        )
-      }
+      onClick={handleClick} // Trigger onClick when the planet is clicked
     >
-      <sphereGeometry args={[size * 2, 32, 32]} />
-      <meshStandardMaterial map={planetTexture} />
+      <sphereGeometry args={[size * 2, 32, 32]} /> {/* Scale the planet size */}
+      <meshStandardMaterial map={planetTexture} /> {/* Apply texture */}
     </mesh>
   );
 };
@@ -69,16 +74,20 @@ const Planet: React.FC<PlanetProps> = ({
 const Orbit: React.FC<{ rho: number; color: string }> = ({ rho, color }) => {
   const points = [];
   for (let i = 0; i <= 360; i++) {
-    const angle = (i * Math.PI) / 180;
-    const x = rho * AU * Math.cos(angle);
-    const y = rho * AU * Math.sin(angle);
-    points.push(new THREE.Vector3(x, 0, y));
+    const angle = (i * Math.PI) / 180; // Convert degrees to radians
+    const x = rho * AU * Math.cos(angle); // Calculate x position on the orbit
+    const z = rho * AU * Math.sin(angle); // Calculate z position on the orbit
+    points.push(new THREE.Vector3(x, 0, z)); // Add point to orbit
   }
-  const orbitGeometry = new THREE.BufferGeometry().setFromPoints(points);
+
+  const orbitGeometry = new THREE.BufferGeometry().setFromPoints(points); // Create geometry from points
+
   return (
     <line>
-      <bufferGeometry attach="geometry" {...orbitGeometry} />
-      <lineBasicMaterial attach="material" color={color} />
+      <bufferGeometry attach="geometry" {...orbitGeometry} />{' '}
+      {/* Attach the geometry to the line */}
+      <lineBasicMaterial attach="material" color={color} />{' '}
+      {/* Set the orbit color */}
     </line>
   );
 };
