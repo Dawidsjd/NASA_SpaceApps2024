@@ -6,7 +6,7 @@ import { Planet, Orbit as PlanetOrbit } from './Planet';
 import { planetData } from './orbits';
 import { asteroidData } from './asteroids';
 import PlanetDetails from './PlanetDetails';
-import AsteroidDetails from './AsteroidDetails'; // Import AsteroidDetails
+import AsteroidDetails from './AsteroidDetails';
 import SpeedControl from './SpeedControl';
 import * as THREE from 'three';
 
@@ -27,7 +27,7 @@ const CameraController: React.FC<{
   targetPosition: [number, number, number] | null;
   isMoving: boolean;
 }> = ({ targetPosition, isMoving }) => {
-  const cameraRef = useRef<THREE.PerspectiveCamera>(null); // Referencja do kamery
+  const cameraRef = useRef<THREE.PerspectiveCamera>(null);
 
   useFrame(() => {
     if (cameraRef.current && targetPosition && isMoving) {
@@ -59,7 +59,7 @@ const Asteroid: React.FC<{
   speed: number;
   distanceFromSun: number;
   speedMultiplier: number;
-  onClick: (label: string, description: string) => void; // New onClick prop
+  onClick: (label: string, description: string) => void;
 }> = ({
   label,
   size,
@@ -88,8 +88,6 @@ const Asteroid: React.FC<{
 
   return (
     <mesh ref={asteroidRef} onClick={() => onClick(label)}>
-      {' '}
-      {/* Handle click */}
       <sphereGeometry args={[size, 16, 16]} />
       <meshStandardMaterial color={color} />
     </mesh>
@@ -104,7 +102,7 @@ const Scene: React.FC = () => {
   const [selectedAsteroid, setSelectedAsteroid] = useState<null | {
     label: string;
     description: string;
-  }>(null); // New state for selected asteroid
+  }>(null);
   const [speedMultiplier, setSpeedMultiplier] = useState<number>(1);
   const targetPosition = useRef<[number, number, number] | null>(null);
   const [isMoving, setIsMoving] = useState<boolean>(false);
@@ -115,7 +113,7 @@ const Scene: React.FC = () => {
   };
 
   const handleCloseAsteroidInfo = () => {
-    setSelectedAsteroid(null); // Reset asteroid selection
+    setSelectedAsteroid(null);
   };
 
   const handlePlanetClick = (
@@ -129,7 +127,7 @@ const Scene: React.FC = () => {
   };
 
   const handleAsteroidClick = (label: string, description: string) => {
-    setSelectedAsteroid({ label, description }); // Set selected asteroid
+    setSelectedAsteroid({ label, description });
   };
 
   return (
@@ -145,16 +143,9 @@ const Scene: React.FC = () => {
           targetPosition={targetPosition.current}
           isMoving={isMoving}
         />
-        {/* Dodaj różne źródła światła */}
-        <ambientLight intensity={0.5} /> {/* Delikatne światło otoczenia */}
-        <hemisphereLight
-          intensity={0.3}
-          color="white"
-          groundColor="blue"
-        />{' '}
-        {/* Światło hemisferyczne */}
-        <directionalLight position={[10, 10, 10]} intensity={1} />{' '}
-        {/* Światło kierunkowe */}
+        <ambientLight intensity={0.5} />
+        <hemisphereLight intensity={0.3} color="white" groundColor="blue" />
+        <directionalLight position={[10, 10, 10]} intensity={1} />
         <Sun />
         {planetData.map((planet) => (
           <React.Fragment key={planet.label}>
@@ -165,6 +156,7 @@ const Scene: React.FC = () => {
               color={planet.color}
               texture={planet.texture}
               speed={planet.speed}
+              rotationSpeed={planet.rotationSpeed} // Pass rotation speed
               speedMultiplier={speedMultiplier}
               onClick={(label, description) =>
                 handlePlanetClick(label, description, [
@@ -177,6 +169,7 @@ const Scene: React.FC = () => {
             <PlanetOrbit rho={planet.rho} color={planet.color} />
           </React.Fragment>
         ))}
+
         {asteroidData.map((asteroid) => (
           <Asteroid
             key={asteroid.label}
@@ -188,18 +181,16 @@ const Scene: React.FC = () => {
             speedMultiplier={speedMultiplier}
             onClick={(label) =>
               handleAsteroidClick(label, asteroid.description)
-            } // Pass description
+            } // Pass both label and description
           />
         ))}
       </Canvas>
 
-      {/* Kontroler prędkości */}
       <SpeedControl
         speedMultiplier={speedMultiplier}
         onChange={setSpeedMultiplier}
       />
 
-      {/* Popup szczegóły planety */}
       {selectedPlanet && (
         <PlanetDetails
           label={selectedPlanet.label}
@@ -208,7 +199,7 @@ const Scene: React.FC = () => {
         />
       )}
 
-      {selectedAsteroid && ( // Render AsteroidDetails if an asteroid is selected
+      {selectedAsteroid && (
         <AsteroidDetails
           label={selectedAsteroid.label}
           description={selectedAsteroid.description}

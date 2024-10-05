@@ -29,9 +29,9 @@ export const asteroidData: AsteroidData[] = [
   {
     label: 'Bennu',
     size: 0.16,
-    color: 'black',
+    color: 'green',
     speed: 0.002 + Math.random() * 0.001, // Randomized speed
-    distanceFromSun: 1.8,
+    distanceFromSun: 1.6,
     description:
       "Bennu is a near-Earth asteroid that is the target of NASA's OSIRIS-REx mission.",
   },
