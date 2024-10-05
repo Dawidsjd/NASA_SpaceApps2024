@@ -26,7 +26,8 @@ export function SparklesPreview() {
       <motion.img
         src="/assets/icon.png"
         alt="Ikona"
-        className="absolute top-10 right-10 w-24 h-24"
+        draggable="false"
+        className="absolute top-10 right-10 w-24 h-24 select-none"
       />
 
       <div className="absolute top-10 left-10 flex flex-col space-y-2 z-10">
@@ -94,7 +95,7 @@ export function SparklesPreview() {
       <motion.img 
         src="/assets/wombat-layout.png" 
         alt="Wombat Layout" 
-        className="absolute left-0 bottom-0 w-1/3 h-auto object-cover"
+        className="absolute left-0 bottom-0 w-1/3 h-auto object-cover select-none"
         draggable="false"
         animate={{ y: [0, -10, 0], rotate: [0, 2, -2, 0] }}
         transition={{
