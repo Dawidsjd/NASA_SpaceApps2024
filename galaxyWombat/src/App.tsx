@@ -6,14 +6,12 @@ import StartLayout from './SubPages/Menu/StartLayout';
 
 function App() {
   return (
-
     <Router>
       <Routes>
         <Route path="/" element={<StartLayout />} />
         <Route path="/scene" element={<Scene />} />
       </Routes>
     </Router>
-
   );
 }
 

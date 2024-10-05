@@ -159,19 +159,15 @@ const Scene: React.FC = () => {
   const handlePlanetClick = (
     label: string,
     description: string,
-    rho: number
+    position: [number, number, number]
   ) => {
-    const angle = anglesRef.current.get(label) || 0; // Get the angle or default to 0
-    const x = rho * AU * Math.cos(angle);
-    const z = rho * AU * Math.sin(angle);
-    const y = 0; // Optional: Adjust if you want a height value
-
-    previousSpeed.current = speedMultiplier; // Store current speed before setting to 0
-    setSpeedMultiplier(0); // Set speed to 0 when a planet is clicked
+    previousSpeed.current = speedMultiplier; // Zapisujemy aktualną prędkość przed zatrzymaniem
+    setSpeedMultiplier(0); // Zatrzymujemy prędkość po kliknięciu
     setSelectedPlanet({ label, description });
-    targetPosition.current = [x, y, z]; // Set the camera target position
+    targetPosition.current = position; // Ustawiamy pozycję celu dla kamery
     setIsMoving(true);
   };
+  
 
   const handleAsteroidClick = (
     label: string,
@@ -203,24 +199,26 @@ const Scene: React.FC = () => {
         <directionalLight position={[10, 10, 10]} intensity={1} />
         <Sun />
         {planetData.map((planet) => (
-          <React.Fragment key={planet.label}>
-            <Planet
-              label={planet.label}
-              rho={planet.rho}
-              size={planet.size}
-              color={planet.color}
-              texture={planet.texture}
-              speed={planet.speed}
-              rotationSpeed={planet.rotationSpeed} // Pass rotation speed
-              speedMultiplier={speedMultiplier}
-              onClick={(label, description) => {
-                handlePlanetClick(label, description, planet.rho);
-              }}
-              angleRef={anglesRef.current} // Pass the angle reference
-            />
-            <PlanetOrbit rho={planet.rho} color={planet.color} />
-          </React.Fragment>
-        ))}
+  <React.Fragment key={planet.label}>
+    <Planet
+      label={planet.label}
+      rho={planet.rho}
+      size={planet.size}
+      color={planet.color}
+      texture={planet.texture}
+      speed={planet.speed}
+      rotationSpeed={planet.rotationSpeed}
+      speedMultiplier={speedMultiplier}
+      onClick={(label, description, position) => {
+        handlePlanetClick(label, description, position);
+      }}
+      angleRef={anglesRef.current} // Przekaż angleRef
+    />
+    <PlanetOrbit rho={planet.rho} color={planet.color} />
+  </React.Fragment>
+))}
+
+
 
         {asteroidData.map((asteroid) => (
           <Asteroid
