@@ -13,11 +13,15 @@ interface PlanetProps {
   speed: number;
   rotationSpeed: number;
   speedMultiplier: number;
-  onClick: (label: string, description: string, position: [number, number, number]) => void;
+  description: string;
+  onClick: (
+    label: string,
+    description: string,
+    position: [number, number, number]
+  ) => void;
   color: string;
   angleRef: Map<string, number>; // Nowa właściwość angleRef
 }
-
 
 const Planet: React.FC<PlanetProps> = ({
   label,
@@ -27,6 +31,7 @@ const Planet: React.FC<PlanetProps> = ({
   speed,
   rotationSpeed,
   speedMultiplier,
+  description,
   onClick,
   angleRef, // Dodaj angleRef tutaj
 }) => {
@@ -56,7 +61,7 @@ const Planet: React.FC<PlanetProps> = ({
     const angle = angleRef.get(label) || 0; // Pobierz aktualny kąt planety
     const x = adjustedRho * Math.cos(angle);
     const z = adjustedRho * Math.sin(angle);
-    onClick(label, 'Planet Description', [x, 0, z]);
+    onClick(label, description, [x, 0, z]);
   };
 
   return (
@@ -66,7 +71,6 @@ const Planet: React.FC<PlanetProps> = ({
     </mesh>
   );
 };
-
 
 const Orbit: React.FC<{ rho: number; color: string }> = ({ rho, color }) => {
   const points = [];

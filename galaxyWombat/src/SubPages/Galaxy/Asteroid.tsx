@@ -1,4 +1,3 @@
-// Asteroid.tsx
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
@@ -12,6 +11,7 @@ interface AsteroidProps {
   speed: number;
   distanceFromSun: number;
   speedMultiplier: number;
+  description: string; // Add description prop
   onClick: (
     label: string,
     description: string,
@@ -26,6 +26,7 @@ const Asteroid: React.FC<AsteroidProps> = ({
   speed,
   distanceFromSun,
   speedMultiplier,
+  description, // Destructure description
   onClick,
 }) => {
   const angleRef = useRef(Math.random() * Math.PI * 2);
@@ -51,7 +52,7 @@ const Asteroid: React.FC<AsteroidProps> = ({
     const y = Math.sin(angleRef.current * 2) * 0.5;
 
     if (asteroidRef.current) {
-      onClick(label, 'Asteroid Description', [x, y, z]);
+      onClick(label, description, [x, y, z]); // Use the passed description instead of hardcoded one
     }
   };
 
