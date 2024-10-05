@@ -1,5 +1,6 @@
+// Scene.tsx
 import React, { useState, useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { Planet, Orbit as PlanetOrbit } from './Planet';
 import { planetData } from './orbits';
@@ -7,7 +8,8 @@ import { asteroidData } from './asteroids';
 import PlanetDetails from './PlanetDetails';
 import AsteroidDetails from './AsteroidDetails';
 import SpeedControl from './SpeedControl';
-import Sun from './Sun';
+import Sun from './Sun'; // Assuming Sun is in a separate file
+import CameraController from './CameraController'; // Assuming CameraController is in a separate file
 import Asteroid from './Asteroid'; // Import the new Asteroid component
 import * as THREE from 'three';
 
@@ -45,8 +47,8 @@ const Scene: React.FC = () => {
     description: string,
     position: [number, number, number]
   ) => {
-    previousSpeed.current = speedMultiplier; // Store current speed before setting to 0
-    setSpeedMultiplier(0); // Set speed to 0 when a planet is clicked
+    previousSpeed.current = speedMultiplier; // Zapisujemy aktualną prędkość przed zatrzymaniem
+    setSpeedMultiplier(0); // Zatrzymujemy prędkość po kliknięciu
     setSelectedPlanet({ label, description });
 
     // Wyjątek dla planet - oddalamy tylko w osi Z
@@ -106,7 +108,7 @@ const Scene: React.FC = () => {
               onClick={(label, description, position) => {
                 handlePlanetClick(label, description, position);
               }}
-              angleRef={anglesRef.current} // Pass angleRef to maintain angle state
+              angleRef={anglesRef.current} // Przekaż angleRef
             />
             <PlanetOrbit rho={planet.rho} color={planet.color} />
           </React.Fragment>
@@ -120,9 +122,10 @@ const Scene: React.FC = () => {
             color={asteroid.color}
             speed={asteroid.speed}
             distanceFromSun={asteroid.distanceFromSun}
-            description={asteroid.description} // Pass the correct description
             speedMultiplier={speedMultiplier}
-            onClick={handleAsteroidClick} // Ensure onClick works as expected
+            onClick={(label, description, position) =>
+              handleAsteroidClick(label, description, position)
+            } // Pass both label and description
           />
         ))}
       </Canvas>
