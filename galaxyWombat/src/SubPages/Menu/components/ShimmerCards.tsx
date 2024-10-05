@@ -1,8 +1,13 @@
-import { useState } from "react";
-import { ArrowRight, Cuboid, Globe, Telescope, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom"; // Import from react-router-dom
-import Scene from "../../Galaxy/Scene";
+import { useState } from 'react';
+import { ArrowRight, Cuboid, Globe, Telescope, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from 'react-router-dom'; // Import from react-router-dom
+import Scene from '../../Galaxy/Scene';
 
 interface Card {
   title: string;
@@ -14,25 +19,31 @@ interface Card {
 
 const cards: Card[] = [
   {
-    title: "3D Game",
-    description: "Immerse yourself in an interactive 3D game world, where you can explore diverse levels and challenges.",
+    title: '3D Game',
+    description:
+      'Immerse yourself in an interactive 3D game world, where you can explore diverse levels and challenges.',
     icon: <Cuboid className="h-6 w-6 text-blue-400" />,
-    details: "Our 3D Game is an immersive experience that transports players to a fascinating world full of adventures. Utilizing the latest graphic technologies, we offer realistic environments and smooth gameplay. Players can create their own characters, develop skills, and collaborate with others in multiplayer mode. We regularly add new levels, challenges, and story elements to ensure long-lasting entertainment.",
-    image: "/assets/webGame.png",
+    details:
+      'Our 3D Game is an immersive experience that transports players to a fascinating world full of adventures. Utilizing the latest graphic technologies, we offer realistic environments and smooth gameplay. Players can create their own characters, develop skills, and collaborate with others in multiplayer mode. We regularly add new levels, challenges, and story elements to ensure long-lasting entertainment.',
+    image: '/assets/webGame.png',
   },
   {
-    title: "Solar System",
-    description: "Discover the mysteries of the Solar System and learn about the planets that compose it.",
+    title: 'Solar System',
+    description:
+      'Discover the mysteries of the Solar System and learn about the planets that compose it.',
     icon: <Globe className="h-6 w-6 text-blue-400" />,
-    details: "Our Solar System app is an interactive guide to the Solar System. Users can explore detailed 3D models of planets, moons, and other celestial bodies. We provide up-to-date astronomical data, interesting facts about each object, and simulations of orbits and moon phases. The app also includes an educational section with quizzes and challenges, perfect for students and astronomy enthusiasts.",
-    image: "/assets/spaceSystem.png",
+    details:
+      'Our Solar System app is an interactive guide to the Solar System. Users can explore detailed 3D models of planets, moons, and other celestial bodies. We provide up-to-date astronomical data, interesting facts about each object, and simulations of orbits and moon phases. The app also includes an educational section with quizzes and challenges, perfect for students and astronomy enthusiasts.',
+    image: '/assets/spaceSystem.png',
   },
   {
-    title: "Stellarium",
-    description: "Stellarium is a sky simulator that allows you to observe stars, planets...",
+    title: 'Stellarium',
+    description:
+      'Stellarium is a sky simulator that allows you to observe stars, planets...',
     icon: <Telescope className="h-6 w-6 text-blue-400" />,
-    details: "Stellarium is an advanced sky simulator that brings the cosmos to your fingertips. It offers realistic representations of the sky with over 600,000 stars, planets, nebulae, and galaxies. Users can observe the sky from anywhere on Earth and at any time. The app contains detailed information about astronomical objects, allows tracking of artificial satellites, and provides tools for planning astronomical observations.",
-    image: "/path/to/image3.jpg",
+    details:
+      'Stellarium is an advanced sky simulator that brings the cosmos to your fingertips. It offers realistic representations of the sky with over 600,000 stars, planets, nebulae, and galaxies. Users can observe the sky from anywhere on Earth and at any time. The app contains detailed information about astronomical objects, allows tracking of artificial satellites, and provides tools for planning astronomical observations.',
+    image: '/path/to/image3.jpg',
   },
 ];
 
@@ -58,7 +69,7 @@ function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            transition={{ type: "spring", damping: 15, stiffness: 100 }}
+            transition={{ type: 'spring', damping: 15, stiffness: 100 }}
             className="bg-gray-800 rounded-xl p-6 max-w-2xl w-full relative"
             onClick={(e) => e.stopPropagation()}
           >
@@ -69,10 +80,16 @@ function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
             >
               <X className="h-6 w-6" />
             </button>
-            <h2 className="text-2xl font-bold text-white mb-4">{content?.title}</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">
+              {content?.title}
+            </h2>
             {/* Displaying image */}
             {content?.image && (
-              <img src={content.image} alt={content.title} className="w-full h-auto rounded mb-4" />
+              <img
+                src={content.image}
+                alt={content.title}
+                className="w-full h-auto rounded mb-4"
+              />
             )}
             <div className="text-gray-300 mb-4">{content?.details}</div>
             <div className="flex justify-between mt-6">
@@ -83,7 +100,7 @@ function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
                 Close
               </button>
               <button
-                onClick={() => onProceed(content ? content.title : "")}
+                onClick={() => onProceed(content ? content.title : '')}
                 className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-300"
               >
                 Proceed
@@ -109,10 +126,10 @@ export default function ShimmerCards() {
   };
 
   const proceedToScene = (title: string) => {
-    if (title === "3D Game") {
-      navigate("/game"); // Redirecting to the game component page
-    } else if (title === "Solar System" || title === "Stellarium") {
-      navigate("/scene"); // Redirecting to the scene component page
+    if (title === '3D Game') {
+      navigate('/game'); // Redirecting to the game component page
+    } else if (title === 'Solar System' || title === 'Stellarium') {
+      navigate('/space'); // Redirecting to the scene component page
     }
   };
 
@@ -127,7 +144,9 @@ export default function ShimmerCards() {
           <div>
             <div className="flex items-center mb-2">
               {card.icon}
-              <h3 className="text-xl font-semibold text-white ml-2">{card.title}</h3>
+              <h3 className="text-xl font-semibold text-white ml-2">
+                {card.title}
+              </h3>
             </div>
             <p className="text-gray-400 mb-4">{card.description}</p>
           </div>
