@@ -7,15 +7,17 @@ const AU = 150; // Astronomical Unit (scaled)
 
 interface PlanetProps {
   label: string;
-  rho: number; // Orbital radius in AU
-  size: number; // Size of the planet
-  texture: string; // Texture file path
-  speed: number; // Orbital speed
-  rotationSpeed: number; // New prop for rotation speed
-  speedMultiplier: number; // Speed multiplier for animation
-  onClick: (label: string, description: string) => void; // Callback when planet is clicked
-  color: string; // Color of the orbit line
+  rho: number;
+  size: number;
+  texture: string;
+  speed: number;
+  rotationSpeed: number;
+  speedMultiplier: number;
+  onClick: (label: string, description: string, position: [number, number, number]) => void;
+  color: string;
+  angleRef: Map<string, number>; // Nowa właściwość angleRef
 }
+
 
 const Planet: React.FC<PlanetProps> = ({
   label,
@@ -26,50 +28,45 @@ const Planet: React.FC<PlanetProps> = ({
   rotationSpeed,
   speedMultiplier,
   onClick,
+  angleRef, // Dodaj angleRef tutaj
 }) => {
   const adjustedRho = rho * AU; // Adjusted radius in 3D space
-  const angleRef = React.useRef(0); // Reference for orbital angle
-  const planetRef = React.useRef<THREE.Mesh>(null); // Reference for the planet mesh
+  const planetRef = React.useRef<THREE.Mesh>(null);
 
   // Load the planet texture
   const planetTexture = useLoader(THREE.TextureLoader, texture);
 
   // Use frame for position and rotation updates
   useFrame(() => {
-    // Calculate the planet's orbital position
-    const angle = angleRef.current; // Reference for orbital angle
-    const x = adjustedRho * Math.cos(angle); // Calculate x position
-    const z = adjustedRho * Math.sin(angle); // Calculate z position
+    let angle = angleRef.get(label) || 0; // Pobierz kąt dla danej planety z mapy
+    const x = adjustedRho * Math.cos(angle);
+    const z = adjustedRho * Math.sin(angle);
     const planetMesh = planetRef.current;
 
     if (planetMesh) {
-      planetMesh.position.set(x, 0, z); // Set the position of the planet
-
-      // Rotate the planet around its own axis
-      planetMesh.rotation.y += rotationSpeed * speedMultiplier; // Use speedMultiplier for rotation
+      planetMesh.position.set(x, 0, z);
+      planetMesh.rotation.y += rotationSpeed * speedMultiplier;
     }
 
-    // Update the angle for the next frame
-    angleRef.current += speed * speedMultiplier; // Update angle for next frame
+    angle += speed * speedMultiplier; // Zaktualizuj kąt
+    angleRef.set(label, angle); // Zapisz zaktualizowany kąt w mapie
   });
 
   const handleClick = () => {
-    const description =
-      planetData.find((p) => p.label === label)?.description ||
-      'No description available.';
-    onClick(label, description); // Call the click handler with the planet label and description
+    const angle = angleRef.get(label) || 0; // Pobierz aktualny kąt planety
+    const x = adjustedRho * Math.cos(angle);
+    const z = adjustedRho * Math.sin(angle);
+    onClick(label, 'Planet Description', [x, 0, z]);
   };
 
   return (
-    <mesh
-      ref={planetRef}
-      onClick={handleClick} // Trigger onClick when the planet is clicked
-    >
-      <sphereGeometry args={[size * 2, 32, 32]} /> {/* Scale the planet size */}
-      <meshStandardMaterial map={planetTexture} /> {/* Apply texture */}
+    <mesh ref={planetRef} onClick={handleClick}>
+      <sphereGeometry args={[size * 2, 32, 32]} />
+      <meshStandardMaterial map={planetTexture} />
     </mesh>
   );
 };
+
 
 const Orbit: React.FC<{ rho: number; color: string }> = ({ rho, color }) => {
   const points = [];

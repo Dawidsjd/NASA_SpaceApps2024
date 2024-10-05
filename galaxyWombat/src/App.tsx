@@ -1,14 +1,17 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Import react-router
+import ShimmerCards from './SubPages/Menu/components/ShimmerCards';// Import komponentu ShimmerCards
+import Scene from './SubPages/Galaxy/Scene'; // Import komponentu Scene
 import StartLayout from './SubPages/Menu/StartLayout';
-import Scene from './SubPages/Galaxy/Scene';
-import { SparklesPreview } from './SubPages/Menu/components/SparklesPreview';
 
 function App() {
   return (
-    <>
-      <Scene />
-      {/* <SparklesPreview/> */}
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<StartLayout />} />
+        <Route path="/scene" element={<Scene />} />
+      </Routes>
+    </Router>
   );
 }
 

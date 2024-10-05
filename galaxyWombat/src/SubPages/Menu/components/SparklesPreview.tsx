@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { SparklesCore } from "./Sparkles";
 import { RocketLaunchIcon } from "@heroicons/react/24/outline";
-import { FaGithub, FaTwitter, FaYoutube } from "react-icons/fa"; // Importuj ikony z react-icons
+import { FaGithub, FaTwitter, FaYoutube, FaArrowLeft } from "react-icons/fa"; // Importuj ikony z react-icons
 import ShimmerCards from "./ShimmerCards";
 import { motion } from "framer-motion";
+
 
 export function SparklesPreview() {
   const [isExploring, setIsExploring] = useState(false);
@@ -31,9 +32,10 @@ export function SparklesPreview() {
       <div className="absolute top-10 left-10 flex flex-col space-y-2 z-10">
         {isExploring && (
           <button
-            className="px-4 py-2 bg-gray-800 text-white rounded-lg"
+            className="flex items-center px-4 py-2  text-white rounded-lg opacity-70 hover:opacity-100"
             onClick={() => setIsExploring(false)}
           >
+            <FaArrowLeft className="mr-2" /> {/* Dodano ikonę strzałki */}
             Powrót
           </button>
         )}
