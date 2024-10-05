@@ -72,7 +72,7 @@ const Planet: React.FC<PlanetProps> = ({
   );
 };
 
-const Orbit: React.FC<{ rho: number; color: string }> = ({ rho, color }) => {
+const Orbit: React.FC<{ rho: number; color: string; opacity?: number }> = ({ rho, color, opacity = 1 }) => {
   const points = [];
   for (let i = 0; i <= 360; i++) {
     const angle = (i * Math.PI) / 180; // Convert degrees to radians
@@ -87,10 +87,11 @@ const Orbit: React.FC<{ rho: number; color: string }> = ({ rho, color }) => {
     <line>
       <bufferGeometry attach="geometry" {...orbitGeometry} />{' '}
       {/* Attach the geometry to the line */}
-      <lineBasicMaterial attach="material" color={color} />{' '}
-      {/* Set the orbit color */}
+      <lineBasicMaterial attach="material" color={'#444'} opacity={opacity} transparent={true} />{' '}
+      {/* Set the orbit color and opacity */}
     </line>
   );
 };
+
 
 export { Planet, Orbit };
