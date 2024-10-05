@@ -1,0 +1,310 @@
+newmtl mainout1:1
+Ns 50.7813
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANmainot1whit.jpg
+map_Bump  VANmainot1bump.jpg
+newmtl mainner2:1
+Ns 50.7813
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANmainnr2.jpg
+map_Bump  VANmainnr2bump.jpg
+newmtl mainout2:1
+Ns 50.7813
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANmainot2whit.jpg
+map_Bump  VANmainot2bump.jpg
+newmtl mainfloor:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.282353 0.282353 0.282353
+map_Kd VANmainflor.jpg
+map_Bump  VANmainflorbump.jpg
+newmtl lights:1
+Ns 51.0001
+Ka 1 1 1
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANlighs.jpg
+newmtl rearpanels:1
+Ns 51.0001
+Ka 0.670588 0.678431 0.686275
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANrearpanls.jpg
+newmtl mainner1:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANmainnr1.jpg
+map_Bump  VANmainnr1bump.jpg
+newmtl engines1:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANengins1.jpg
+map_Bump  VANengins1bump.jpg
+newmtl glasshard:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANglsshard.jpg
+newmtl glassoft:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANglssoft.jpg
+newmtl inerwallpanels:1
+Ns 51.0001
+Ka 0.635294 0.635294 0.635294
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANmainwllpanls.jpg
+newmtl mainpanelextra:1
+Ns 51.0001
+Ka 0.705882 0.705882 0.705882
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANmainpanlextr.jpg
+newmtl mainpanel2R:1
+Ns 51.0001
+Ka 0.619608 0.619608 0.619608
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANmainpanl2R.jpg
+newmtl wingsrearacc:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANwingsgatwhit.jpg
+map_Bump  VANwingsgatbump.jpg
+newmtl turretgun:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANturretgnwhit.jpg
+map_Bump  VANturretgnbump.jpg
+newmtl mainner3:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANmainnr3.jpg
+map_Bump  VANmainnr3bump.jpg
+newmtl mainpanel3:1
+Ns 51.0001
+Ka 0.6 0.6 0.6
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANmainpanl3.jpg
+newmtl module1:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANmodul1.jpg
+map_Bump  VANmodul1bump.jpg
+newmtl mainpanel1:1
+Ns 51.0001
+Ka 0.572549 0.572549 0.572549
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANmainpanl1.jpg
+newmtl seatsoft:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANsatsoft.jpg
+map_Bump  VANsatsoftbump.jpg
+newmtl module3:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANmodul3.jpg
+map_Bump  VANmodul3bump.jpg
+newmtl seathard:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANsathard.jpg
+map_Bump  VANsathardbump.jpg
+newmtl module2:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANmodul2.jpg
+map_Bump  Vanmodul2bump.jpg
+newmtl mainpanel2L:1
+Ns 51.0001
+Ka 0.568627 0.568627 0.568627
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANmainpanl2L.jpg
+newmtl maindesk4panel:1
+Ns 51.0001
+Ka 0.603922 0.603922 0.603922
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANmaindsk4panl.jpg
+newmtl container:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANcontainrwhit.jpg
+map_Bump  VANcontainrbump.jpg
+newmtl noseout1:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANnoseot1whit.jpg
+map_Bump  VANnoseot1bump.jpg
+newmtl nosefloor:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANnoseflor.jpg
+map_Bump  VANnoseflorbump.jpg
+newmtl noseout2:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANnoseot2whit.jpg
+map_Bump  VANnoseot2bump.jpg
+newmtl noseaccessories:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANnoseaccwhit.jpg
+map_Bump  VANnoseaccbump.jpg
+newmtl noseinner2:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANnoseinnr2.jpg
+map_Bump  VANnoseinnr2bump.jpg
+newmtl noseinner1:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANnoseinnr1.jpg
+map_Bump  VANnoseinnr1bump.jpg
+newmtl nosepanel5:1
+Ns 51.0001
+Ka 0.67451 0.67451 0.67451
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANnosepanl5.jpg
+newmtl nosepanel1:1
+Ns 51.0001
+Ka 0.576471 0.576471 0.576471
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANnosepanl1.jpg
+newmtl nosepanel2:1
+Ns 51.0001
+Ka 0.607843 0.607843 0.607843
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANnosepanl2.jpg
+newmtl nosepanel3:1
+Ns 51.0001
+Ka 0.611765 0.611765 0.611765
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANnosepanl3.jpg
+newmtl noseinner3:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANnoseinnr3.jpg
+map_Bump  VANnoseinnr3bump.jpg
+newmtl nosepanel4:1
+Ns 51.0001
+Ka 0.576471 0.576471 0.576471
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANnosepanl4.jpg
+newmtl rearout1:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANrearot1whit.jpg
+map_Bump  VANrearot1bump.jpg
+newmtl rearout2:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANrearot2whit.jpg
+map_Bump  VANrearot2bump.jpg
+newmtl engines2:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANengins2.jpg
+map_Bump  VANengins2bump.jpg
+newmtl reargate:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANreargat.jpg
+map_Bump  VANreargatbump.jpg
+newmtl subgate:1
+Ns 51.0001
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANsubgat.jpg
+map_Bump  VANsubgatbump.jpg
+newmtl engflames:1
+Ns 51.0001
+Ka 0.945098 0.945098 0.945098
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANengflams.jpg
+newmtl ladders:2
+Ns 50.7813
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANladdrs.jpg
+map_Bump  VANladdrsbump.jpg
+newmtl ladders:3
+Ns 50.7813
+Ka 0 0 0
+Kd 0.8 0.8 0.8
+Ks 0.6 0.6 0.6
+map_Kd VANladdrs.jpg
+map_Bump  VANladdrsbump.jpg
+newmtl Preview
+Ns 10
+Ka 0 0 0
+Kd 0.799927 0.799927 0.799927
+Ks 0 0 0

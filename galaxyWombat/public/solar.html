@@ -2,129 +2,268 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
-    <title>Planetary System - Reduced</title>
+    <link rel="shortcut icon" href="img/galaxy.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="main.css" />
     <style>
-      body, html {
-        margin: 0;
-        overflow: hidden;
-        height: 100%;
+      html, body {
         width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        font-family: 'Arial', sans-serif;
       }
 
-      #blocker {
+      #container, #loading_background, #blocker, #secondBlocker {
         position: absolute;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      #blocker {
         display: flex;
         justify-content: center;
         align-items: center;
+        background-color: rgba(0, 0, 0, 0.7);
         text-align: center;
+        z-index: 10;
       }
 
-      .content {
-        color: white;
-        font-family: Arial, sans-serif;
+      #secondBlocker {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Comic Sans MS', cursive;
+        color: #fff;
+        font-size: 2.5vh;
+        user-select: none;
+        pointer-events: none;
       }
 
-      #startButton {
-        padding: 10px 20px;
-        background-color: #444;
-        color: white;
-        cursor: pointer;
+      .loading-bar-container {
+        width: 300px;
+        height: 15px;
+        background-color: #f3f3f3;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        margin-top: 20px;
+      }
+
+      .loading-bar {
+        width: 0;
+        height: 100%;
+        background-color: #3498db;
+        animation: loading-animation 3s infinite;
+      }
+
+      @keyframes loading-animation {
+        0% { width: 0; }
+        50% { width: 100%; }
+        100% { width: 0; }
+      }
+
+      .loading-text {
+        font-size: 18px;
+        color: #fff;
+        letter-spacing: 1.5px;
+        margin-top: 20px;
+        text-transform: uppercase;
+      }
+
+      .app_logo_wombat {
+        width: 315px;
       }
 
       #aiming1 {
         position: fixed;
-        top: 50%;
-        left: 50%;
-        width: 21px;
-        height: 21px;
-        margin-left: -10.5px;
-        margin-top: -10.5px;
-        display: none;
+        pointer-events: none;
+      }
+
+      a.btn {
+        display: inline-block;
+        margin: 20px 0;
+        padding: 15px 30px;
+        color: #fff;
+        background-color: #3498db;
+        text-transform: uppercase;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+      }
+
+      a.btn:hover {
+        background-color: #2980b9;
       }
     </style>
+    <title>Planetary System</title>
   </head>
 
   <body>
-    <div id="blocker">
-      <div class="content">
-        <h1>Explore the Solar System</h1>
-        <p>Discover planets and stars in a simple simulation.</p>
-        <div id="startButton" onclick="startExperience()">Start</div>
+    <div id="loading_background"></div>
+    <div id="loading" class="new-loading">
+      <img src="./img/wombat_logo.png" class="app_logo_wombat" alt="Loading logo">
+      <div class="loading-bar-container">
+        <div class="loading-bar"></div>
       </div>
+      <div class="loading-text">Loading</div>
     </div>
+
+    <div id="container"></div>
+    <div id="esc"></div>
 
     <div id="aiming1">
       <img src="img/aiming4.png" width="21px" height="21px" />
     </div>
 
-    <div id="container"></div>
+    <div id="blocker">
+      <div id="content">
+        <h1>Discover the Cosmos</h1>
+        <p id="para">Pilot your spaceship through the solar system, explore planets, moons, and unlock cosmic mysteries!</p>
+        <a class="btn" onclick="hideMe()">Start Your Journey</a>
+      </div>
+    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <div id="secondBlocker">Now Loading...</div>
+
+    <script src="./JS/jquery.js"></script>
+    <script src="./three.js/build/three.js"></script>
+
     <script>
-      let scene, camera, renderer, solarSystem, planets = [];
-      
+      let scene, camera, renderer, ufo, star_radius = {}, meteorites = [];
+      const FPS = 60, ufo_scale = 0.5, vec = new THREE.Vector3();
+      let moveForward = false, moveBackward = false, moveLeft = false, moveRight = false;
+      let speed = 1, maxSpeed = 0.3, currentSpeedForward = 0, currentSpeedRight = 0;
+      let hit_direction = vec.clone(), ufo_starlight = 0.06;
+      let meteoriteCount = 10, chaseing_frame = 50;
+
+      function show_loading() {
+        $('#loading').show().css({ display: 'flex', opacity: 0 }).animate({ opacity: 1 }, 500);
+      }
+
+      function hide_loading() {
+        $('#loading').fadeOut(800);
+        $('#loading_background').fadeOut(800);
+      }
+
+      function hideMe() {
+        $('#content').fadeOut(1000);
+        $('#blocker').fadeOut(2000);
+        $('#secondBlocker').delay(1200).fadeIn(1000);
+      }
+
       function init() {
-        scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        renderer = new THREE.WebGLRenderer();
+        renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.getElementById('container').appendChild(renderer.domElement);
 
-        // Light
-        const light = new THREE.PointLight(0xffffff, 1, 500);
-        light.position.set(0, 0, 0);
-        scene.add(light);
+        scene = new THREE.Scene();
+        const skyTexture = new THREE.TextureLoader().load('img/bg5.png');
+        const skyBox = new THREE.Mesh(new THREE.SphereGeometry(5000, 100, 100), new THREE.MeshBasicMaterial({ map: skyTexture, side: THREE.BackSide }));
+        scene.add(skyBox);
 
-        // Sun
-        const sunTexture = new THREE.TextureLoader().load('img/sun.jpg');
-        const sunGeometry = new THREE.SphereGeometry(5, 32, 32);
+        camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 10000);
+        camera.position.set(-131.66, 0, 1296.76);
+        scene.add(camera);
+
+        ufo = new THREE.Object3D();
+        scene.add(ufo);
+
+        createSolarSystem();
+        generateMeteorites();
+
+        document.addEventListener('mousemove', onMouseMove, false);
+        document.addEventListener('keydown', onKeyDown, false);
+        document.addEventListener('keyup', onKeyUp, false);
+
+        animate();
+      }
+
+      function createSolarSystem() {
+        const sunTexture = new THREE.TextureLoader().load('./texture/sun.jpg');
         const sunMaterial = new THREE.MeshBasicMaterial({ map: sunTexture });
-        const sun = new THREE.Mesh(sunGeometry, sunMaterial);
+        const sun = new THREE.Mesh(new THREE.SphereGeometry(100, 50, 50), sunMaterial);
         scene.add(sun);
+        star_radius['sun'] = 100;
 
-        // Planets (simple representations)
-        const planetGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-        const planetMaterial = new THREE.MeshBasicMaterial({ color: 0x44e0ff });
-        for (let i = 1; i <= 8; i++) {
-          const planet = new THREE.Mesh(planetGeometry, planetMaterial);
-          planet.position.set(i * 7, 0, 0);
-          scene.add(planet);
-          planets.push(planet);
+        const planetTexture = new THREE.TextureLoader().load('./texture/planet.jpg');
+        const planetMaterial = new THREE.MeshBasicMaterial({ map: planetTexture });
+        const planet = new THREE.Mesh(new THREE.SphereGeometry(20, 50, 50), planetMaterial);
+        planet.position.set(200, 0, 0);
+        scene.add(planet);
+        star_radius['planet'] = 20;
+      }
+
+      function generateMeteorites() {
+        for (let i = 0; i < meteoriteCount; i++) {
+          const meteorite = createMeteorite();
+          scene.add(meteorite);
+          meteorites.push(meteorite);
         }
+      }
 
-        camera.position.z = 30;
+      function createMeteorite() {
+        const material = new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load('img/star0.png'), color: 0xffffff });
+        const sprite = new THREE.Sprite(material);
+        sprite.scale.set(5, 5, 1);
+        sprite.position.set((Math.random() - 0.5) * 1000, Math.random() * 500 - 250, (Math.random() - 0.5) * 1000);
+        return sprite;
+      }
+
+      function onMouseMove(event) {
+        document.getElementById('aiming1').style.left = event.clientX - 10 + 'px';
+        document.getElementById('aiming1').style.top = event.clientY - 10 + 'px';
+      }
+
+      function onKeyDown(event) {
+        switch (event.keyCode) {
+          case 87: moveForward = true; break;
+          case 83: moveBackward = true; break;
+          case 65: moveLeft = true; break;
+          case 68: moveRight = true; break;
+          case 16: maxSpeed = 0.6; break;
+        }
+      }
+
+      function onKeyUp(event) {
+        switch (event.keyCode) {
+          case 87: moveForward = false; break;
+          case 83: moveBackward = false; break;
+          case 65: moveLeft = false; break;
+          case 68: moveRight = false; break;
+          case 16: maxSpeed = 0.3; break;
+        }
       }
 
       function animate() {
         requestAnimationFrame(animate);
-        planets.forEach((planet, index) => {
-          planet.rotation.y += 0.01;
-          planet.position.x = Math.cos(Date.now() * 0.001 * (index + 1)) * (index + 7);
-          planet.position.z = Math.sin(Date.now() * 0.001 * (index + 1)) * (index + 7);
-        });
+        updateUfoPosition();
+        updateMeteorites();
         renderer.render(scene, camera);
       }
 
-      function startExperience() {
-        document.getElementById("blocker").style.display = "none";
-        document.getElementById("aiming1").style.display = "block";
-        init();
-        animate();
+      function updateUfoPosition() {
+        if (moveForward) currentSpeedForward = Math.min(maxSpeed, currentSpeedForward + 0.01);
+        else currentSpeedForward = Math.max(0, currentSpeedForward - 0.01);
+
+        if (moveBackward) currentSpeedForward = Math.min(maxSpeed, currentSpeedForward - 0.01);
+        else currentSpeedForward = Math.max(0, currentSpeedForward + 0.01);
+
+        ufo.position.z += currentSpeedForward;
       }
 
-      window.addEventListener('resize', function () {
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-      });
+      function updateMeteorites() {
+        for (const meteorite of meteorites) {
+          meteorite.position.x += Math.random() - 0.5;
+          meteorite.position.y += Math.random() - 0.5;
+          meteorite.position.z += Math.random() - 0.5;
+        }
+      }
+
+      init();
     </script>
   </body>
 </html>
