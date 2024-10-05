@@ -1,16 +1,18 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import SpaceGameMain from './SubPages/SpaceGame/SpaceGameMain';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Import react-router
+import ShimmerCards from './SubPages/Menu/components/ShimmerCards';// Import komponentu ShimmerCards
+import Scene from './SubPages/Galaxy/Scene'; // Import komponentu Scene
+import StartLayout from './SubPages/Menu/StartLayout';
 
 function App() {
-
   return (
-      <div>
-       <SpaceGameMain />
-      </div>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<StartLayout />} />
+        <Route path="/scene" element={<Scene />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
