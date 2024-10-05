@@ -1,0 +1,359 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  background: #00000000;
+  color: #ffffffdd;
+  font-family: "Papyrus", Cursive;
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+  height: 5px;
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #555;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #f5f5f5;
+}
+
+#content {
+  margin: 10%;
+  /* width: 100%;
+  height: 100%; */
+  position: fixed;
+  padding: 2% 2% 10% 2%;
+  background: #00000000;
+  transition: box-shadow 0.3s ease-in-out;
+  user-select: none;
+}
+#aiming1 {
+  margin: 0;
+  width: 19px;
+  height: 19px;
+  left: 50%;
+  top: 50%;
+  position: absolute;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+}
+#aiming2 {
+  margin: 0;
+  width: 29px;
+  height: 29px;
+  left: 50%;
+  top: 50%;
+  position: absolute;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+}
+h1 {
+  font-size: 50px;
+  margin-bottom: 3%;
+  width: 80%;
+  text-align: center;
+}
+
+p {
+  margin-top: 1%;
+  font-size: 40px;
+  width: 80%;
+  text-align: center;
+}
+
+.btn {
+  font-size: 45px;
+  position: absolute;
+  color: #ffffffdd;
+  position: relative;
+  width: 80%;
+  top: 10%;
+  transition: font-size 0.2s, color 0.3s, transform 0.3s;
+  -webkit-transition: font-size 0.2s, color 0.3s, -webkit-transform 0.3s;
+}
+
+.btn:hover {
+}
+
+.btn:active {
+}
+
+.btn1 {
+  font-size: 38px;
+  position: absolute;
+  color: #ffffffdd;
+  position: relative;
+  width: 80%;
+  right: 20%;
+  top: 10%;
+  transition: font-size 0.2s, color 0.3s, transform 0.3s;
+  -webkit-transition: font-size 0.2s, color 0.3s, -webkit-transform 0.3s;
+}
+
+.btn1:hover {
+  color: #aaaaaa;
+}
+
+.btn1:active {
+  color: #888888;
+}
+
+#para {
+  /* height: 55%; */
+  overflow: auto;
+}
+
+@media screen and (max-width: 800px) {
+  h1 {
+    font-size: 32px;
+  }
+
+  p {
+    font-size: 20px;
+  }
+
+  .btn {
+    font-size: 28px;
+  }
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#video {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}
+
+#blocker {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+}
+
+#content {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+  max-width: 650px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#content h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.8vh;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  letter-spacing: 2px;
+}
+
+#para {
+  font-family: 'Roboto', sans-serif;
+  font-size: 2.1vh;
+  color: #cccccc;
+  line-height: 1.5;
+  margin-bottom: 25px;
+  max-width: 90%;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 35px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  letter-spacing: 3px;
+  font-weight: 700;
+  color: #ffffff;
+  background-color: #2463ea;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.btn:hover {
+  background-color: #1d5be1;
+}
+
+#secondBlocker {
+  position: absolute;
+  font-family: 'Roboto', sans-serif;
+  width: 88%;
+  height: 5%;
+  margin: 5%;
+  margin-top: 0.5%;
+  font-size: 2.3vh;
+  text-align: center;
+  color: #ffffffcc;
+  background-color: rgba(0, 0, 0, 0);
+  user-select: none;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  #content {
+    padding: 20px;
+    max-width: 350px;
+  }
+
+  #content h1 {
+    font-size: 2.5vh;
+    margin-bottom: 15px;
+  }
+
+  #para {
+    font-size: 1.8vh;
+    margin-bottom: 20px;
+  }
+}
+
+.new-loading {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+  text-align: center;
+  flex-direction: column;
+  margin-top: -50px;
+}
+
+.loading-bar-container {
+  width: 300px;
+  height: 15px;
+  background-color: #f3f3f3;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.loading-bar {
+  width: 0;
+  height: 100%;
+  background-color: #3498db;
+  animation: loading-animation 3s infinite;
+}
+
+@keyframes loading-animation {
+  0% {
+    width: 0;
+  }
+
+  50% {
+    width: 100%;
+  }
+
+  100% {
+    width: 0;
+  }
+}
+
+.loading-text {
+  margin-top: 20px;
+  font-size: 18px;
+  font-family: 'Arial', sans-serif;
+  color: #fff;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+#loading_background {
+  position: absolute;
+  background-color: rgb(0, 0, 0);
+  z-index: 98;
+  height: 100%;
+  width: 100%;
+  cursor: wait;
+}
+
+.app_logo_wombat {
+  min-width: 315px;
+  width: 315px;
+}
+
+.firstWombat_loading{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.secoundWombat_loading {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.loading_wombat {
+  width: 60%;
+  transform-style: preserve-3d; 
+}
+
+.loading_wombat1 {
+  width: 60%;
+  animation: womat1 5s ease-in-out infinite;
+  transform-style: preserve-3d; 
+}
+
+.loading_wombat2 {
+  width: 60%;
+  animation: womat2 5s ease-in-out infinite;
+  transform-style: preserve-3d; 
+}
+
+@keyframes womat1 {
+  0% {
+    transform: translateY(0);
+    transform: rotate3d(0, 0, 1, 0deg);
+  }
+  50% {
+    transform: translateY(35px) rotate3d(0, 0, 1, -8deg);
+  }
+  100% {
+    transform: translateY(0); 
+    transform: rotate3d(0, 0, 1, 0deg);
+  }
+}
+
+@keyframes womat2 {
+  0% {
+    transform: translateY(0);
+    transform: rotate3d(0, 0, 1, 0deg);
+  }
+  50% {
+    transform: translateY(20px) rotate3d(0, 0, 1, 3deg);
+  }
+  100% {
+    transform: translateY(0); 
+    transform: rotate3d(0, 0, 1, 0deg);
+  }
+}
