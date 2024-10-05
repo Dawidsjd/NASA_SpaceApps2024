@@ -41,12 +41,12 @@ const CameraController: React.FC<{
       <PerspectiveCamera
         ref={cameraRef}
         makeDefault
-        position={[0, 0, 500]} // Initial camera position; can adjust as necessary
+        position={[0, 180, 500]} // Initial camera position; can adjust as necessary
         fov={60}
       />
       <OrbitControls
         minDistance={10} // Set a minimum distance to prevent zooming in too close
-        maxDistance={3000} // Maximum distance to zoom out
+        maxDistance={990} // Maximum distance to zoom out
         enablePan={true} // Allow panning
         enableZoom={true} // Allow zooming
       />
