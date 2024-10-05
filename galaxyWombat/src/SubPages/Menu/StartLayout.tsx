@@ -1,5 +1,5 @@
 import React from 'react';
-import { SparklesPreview } from './SparklesPreview';
+import { SparklesPreview } from './components/SparklesPreview';
 
 const StartLayout = () => {
   return (
