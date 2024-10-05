@@ -28,12 +28,7 @@ export function SparklesPreview() {
         src="/assets/icon.png" // Ścieżka do ikony
         alt="Ikona"
         className="absolute top-10 right-10 w-24 h-24"
-        animate={{ rotate: [0, 360] }} // Pełna rotacja
-        transition={{
-          duration: 20, // Rotacja co 20 sekund
-          repeat: Infinity, // Powtarza w nieskończoność
-          ease: "linear", // Płynny obrót
-        }}
+        
       />
 
       {/* Statyczny napis */}
