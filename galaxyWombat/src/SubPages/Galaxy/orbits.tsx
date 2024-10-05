@@ -1,3 +1,6 @@
+///https://www.solarsystemscope.com/textures/
+
+
 export interface PlanetData {
   label: string;
   description: string;

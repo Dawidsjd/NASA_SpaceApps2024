@@ -27,7 +27,7 @@ const CameraController: React.FC<{
   targetPosition: [number, number, number] | null;
   isMoving: boolean;
 }> = ({ targetPosition, isMoving }) => {
-  const cameraRef = useRef<THREE.PerspectiveCamera>(null);
+  const cameraRef = useRef<THREE.PerspectiveCamera>(null); // Referencja do kamery
 
   useFrame(() => {
     if (cameraRef.current && targetPosition && isMoving) {
@@ -145,11 +145,17 @@ const Scene: React.FC = () => {
           targetPosition={targetPosition.current}
           isMoving={isMoving}
         />
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} />
-
+        {/* Dodaj różne źródła światła */}
+        <ambientLight intensity={0.5} /> {/* Delikatne światło otoczenia */}
+        <hemisphereLight
+          intensity={0.3}
+          color="white"
+          groundColor="blue"
+        />{' '}
+        {/* Światło hemisferyczne */}
+        <directionalLight position={[10, 10, 10]} intensity={1} />{' '}
+        {/* Światło kierunkowe */}
         <Sun />
-
         {planetData.map((planet) => (
           <React.Fragment key={planet.label}>
             <Planet
@@ -171,7 +177,6 @@ const Scene: React.FC = () => {
             <PlanetOrbit rho={planet.rho} color={planet.color} />
           </React.Fragment>
         ))}
-
         {asteroidData.map((asteroid) => (
           <Asteroid
             key={asteroid.label}
@@ -188,11 +193,13 @@ const Scene: React.FC = () => {
         ))}
       </Canvas>
 
+      {/* Kontroler prędkości */}
       <SpeedControl
         speedMultiplier={speedMultiplier}
         onChange={setSpeedMultiplier}
       />
 
+      {/* Popup szczegóły planety */}
       {selectedPlanet && (
         <PlanetDetails
           label={selectedPlanet.label}
