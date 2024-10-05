@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+// Scene.tsx
+
+import React, { useEffect, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { Planet, Orbit } from './Planet';
 import { planetData } from './orbits';
-import * as THREE from 'three';
+import { asteroidData } from './asteroids'; // Import the asteroid data
 import PlanetDetails from './PlanetDetails';
 import SpeedControl from './SpeedControl';
-import Moon from './Moon';
 
 const AU = 150; // Astronomical Unit (scaled)
 
@@ -18,15 +19,11 @@ const Sun: React.FC = () => (
 );
 
 const Scene: React.FC = () => {
-  const [selectedPlanet, setSelectedPlanet] = useState<{
+  const [selectedPlanet, setSelectedPlanet] = useState<null | {
     label: string;
     description: string;
-  } | null>(null);
-
+  }>(null);
   const [speedMultiplier, setSpeedMultiplier] = useState<number>(1);
-
-  // Referencja do kąta obrotu Ziemi
-  const earthAngleRef = React.useRef(0);
 
   const handleCloseInfo = () => {
     setSelectedPlanet(null);
@@ -43,7 +40,7 @@ const Scene: React.FC = () => {
         }}
       >
         <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} />
+        <pointLight position={[10, 10, 10]} intensity={1} />
         <OrbitControls minDistance={50} maxDistance={3000} />
 
         <Sun />
@@ -60,36 +57,35 @@ const Scene: React.FC = () => {
               onClick={(label, description) =>
                 setSelectedPlanet({ label, description })
               }
-              // Ziemia będzie miała swój własny kąt obrotu
-              onUpdateAngle={(angle) => {
-                if (planet.label === 'Earth') {
-                  earthAngleRef.current = angle; // Zaktualizuj kąt Ziemi
-                }
-              }}
             />
             <Orbit rho={planet.rho} color={planet.color} />
+          </React.Fragment>
+        ))}
 
-            {/* Księżyc wokół Ziemi */}
-            {planet.label === 'Earth' && (
-              <Moon
-                distanceFromEarth={25} // Odległość Księżyca od Ziemi
-                size={0.27} // Proporcjonalna wielkość Księżyca względem Ziemi
-                color="blue" // Kolor Księżyca
-                speed={0.02} // Prędkość obrotu Księżyca wokół Ziemi
-                earthAngleRef={earthAngleRef} // Referencja do kąta obrotu Ziemi
-              />
-            )}
+        {/* Render asteroids */}
+        {asteroidData.map((asteroid) => (
+          <React.Fragment key={asteroid.label}>
+            <Planet
+              label={asteroid.label}
+              rho={0.8} // Set a fixed distance for asteroids
+              size={asteroid.size}
+              color={asteroid.color}
+              speed={asteroid.speed}
+              speedMultiplier={speedMultiplier}
+              onClick={(label, description) =>
+                setSelectedPlanet({ label, description })
+              }
+            />
+            <Orbit rho={0.8} color={asteroid.color} />
           </React.Fragment>
         ))}
       </Canvas>
 
-      {/* Speed control */}
       <SpeedControl
         speedMultiplier={speedMultiplier}
         onChange={setSpeedMultiplier}
       />
 
-      {/* Popup planet details */}
       {selectedPlanet && (
         <PlanetDetails
           label={selectedPlanet.label}
