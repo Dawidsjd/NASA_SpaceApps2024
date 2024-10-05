@@ -1,269 +1,1481 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="shortcut icon" href="img/galaxy.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="main.css" />
-    <style>
-      html, body {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        font-family: 'Arial', sans-serif;
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="shortcut icon" href="img/galaxy.ico" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  <link rel="stylesheet" href="main.css" />
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    #video {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+    }
+
+    #blocker {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+    }
+
+    #content {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      text-align: center;
+      max-width: 650px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #content h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.8vh;
+      color: #ffffff;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      letter-spacing: 2px;
+    }
+
+    #para {
+      font-family: 'Roboto', sans-serif;
+      font-size: 2.1vh;
+      color: #cccccc;
+      line-height: 1.5;
+      margin-bottom: 25px;
+      max-width: 90%;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 35px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 20px;
+      letter-spacing: 3px;
+      font-weight: 700;
+      color: #ffffff;
+      background-color: #2463ea;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .btn:hover {
+      background-color: #1d5be1;
+    }
+
+    #secondBlocker {
+      position: absolute;
+      font-family: 'Roboto', sans-serif;
+      width: 88%;
+      height: 5%;
+      margin: 5%;
+      margin-top: 0.5%;
+      font-size: 2.3vh;
+      text-align: center;
+      color: #ffffffcc;
+      background-color: rgba(0, 0, 0, 0);
+      user-select: none;
+      pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      #content {
+        padding: 20px;
+        max-width: 350px;
       }
 
-      #container, #loading_background, #blocker, #secondBlocker {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-      }
-
-      #blocker {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: rgba(0, 0, 0, 0.7);
-        text-align: center;
-        z-index: 10;
-      }
-
-      #secondBlocker {
-        display: none;
-        justify-content: center;
-        align-items: center;
-        font-family: 'Comic Sans MS', cursive;
-        color: #fff;
+      #content h1 {
         font-size: 2.5vh;
-        user-select: none;
-        pointer-events: none;
+        margin-bottom: 15px;
       }
 
-      .loading-bar-container {
-        width: 300px;
-        height: 15px;
-        background-color: #f3f3f3;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        margin-top: 20px;
+      #para {
+        font-size: 1.8vh;
+        margin-bottom: 20px;
       }
+    }
 
-      .loading-bar {
+    .new-loading {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 99;
+      text-align: center;
+      flex-direction: column;
+      margin-top: -50px;
+    }
+
+    .loading-bar-container {
+      width: 300px;
+      height: 15px;
+      background-color: #f3f3f3;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .loading-bar {
+      width: 0;
+      height: 100%;
+      background-color: #3498db;
+      animation: loading-animation 3s infinite;
+    }
+
+    @keyframes loading-animation {
+      0% {
         width: 0;
-        height: 100%;
-        background-color: #3498db;
-        animation: loading-animation 3s infinite;
       }
 
-      @keyframes loading-animation {
-        0% { width: 0; }
-        50% { width: 100%; }
-        100% { width: 0; }
+      50% {
+        width: 100%;
       }
 
-      .loading-text {
-        font-size: 18px;
-        color: #fff;
-        letter-spacing: 1.5px;
-        margin-top: 20px;
-        text-transform: uppercase;
+      100% {
+        width: 0;
       }
+    }
 
-      .app_logo_wombat {
-        width: 315px;
+    .loading-text {
+      margin-top: 20px;
+      font-size: 18px;
+      font-family: 'Arial', sans-serif;
+      color: #fff;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    #loading_background {
+      position: absolute;
+      background-color: rgb(0, 0, 0);
+      z-index: 98;
+      height: 100%;
+      width: 100%;
+      cursor: wait;
+    }
+
+    .app_logo_wombat {
+      min-width: 315px;
+      width: 315px;
+    }
+
+    .firstWombat_loading{
+      display: flex;
+      justify-content: start;
+      align-items: center;
+    }
+
+    .secoundWombat_loading {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+    }
+
+    .loading_wombat {
+      width: 60%;
+      animation: float 5s ease-in-out infinite;
+      transform-style: preserve-3d; 
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+        transform: rotate3d(0, 0, 1, 0deg);
       }
-
-      #aiming1 {
-        position: fixed;
-        pointer-events: none;
+      50% {
+        transform: translateY(25px) rotate3d(0, 0, 1, 5deg);
       }
-
-      a.btn {
-        display: inline-block;
-        margin: 20px 0;
-        padding: 15px 30px;
-        color: #fff;
-        background-color: #3498db;
-        text-transform: uppercase;
-        text-decoration: none;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-        cursor: pointer;
+      100% {
+        transform: translateY(0); 
+        transform: rotate3d(0, 0, 1, 0deg);
       }
+    }
 
-      a.btn:hover {
-        background-color: #2980b9;
-      }
-    </style>
-    <title>Planetary System</title>
-  </head>
+  </style>
+  <title>Planetary System</title>
+</head>
 
-  <body>
-    <div id="loading_background"></div>
-    <div id="loading" class="new-loading">
-      <img src="./img/wombat_logo.png" class="app_logo_wombat" alt="Loading logo">
-      <div class="loading-bar-container">
-        <div class="loading-bar"></div>
-      </div>
-      <div class="loading-text">Loading</div>
+<body>
+  <div id="loading_background"></div>
+
+
+
+  <div id="loading" class="new-loading">
+    <img src="./img//wombat_logo.png" class="app_logo_wombat" alt="">
+    <div class="loading-bar-container">
+      <div class="loading-bar"></div>
+    </div>
+    <div class="loading-text">Loading</div>
+  </div>
+
+
+  <div id="container"></div>
+  <div id="esc"></div>
+
+  <div id="aiming1">
+    <img src="img/aiming4.png" width="21px" height="21px" />
+  </div>
+  <div id="secondBlocker" style="display: none"></div>
+
+
+  <div id="blocker">
+    <div class="firstWombat_loading">
+      <img src="../img/game_loadingWombat.png" class="loading_wombat" alt="Wombat image">
     </div>
 
-    <div id="container"></div>
-    <div id="esc"></div>
-
-    <div id="aiming1">
-      <img src="img/aiming4.png" width="21px" height="21px" />
+    <div id="content">
+      <h1>Discover the Cosmos</h1>
+      <p id="para">
+        Pilot your spaceship through the solar system, explore planets, moons, and unlock cosmic mysteries!
+      </p>
+      <a class="btn" onclick="hideMe()">START YOUR JOURNEY</a><br />
     </div>
 
-    <div id="blocker">
-      <div id="content">
-        <h1>Discover the Cosmos</h1>
-        <p id="para">Pilot your spaceship through the solar system, explore planets, moons, and unlock cosmic mysteries!</p>
-        <a class="btn" onclick="hideMe()">Start Your Journey</a>
-      </div>
+    <div class="secoundWombat_loading">
+      <img src="../img/game_loadingWombat2.png" class="loading_wombat" alt="Wombat image">
     </div>
+  </div>
 
-    <div id="secondBlocker">Now Loading...</div>
+</body>
+<script src="./JS/jquery.js"></script>
+<script>
+  show_loading();
 
-    <script src="./JS/jquery.js"></script>
-    <script src="./three.js/build/three.js"></script>
+  function show_loading() {
+    $('#loading').show();
+    $('#loading').css({ display: 'flex', opacity: 0 });
+    $('#loading').animate({ opacity: 1 }, 500);
+  }
+  function hide_loading() {
+    $('#loading').fadeOut(800);
+    $('#loading_background').fadeOut(800);
+  }
+</script>
+<script src="./three.js/build/three.js"></script>
+<!-- <script src="./JS/stats.min.js"></script> -->
+<script id="vertexShader" type="x-shader/x-vertex">
+    uniform sampler2D noiseTexture;
+    uniform float noiseScale;
 
-    <script>
-      let scene, camera, renderer, ufo, star_radius = {}, meteorites = [];
-      const FPS = 60, ufo_scale = 0.5, vec = new THREE.Vector3();
-      let moveForward = false, moveBackward = false, moveLeft = false, moveRight = false;
-      let speed = 1, maxSpeed = 0.3, currentSpeedForward = 0, currentSpeedRight = 0;
-      let hit_direction = vec.clone(), ufo_starlight = 0.06;
-      let meteoriteCount = 10, chaseing_frame = 50;
+    uniform sampler2D bumpTexture;
+    uniform float bumpSpeed;
+    uniform float bumpScale;
 
-      function show_loading() {
-        $('#loading').show().css({ display: 'flex', opacity: 0 }).animate({ opacity: 1 }, 500);
-      }
+    uniform float time;
+    uniform float bumpRepeat;
+    uniform float noiseRepeat;
 
-      function hide_loading() {
-        $('#loading').fadeOut(800);
-        $('#loading_background').fadeOut(800);
-      }
+    varying vec2 vUv;
 
-      function hideMe() {
-        $('#content').fadeOut(1000);
-        $('#blocker').fadeOut(2000);
-        $('#secondBlocker').delay(1200).fadeIn(1000);
-      }
+    void main()
+    {
+        vUv = uv;
 
-      function init() {
-        renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        document.getElementById('container').appendChild(renderer.domElement);
+      vec2 uvTimeShift = vUv + vec2( 1.1, 1.9 ) * time * bumpSpeed;
+      vec4 noiseGeneratorTimeShift = texture2D( noiseTexture, uvTimeShift* vec2(noiseRepeat,noiseRepeat) );
+      vec2 uvNoiseTimeShift = vUv + noiseScale * vec2( noiseGeneratorTimeShift.r, noiseGeneratorTimeShift.g );
+      // below, using uvTimeShift seems to result in more of a "rippling" effect
+      //   while uvNoiseTimeShift seems to result in more of a "shivering" effect
+      vec4 bumpData = texture2D( bumpTexture, uvTimeShift* vec2(bumpRepeat,bumpRepeat) );
 
-        scene = new THREE.Scene();
-        const skyTexture = new THREE.TextureLoader().load('img/bg5.png');
-        const skyBox = new THREE.Mesh(new THREE.SphereGeometry(5000, 100, 100), new THREE.MeshBasicMaterial({ map: skyTexture, side: THREE.BackSide }));
-        scene.add(skyBox);
+      // move the position along the normal
+      //  but displace the vertices at the poles by the same amount
+      float displacement = ( vUv.y > 0.999 || vUv.y < 0.001 ) ?
+        bumpScale * (0.3 + 0.02 * sin(time)) :
+        bumpScale * bumpData.r;
+        vec3 newPosition = position + normal * displacement;
 
-        camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 10000);
-        camera.position.set(-131.66, 0, 1296.76);
-        scene.add(camera);
+      gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
+    }
+  </script>
+<script id="fragmentShader" type="x-shader/x-vertex">
+    uniform sampler2D baseTexture;
+    uniform float baseSpeed;
+    uniform float repeatS;
+    uniform float repeatT;
 
-        ufo = new THREE.Object3D();
-        scene.add(ufo);
+    uniform sampler2D noiseTexture;
+    uniform float noiseScale;
 
-        createSolarSystem();
-        generateMeteorites();
+    uniform sampler2D blendTexture;
+    uniform float blendSpeed;
+    uniform float blendOffset;
 
-        document.addEventListener('mousemove', onMouseMove, false);
-        document.addEventListener('keydown', onKeyDown, false);
-        document.addEventListener('keyup', onKeyUp, false);
+    uniform float time;
+    uniform float alpha;
 
-        animate();
-      }
+    uniform float noiseRepeat;
 
-      function createSolarSystem() {
-        const sunTexture = new THREE.TextureLoader().load('./texture/sun.jpg');
-        const sunMaterial = new THREE.MeshBasicMaterial({ map: sunTexture });
-        const sun = new THREE.Mesh(new THREE.SphereGeometry(100, 50, 50), sunMaterial);
-        scene.add(sun);
-        star_radius['sun'] = 100;
+    varying vec2 vUv;
 
-        const planetTexture = new THREE.TextureLoader().load('./texture/planet.jpg');
-        const planetMaterial = new THREE.MeshBasicMaterial({ map: planetTexture });
-        const planet = new THREE.Mesh(new THREE.SphereGeometry(20, 50, 50), planetMaterial);
-        planet.position.set(200, 0, 0);
-        scene.add(planet);
-        star_radius['planet'] = 20;
-      }
+    void main()
+    {
+      vec2 uvTimeShift = vUv + vec2( -0.7, 1.5 ) * time * baseSpeed;
+      vec4 noiseGeneratorTimeShift = texture2D( noiseTexture, uvTimeShift* vec2(noiseRepeat,noiseRepeat) );
+      vec2 uvNoiseTimeShift = vUv + noiseScale * vec2( noiseGeneratorTimeShift.r, noiseGeneratorTimeShift.b );
+      vec4 baseColor = texture2D( baseTexture, uvNoiseTimeShift * vec2(repeatS, repeatT) );
 
-      function generateMeteorites() {
-        for (let i = 0; i < meteoriteCount; i++) {
-          const meteorite = createMeteorite();
-          scene.add(meteorite);
-          meteorites.push(meteorite);
+      vec2 uvTimeShift2 = vUv + vec2( 1.3, -1.7 ) * time * blendSpeed;
+      vec4 noiseGeneratorTimeShift2 = texture2D( noiseTexture, uvTimeShift2* vec2(noiseRepeat,noiseRepeat));
+      vec2 uvNoiseTimeShift2 = vUv + noiseScale * vec2( noiseGeneratorTimeShift2.g, noiseGeneratorTimeShift2.b );
+      vec4 blendColor = texture2D( blendTexture, uvNoiseTimeShift2 * vec2(repeatS, repeatT) ) - blendOffset * vec4(1.0, 1.0, 1.0, 1.0);
+
+      vec4 theColor = baseColor + blendColor;
+      theColor.a = alpha;
+      gl_FragColor = theColor;
+    }
+  </script>
+<script type="module">
+  import { OBJLoader } from './three.js/examples/jsm/loaders/OBJLoader.js';
+  import { MTLLoader } from './three.js/examples/jsm/loaders/MTLLoader.js';
+  import { GUI } from './three.js/examples/jsm/libs/dat.gui.module.js';
+
+  function go_alian_base() {
+    document.getElementById('blocker').style.backgroundColor =
+      'rgba(0, 0, 0, 1)';
+    $('#blocker').fadeIn(2500);
+    setTimeout(function () {
+      window.location.href = 'alian_base.html';
+    }, 3500);
+  }
+  function go_island() {
+    document.getElementById('blocker').style.backgroundColor =
+      'rgba(0, 0, 0, 1)';
+    $('#blocker').fadeIn(2500);
+    setTimeout(function () {
+      window.location.href = 'island.html';
+    }, 3500);
+  }
+  function go_lightning() {
+    document.getElementById('blocker').style.backgroundColor =
+      'rgba(0, 0, 0, 1)';
+    $('#blocker').fadeIn(2500);
+    setTimeout(function () {
+      window.location.href = 'lightning.html';
+    }, 3500);
+  }
+
+  var follow_frame1 = 0;
+  var follow_frame2 = 0;
+  var follow_frame3 = 0;
+  var FPS = 60;
+  var singleFrameTime = 1 / FPS;
+  var timeStamp = 0;
+  var fps_speed = 120 / FPS;
+
+  var scene;
+  var camera;
+  var renderer;
+  var rotatespeed = 3 * fps_speed;
+  //var stats = new Stats();
+  //stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+  //document.body.appendChild(stats.dom);
+  var star_radius = new Array();
+
+  var add_solar = true;
+  var add_city = true;
+  var add_base = true;
+  var moveForward = false;
+  var moveBackward = false;
+  var moveLeft = false;
+  var moveRight = false;
+  var jump = false;
+  var fast = false;
+  var esc = true;
+  var speedup = false;
+  var speeddown = false;
+  var meteorites = [];
+  var gotoground = false;
+  var arrived = 50;
+  var ufo_scale = 0.5;
+  var load_items = 0;
+  var loaded_items = 0;
+
+  var color = new THREE.Color();
+  var spotLight;
+  var vec = new THREE.Vector3();
+  var start_point = new THREE.Vector3(0, 0, 0);
+  var last_position = start_point.clone().set(-131.66, -465, 1296.76);
+  var cameraPosition = vec.clone().set(-131.66, 0, 1296.76);
+  var cameraDirection = vec.clone().set(0, 0, 0);
+  var hit_direction = vec.clone().set(0, 0, 0);
+  var hit_frame = 0;
+  var catchspeed = 0;
+  var ufo_starlight = 0.06;
+  var tranfer_speed = 1;
+  var t_in = true;
+  var chasing = vec.clone();
+  var chaseing_frame = 50;
+  var safe_dis = 2.25;
+  var hit_open = false;
+  var scaling = false;
+
+  var SEPARATION = 140,
+    AMOUNTX = 24,
+    AMOUNTY = 8,
+    AMOUNTZ = 24;
+  var particles,
+    particle,
+    star_d,
+    star_d_speed,
+    star_s_speed,
+    count = 0;
+
+  var angle = 0;
+
+  // Mouse Move
+  var delta = 0;
+  var mouseP = { x: 0, y: 0 };
+  var up = 0;
+  var down = 0;
+  var left = 0;
+  var right = 0;
+
+  var maxSpeed = 0.3 * fps_speed;
+  var acc = 3 * fps_speed;
+  var currentSpeedForward = 0;
+  var currentSpeedRight = 0;
+  var Forward = true;
+  var Right = true;
+  const clock = new THREE.Clock();
+  var angleX = 0;
+  var angleY = 0;
+  var angleZX = 0;
+  var angleZY = 0;
+
+  var speed = 1;
+  var obj3d = new THREE.Object3D();
+  var all_obj = obj3d.clone();
+  var all_obj1 = obj3d.clone();
+  var all_obj2 = obj3d.clone();
+  var all_obj3 = obj3d.clone();
+  var all_obj4 = obj3d.clone();
+
+  const raycaster = new THREE.Raycaster();
+  const raycaster1 = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+  var selected_object = false;
+
+  var lavaTexture = new THREE.ImageUtils.loadTexture('./texture/sun.jpg');
+  lavaTexture.wrapS = lavaTexture.wrapT = THREE.RepeatWrapping;
+  // multiplier for distortion speed
+  var baseSpeed = 0.025;
+  // number of times to repeat texture in each direction
+  var repeatS = 1.0;
+  var repeatT = 1.0;
+
+  function init() {
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    document.getElementById('container').appendChild(renderer.domElement);
+    document.body.appendChild(renderer.domElement);
+    scene = new THREE.Scene();
+    var skyGeometry = new THREE.SphereGeometry(5000, 100, 100);
+    var map = new THREE.TextureLoader().load('img/bg5.png');
+    map.wrapS = THREE.RepeatWrapping;
+    map.wrapT = THREE.RepeatWrapping;
+    map.repeat.set(15, 15);
+
+    var skyBox = new THREE.Mesh(
+      skyGeometry,
+      new THREE.MeshBasicMaterial({
+        map: map,
+        side: THREE.BackSide,
+      })
+    );
+    skyBox.name = 'Sky';
+    scene.add(skyBox);
+
+    camera = new THREE.PerspectiveCamera(
+      42, // fov 45 degree
+      window.innerWidth / window.innerHeight, //aspect (width/height ratio)
+      0.1, //near
+      10000 // far
+    );
+
+    particles = new Array();
+    star_d = new Array();
+    star_d_speed = new Array();
+    star_s_speed = new Array();
+    var material = new THREE.SpriteMaterial({
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      map: starball,
+      color: 0xffffff,
+    });
+    var littlestar = new THREE.Sprite(material);
+    var i = 0;
+    for (var ix = 0; ix < AMOUNTX; ix++) {
+      for (var iy = 0; iy < AMOUNTY; iy++) {
+        for (var iz = 0; iz < AMOUNTZ; iz++) {
+          particle = particles[i] = littlestar.clone();
+          star_d[i] = vec
+            .clone()
+            .set(
+              Math.random() - 0.5,
+              Math.random() - 0.5,
+              Math.random() - 0.5
+            );
+          star_d_speed[i] = vec
+            .clone()
+            .set(
+              Math.random() - 0.5,
+              Math.random() - 0.5,
+              Math.random() - 0.5
+            );
+          star_s_speed[i] = Math.random() - 0.5;
+          i++;
+          particle.position.x =
+            ix * SEPARATION -
+            (AMOUNTX * SEPARATION) / 2 +
+            (Math.random() - 0.5) * SEPARATION * 16;
+          particle.position.y =
+            (iy * SEPARATION) / 2 -
+            (AMOUNTY * SEPARATION) / 4 +
+            (Math.random() - 0.5) * SEPARATION * 16;
+          particle.position.z =
+            iz * SEPARATION -
+            (AMOUNTZ * SEPARATION) / 2 +
+            (Math.random() - 0.5) * SEPARATION * 16;
+          scene.add(particle);
         }
       }
+    }
 
-      function createMeteorite() {
-        const material = new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load('img/star0.png'), color: 0xffffff });
-        const sprite = new THREE.Sprite(material);
-        sprite.scale.set(5, 5, 1);
-        sprite.position.set((Math.random() - 0.5) * 1000, Math.random() * 500 - 250, (Math.random() - 0.5) * 1000);
-        return sprite;
-      }
+    camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
+    camera.lookAt(cameraDirection.x, cameraDirection.y, cameraDirection.z);
 
-      function onMouseMove(event) {
-        document.getElementById('aiming1').style.left = event.clientX - 10 + 'px';
-        document.getElementById('aiming1').style.top = event.clientY - 10 + 'px';
-      }
+    scene.add(camera);
 
-      function onKeyDown(event) {
-        switch (event.keyCode) {
-          case 87: moveForward = true; break;
-          case 83: moveBackward = true; break;
-          case 65: moveLeft = true; break;
-          case 68: moveRight = true; break;
-          case 16: maxSpeed = 0.6; break;
+    document.addEventListener('mousemove', mouseMove, false);
+
+    
+
+    
+
+    document.addEventListener('keydown', onKeyDown, false);
+    document.addEventListener('keyup', onKeyUp, false);
+
+    scene.add(new THREE.AmbientLight(0x111111));
+    if (add_solar) {
+      const light = new THREE.PointLight(
+        0xffeecc,
+        1.5,
+        2500 * 1 /*ufo_scale/100*/,
+        2
+      );
+      light.position.set(0, 0, 0);
+      light.penumbra = 0.3;
+      light.castShadow = true;
+      light.shadow.mapSize.width = 16384;
+      light.shadow.mapSize.height = 16384;
+      light.shadow.camera.far = 2500 * 1 /*ufo_scale/100*/;
+      light.shadow.camera.near = 1 * 1 /*ufo_scale/100*/;
+      all_obj4.add(light);
+
+      all_obj4.add(sunbackground);
+      all_obj4.add(sunbackground1);
+      all_obj4.add(sunbackground2);
+      all_obj4.add(sunbackground3);
+
+      all_obj3.add(sun);
+      all_obj3.add(star1);
+      all_obj3.add(star2);
+      all_obj3.add(star3);
+      all_obj3.add(starlite3);
+      all_obj3.add(star4);
+      all_obj4.add(ring4);
+      all_obj3.add(star5);
+      all_obj3.add(star6);
+      all_obj3.add(starlite6);
+
+      all_obj3.add(starlite61);
+      all_obj3.add(starlite62);
+      all_obj3.add(starlite63);
+      all_obj3.add(starlite64);
+      all_obj3.add(starlite65);
+      all_obj3.add(star7);
+      all_obj3.add(star8);
+      all_obj4.add(ring8);
+      all_obj3.add(star9);
+    }
+
+    load_items += 2;
+    let onProgress_obj = function (xhr) {
+      if (xhr.lengthComputable) {
+        let percentComplete = (xhr.loaded / xhr.total) * 100;
+        console.log(Math.round(percentComplete, 2) + '% downloaded(obj)');
+        if (percentComplete == 100) {
+          loaded_items += 1;
         }
       }
-
-      function onKeyUp(event) {
-        switch (event.keyCode) {
-          case 87: moveForward = false; break;
-          case 83: moveBackward = false; break;
-          case 65: moveLeft = false; break;
-          case 68: moveRight = false; break;
-          case 16: maxSpeed = 0.3; break;
+    };
+    let onProgress_mtl = function (xhr) {
+      if (xhr.lengthComputable) {
+        let percentComplete = (xhr.loaded / xhr.total) * 100;
+        console.log(Math.round(percentComplete, 2) + '% downloaded(mtl)');
+        if (percentComplete == 100) {
+          loaded_items += 1;
         }
       }
+    };
 
-      function animate() {
-        requestAnimationFrame(animate);
-        updateUfoPosition();
-        updateMeteorites();
-        renderer.render(scene, camera);
-      }
+    const mtlLoader = new MTLLoader();
+    mtlLoader.load(
+      '',
+      (mtl) => {
+        mtl.preload();
+        const objLoader = new OBJLoader();
+        objLoader.setMaterials(mtl);
+        objLoader.load(
+          'UFO2/TacFighter_bundled.obj',
+          (root) => {
+            for (var k in root.children) {
+              root.children[k].castShadow = true;
+            }
 
-      function updateUfoPosition() {
-        if (moveForward) currentSpeedForward = Math.min(maxSpeed, currentSpeedForward + 0.01);
-        else currentSpeedForward = Math.max(0, currentSpeedForward - 0.01);
+            // Create TextureLoader to load textures
+    const textureLoader = new THREE.TextureLoader();
+    
+    // Load textures
+    const diffuseTexture = textureLoader.load('./texture/4k-TacFighter_Diff.png');
+    const roughnessTexture = textureLoader.load('./texture/4k-TacFighter_Rough.png');
+    const specTexture = textureLoader.load('./texture/4k-TacFighter_spec.png');
+    const photonTorpedoTexture = textureLoader.load('./texture/Photon_Torpedo.png');
+    const quantumTorpedoTexture = textureLoader.load('./texture/Quantum_Torpedo.png');
+    const earthNormalTexture = textureLoader.load('./texture/EarthNormal.png');
 
-        if (moveBackward) currentSpeedForward = Math.min(maxSpeed, currentSpeedForward - 0.01);
-        else currentSpeedForward = Math.max(0, currentSpeedForward + 0.01);
+    // Apply textures to the material
+            root.traverse((child) => {
+              if (child.isMesh) {
+                child.material.map = diffuseTexture; // Apply diffuse texture (albedo)
+                child.material.roughnessMap = roughnessTexture; // Apply roughness texture
+                child.material.specularMap = specTexture; // Apply specular texture
+                child.material.normalMap = earthNormalTexture; // Apply normal map (optional)
+                
+                if (child.name.includes('Photon_Torpedo')) {
+                  child.material.map = photonTorpedoTexture; // Apply photon torpedo texture
+                }
+                if (child.name.includes('Quantum_Torpedo')) {
+                  child.material.map = quantumTorpedoTexture; // Apply quantum torpedo texture
+                }
 
-        ufo.position.z += currentSpeedForward;
-      }
+                child.material.needsUpdate = true; // Update material
+              }
+            });
 
-      function updateMeteorites() {
-        for (const meteorite of meteorites) {
-          meteorite.position.x += Math.random() - 0.5;
-          meteorite.position.y += Math.random() - 0.5;
-          meteorite.position.z += Math.random() - 0.5;
+            root.position.set(0, 0, 0);
+            // root.rotation.x = Math.PI * 1.5;
+            root.scale.set(0.050, 0.050, 0.050);
+            var ufo_light_material = new THREE.SpriteMaterial({
+              blending: THREE.AdditiveBlending,
+              map: ufolight,
+              transparent: true,
+              opacity: 0.5,
+            });
+            var ufo_light = new THREE.Sprite(ufo_light_material);
+            var ufo_top_light = new THREE.Mesh(
+              new THREE.SphereGeometry(0),
+              new THREE.MeshBasicMaterial({ color: 0xffffee })
+            );
+            var white_light = littlestar.clone();
+
+            var ring_m = new THREE.MeshPhongMaterial({
+
+            });
+            var ufo_ring1 = new THREE.Mesh(
+              new THREE.TorusGeometry(
+                0.0909 * 5,
+                0.0025,
+                3,
+                144,
+                Math.PI / 5.455
+              ),
+
+            );
+            ufo_ring1.rotation.x = 1111;
+            ufo_ring1.rotation.z = 1111;
+            ufo_ring1.position.y = 1111;
+            var ufo_ring2 = new THREE.Mesh(
+              new THREE.TorusGeometry(
+                0.092 * 5,
+                0.0025,
+                3,
+                144,
+                Math.PI / 5.455
+              ),
+
+            );
+            ufo_ring2.rotation.x = 1111;
+            ufo_ring2.rotation.z = 1111;
+            ufo_ring2.position.y = 1111;
+
+            var ufo_ring3 = new THREE.Mesh(
+              new THREE.TorusGeometry(
+                0.09095 * 5,
+                0.0025,
+                3,
+                144,
+                Math.PI / 5.455
+              ),
+
+            );
+            ufo_ring3.rotation.x = 1111;
+            ufo_ring3.rotation.z = 1111;
+            ufo_ring3.position.y = 1111;
+            var ufo_ring4 = new THREE.Mesh(
+              new THREE.TorusGeometry(
+                0.09085 * 5,
+                0.0025,
+                3,
+                144,
+                Math.PI / 5.455
+              ),
+              ring_m
+            );
+            ufo_ring4.rotation.x = 1111;
+            ufo_ring4.rotation.z = 1111;
+            ufo_ring4.position.y = 1111;
+            var ufo_ring5 = new THREE.Mesh(
+              new THREE.TorusGeometry(
+                0.09085 * 5,
+                0.0025,
+                3,
+                144,
+                Math.PI / 5.455
+              ),
+              ring_m
+            );
+            ufo_ring5.rotation.x = 1111;
+            ufo_ring5.rotation.z = 1111;
+            ufo_ring5.position.y = 1111;
+            var ufo_ring6 = new THREE.Mesh(
+              new THREE.TorusGeometry(
+                0.09085 * 5,
+                0.0025,
+                3,
+                144,
+                Math.PI / 4.655
+              ),
+              ring_m
+            );
+            ufo_ring6.rotation.x = 1111;
+            ufo_ring6.rotation.z = 1111;
+            ufo_ring6.position.y = 1111;
+
+            var ufo_ring0 = new THREE.Mesh(
+              new THREE.TorusGeometry(0.056 * 5, 0.06, 3, 72),
+              new THREE.MeshPhongMaterial({
+                color: 'transparent',
+                specular: 'transparent',
+                side: THREE.DoubleSide,
+                emissive: 'transparent',
+                opacity: 0,
+              })
+            );
+            ufo_ring0.rotation.x = 1111;
+            ufo_ring0.rotation.z = 1111;
+            ufo_ring0.position.y = 1111;
+            ufo_ring0.position.x = 1111;
+
+
+            var light_for_ufo = new THREE.PointLight(
+              0xffffee,
+              0.1,
+              (100 * ufo_scale) / 200,
+              0.75
+            );
+            light_for_ufo.penumbra = 0.1;
+            // light_for_ufo.castShadow = true;
+            // light_for_ufo.shadow.mapSize.width = 2048;
+            // light_for_ufo.shadow.mapSize.height = 2048;
+            // light_for_ufo.shadow.camera.far = (100 * ufo_scale) / 10;
+            // light_for_ufo.shadow.camera.near = (0.1 * ufo_scale) / 10;
+
+            light_for_ufo.position.set(1111, 1111, 1111);
+
+            var light_for_ufo1 = new THREE.PointLight(
+              'transparent',
+              0.3,
+              (30 * ufo_scale) / 60,
+              0.95
+            );
+            light_for_ufo1.penumbra = 0.1;
+            // light_for_ufo1.castShadow = true;
+            // light_for_ufo1.shadow.mapSize.width = 2048;
+            // light_for_ufo1.shadow.mapSize.height = 2048;
+            // light_for_ufo1.shadow.camera.far = (30 * ufo_scale) / 10;
+            // light_for_ufo1.shadow.camera.near = (0.1 * ufo_scale) / 10;
+
+            light_for_ufo1.position.set(1111, 1111, 1111);
+
+            var ufo_ball = new THREE.Mesh(
+              new THREE.SphereGeometry(0.18, 20, 20),
+              new THREE.MeshPhongMaterial({
+                color: 'transparent',
+                specular: 'transparent',
+                emissive: 'transparent',
+                transparent: true,
+                opacity: 0,
+              })
+            );
+            ufo_ball.scale.y = 1111;
+            ufo_ball.position.y = 0.065;
+            ufo_ring0.rotation.x = Math.PI / 2;
+            ufo_ring0.position.y = 0.0222 * 5;
+
+
+            ufo.add(root);
+            ufo.add(ufo_light);
+            ufo.add(ufo_top_light);
+            ufo.add(white_light);
+            ufo.add(ufo_ring1);
+            ufo.add(ufo_ring2);
+            ufo.add(ufo_ring3);
+            ufo.add(ufo_ring4);
+            ufo.add(ufo_ring5);
+            ufo.add(ufo_ring6);
+            ufo.add(ufo_ring0);
+
+            ufo.add(light_for_ufo);
+            ufo.add(light_for_ufo1);
+
+
+            ufo.position.z -= 0.48 * 5;
+            ufo.position.y -= 0.12 * 5;
+          },
+          onProgress_obj
+        );
+      },
+      onProgress_mtl
+    );
+    ufo.scale.set(ufo_scale, ufo_scale, ufo_scale);
+    scene.add(ufo);
+    ufo.position.set(-50, -1000, 0);
+
+    all_obj.add(all_obj1);
+    all_obj.add(all_obj2);
+    all_obj.add(all_obj3);
+    all_obj.add(all_obj4);
+    all_obj.scale.set(
+      1 /*ufo_scale/100*/,
+      1 /*ufo_scale/100*/,
+      1 /*ufo_scale/100*/
+    );
+    scene.add(all_obj);
+  }
+  init();
+  // var controls = new (function () {
+  //   this.baseSpeed = 0.025;
+  //   this.noiseRepeat=60;
+  //   this.noiseScale = 0.0025;
+  //   this.bumpSpeed = 0.025;
+  //   this.bumpRepeat=30;
+  //   this.bumpScale = 2.5;
+  // })();
+  // const gui = new GUI();
+  // const sun_shader = gui.addFolder("shader");
+  // sun_shader.add(controls, "baseSpeed", 0.02, 0.2);
+  // sun_shader.add(controls, "noiseRepeat", 1, 100);
+  // sun_shader.add(controls, "noiseScale", 0.002, 0.02);
+  // sun_shader.add(controls, "bumpSpeed", 0.02, 0.5);
+  // sun_shader.add(controls, "bumpRepeat", 1, 100);
+  // sun_shader.add(controls, "bumpScale", 2, 20);
+
+  // sun_shader.open();
+
+  function obj_loader(url, url1, scale, double = false) {
+    load_items += 2;
+    let onProgress_obj = function (xhr) {
+      if (xhr.lengthComputable) {
+        let percentComplete = (xhr.loaded / xhr.total) * 100;
+        console.log(Math.round(percentComplete, 2) + '% downloaded(obj)');
+        if (percentComplete == 100) {
+          loaded_items += 1;
         }
       }
+    };
+    let onProgress_mtl = function (xhr) {
+      if (xhr.lengthComputable) {
+        let percentComplete = (xhr.loaded / xhr.total) * 100;
+        console.log(Math.round(percentComplete, 2) + '% downloaded(mtl)');
+        if (percentComplete == 100) {
+          loaded_items += 1;
+        }
+      }
+    };
+    var newobj = obj3d.clone();
+    var newmtl = new MTLLoader();
+    if (double) {
+      newmtl.setMaterialOptions({ side: THREE.DoubleSide });
+    }
+    newmtl.load(
+      url1 + '.mtl',
+      (mtl) => {
+        mtl.preload();
+        var objLoader = new OBJLoader();
+        objLoader.setMaterials(mtl);
+        objLoader.load(
+          url + '.obj',
+          (root) => {
+            for (var k = 0; k < root.children.length; k++) {
+              root.children[k].castShadow = true;
+              root.children[k].receiveShadow = true;
+            }
+            root.position.set(0, 0, 0);
+            root.scale.set(scale, scale, scale);
+            newobj.add(root);
+          },
+          onProgress_obj
+        );
+      },
+      onProgress_mtl
+    );
+    return newobj;
+  }
 
-      init();
-    </script>
-  </body>
+  function light_loader(url, url1, scale, double = false) {
+    load_items += 2;
+    let onProgress_obj = function (xhr) {
+      if (xhr.lengthComputable) {
+        let percentComplete = (xhr.loaded / xhr.total) * 100;
+        console.log(Math.round(percentComplete, 2) + '% downloaded(obj)');
+        if (percentComplete == 100) {
+          loaded_items += 1;
+        }
+      }
+    };
+    let onProgress_mtl = function (xhr) {
+      if (xhr.lengthComputable) {
+        let percentComplete = (xhr.loaded / xhr.total) * 100;
+        console.log(Math.round(percentComplete, 2) + '% downloaded(mtl)');
+        if (percentComplete == 100) {
+          loaded_items += 1;
+        }
+      }
+    };
+    var newobj = obj3d.clone();
+    var newmtl = new MTLLoader();
+    newmtl.load(
+      url1 + '.mtl',
+      (mtl) => {
+        mtl.preload();
+        const objLoader = new OBJLoader();
+        objLoader.setMaterials(mtl);
+        objLoader.load(
+          url + '.obj',
+          (root) => {
+            var object = root;
+            for (var k in root.children) {
+              root.children[k].castShadow = true;
+              root.children[k].receiveShadow = true;
+            }
+
+            var Cylinder = new THREE.Mesh(
+              new THREE.CylinderGeometry(32, 32, 32, 3),
+              new THREE.MeshPhongMaterial({
+                color: 0xccddff,
+                specular: 0xffffff,
+                emissive: 0xccddff,
+                transparent: true,
+                opacity: 0.95,
+              })
+            );
+            Cylinder.rotation.y = Math.PI / 3;
+            Cylinder.position.set(0, 225, 1.925);
+            var light_white = new THREE.PointLight(
+              0xccddff,
+              0.5,
+              500 * scale
+            );
+            light_white.position.set(0, 225, 1.925);
+            light_white.penumbra = 0.3;
+            light_white.castShadow = true;
+            light_white.shadow.mapSize.width = 2048;
+            light_white.shadow.mapSize.height = 2048;
+            light_white.shadow.camera.far = 500 * scale * 1 /*ufo_scale/100*/;
+            light_white.shadow.camera.near = 32 * scale * 1 /*ufo_scale/100*/;
+            object.position.set(0, 0, 0);
+            object.scale.set(0.2, 0.2, 0.2);
+            //newobj.add(object);
+            newobj.add(Cylinder);
+            newobj.add(light_white);
+            newobj.scale.set(scale, scale, scale);
+          },
+          onProgress_obj
+        );
+      },
+      onProgress_mtl
+    );
+    return newobj;
+  }
+
+  function obj_lighting(url, size, x, y, z, name) {
+    size = size * 0.8;
+    var startTexture = THREE.ImageUtils.loadTexture(url);
+    var starBall = new THREE.Mesh(
+      new THREE.SphereGeometry(size, 100, 100),
+      new THREE.MeshPhongMaterial({
+        emissive: 0xffffff,
+        emissiveMap: startTexture,
+      })
+    );
+    star_radius[name] = size * 1.02;
+    starBall.position.set(x, y, z);
+    return starBall;
+  }
+  
+
+  function bounder_detect() {
+    var distance =
+      Math.sqrt(
+        cameraPosition.x * cameraPosition.x +
+        cameraPosition.z * cameraPosition.z
+      ) - 1500;
+    var dir = vec
+      .clone()
+      .set(0 - cameraPosition.x, 0, 0 - cameraPosition.z)
+      .normalize();
+    if (distance > 0) {
+      selected_object = false;
+      cameraPosition.z += distance * dir.z;
+      cameraPosition.x += distance * dir.x;
+    }
+    cameraPosition.y = Math.max(
+      -508 + 0.55 * ufo_scale,
+      Math.min(400, cameraPosition.y)
+    );
+    if (
+      crash_detect(ufo, sun, 'sun') &&
+      crash_detect(ufo, star1, 'star1') &&
+      crash_detect(ufo, star2, 'star2') &&
+      crash_detect(ufo, star3, 'star3') &&
+      crash_detect(ufo, starlite3, 'starlite3') &&
+      crash_detect(ufo, star4, 'star4') &&
+      crash_detect(ufo, star5, 'star5') &&
+      crash_detect(ufo, star6, 'star6') &&
+      crash_detect(ufo, starlite6, 'starlite6') &&
+      crash_detect(ufo, starlite61, 'starlite61') &&
+      crash_detect(ufo, starlite62, 'starlite62') &&
+      crash_detect(ufo, starlite63, 'starlite63') &&
+      crash_detect(ufo, starlite64, 'starlite64') &&
+      crash_detect(ufo, starlite65, 'starlite65') &&
+      crash_detect(ufo, star7, 'star7') &&
+      crash_detect(ufo, star8, 'star8') &&
+      crash_detect(ufo, star9, 'star9')
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  function crash_detect(a, b, i) {
+    if (star_radius[i] + 1 > a.position.distanceTo(b.position)) {
+      hit_direction
+        .set(
+          a.position.x - b.position.x,
+          a.position.y - b.position.y,
+          a.position.z - b.position.z
+        )
+        .normalize();
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+
+  function onMouseClick(event) {
+    if (document.getElementById('content').style.display == 'none' && !esc) {
+      raycaster1.setFromCamera(mouse, camera);
+      raycaster1.near = 0.1;
+      raycaster1.far = 10000;
+      var intersects = raycaster1.intersectObjects(scene.children, true);
+      for (var i = 0; i < intersects.length; i++) {
+        if (
+          intersects[i].object.type != 'Sprite' &&
+          intersects[i].object.name != 'ring' &&
+          intersects[i].object.name != 'Sky'
+        )
+          break;
+      }
+      if (i < intersects.length) {
+        arrived = 50;
+        selected_object = intersects[i];
+        catchspeed = 0;
+        t_in = true;
+      } else {
+        selected_object = false;
+        t_in = false;
+      }
+    }
+  }
+
+  window.addEventListener('mousedown', onMouseClick, false);
+
+  
+
+  function generate_meteoriteObject3D(size) {
+    size = size * (Math.random() + 0.7);
+    var osize = size;
+
+    var meteoriteObject3D = meteorite_Object3D.clone();
+
+    var x, y, z;
+    x = (Math.random() - 0.5) * 8000;
+    y = Math.random() * 4000 - 500;
+    z =
+      Math.sqrt(7999 * 7999 - x * x - y * y) * (Math.random() > 0.5 ? 1 : -1);
+
+    var v1 = vec
+      .clone()
+      .set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5)
+      .normalize();
+    while (
+      (v1.y < 0 && y < 500) ||
+      vec.clone().set(-x, -y, -z).normalize().dot(v1) < 0.85 ||
+      vec.clone().set(-x, -y, -z).normalize().dot(v1) > 0.851 ||
+      (z < 0 && v1.z < 0)
+    ) {
+      v1 = vec
+        .clone()
+        .set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5)
+        .normalize();
+    }
+    var x1 = x;
+    var y1 = y;
+    var z1 = z;
+
+    for (var i = 0; i < 2; i++) {
+      if (i % 2 == 0) var meteorite = material.clone();
+      else var meteorite = materialr.clone();
+      meteorite.position.set(x - x1, y - y1, z - z1);
+      meteorite.scale.set(size * 1.15, size * 1.15, 1);
+      meteoriteObject3D.add(meteorite);
+      x = x - (size * v1.x) / 3;
+      y = y - (size * v1.y) / 3;
+      z = z - (size * v1.z) / 3;
+    }
+    while (size > 1) {
+      var meteorite = material.clone();
+      var msize = Math.max(0.6, Math.pow(size / osize, 0.25));
+      meteorite.scale.set(size * msize, size * msize, 1);
+      meteorite.position.set(x - x1, y - y1, z - z1);
+      meteoriteObject3D.add(meteorite);
+      var meteorite = material1.clone();
+      meteorite.scale.set(size, size, 1);
+      meteorite.position.set(x - x1, y - y1, z - z1);
+      meteoriteObject3D.add(meteorite);
+
+      x = x - (size * v1.x) / 2.8;
+      y = y - (size * v1.y) / 2.8;
+      z = z - (size * v1.z) / 2.8;
+      size *= 0.985;
+    }
+    meteoriteObject3D.position.set(x1, y1, z1);
+    return [meteoriteObject3D, v1];
+  }
+
+  function meteorite_move(meteorite1) {
+    if (meteorite1[0].position.distanceTo(start_point) > 8000) {
+      scene.remove(meteorite1[0]);
+      return true;
+    }
+    meteorite1[0].position.x += meteorite1[1].x * 8 * fps_speed;
+    meteorite1[0].position.y += meteorite1[1].y * 8 * fps_speed;
+    meteorite1[0].position.z += meteorite1[1].z * 8 * fps_speed;
+    return false;
+  }
+
+  function animate() {
+    if (esc) {
+      document.querySelector('body').style.cursor =
+        'url(./img/cursor.png),default';
+      document.getElementById('aiming1').style.display = 'none';
+    } else {
+      document.querySelector('body').style.cursor = 'none';
+      document.getElementById('aiming1').style.display = 'block';
+    }
+
+    const delta = clock.getDelta();
+    requestAnimationFrame(animate);
+    if (loaded_items > 0 && loaded_items == load_items) hide_loading();
+    else return;
+    timeStamp += delta;
+    if (timeStamp > singleFrameTime) {
+      //stats.update();
+      if (selected_object && selected_object.object.name == 'star3') {
+        follow_frame1 += 1;
+      } else {
+        follow_frame1 = 0;
+      }
+      if (selected_object && selected_object.object.name == 'star4') {
+        follow_frame2 += 1;
+      } else {
+        follow_frame2 = 0;
+      }
+      if (selected_object && selected_object.object.name == 'star6') {
+        follow_frame3 += 1;
+      } else {
+        follow_frame3 = 0;
+      }
+      if (follow_frame1 > FPS * 5) {
+        go_island();
+      } else if (follow_frame2 > FPS * 5) {
+        go_alian_base();
+      } else if (follow_frame3 > FPS * 5) {
+        go_lightning();
+      }
+
+      const rotate = angle * Math.PI * rotatespeed;
+
+      angle += 0.0005;
+      if (add_solar) {
+        sun.rotation.y -= ((0.005 / Math.PI) * rotatespeed) / 5;
+        const position1 = (2 * rotate) / 5;
+        star1.rotateOnWorldAxis(
+          vec.clone().set(-1, 1, 0).normalize(),
+          ((0.2 / Math.PI) * rotatespeed) / 5
+        );
+        star1.position.x = Math.sin(position1) * 180;
+        star1.position.z = Math.cos(position1) * 180;
+
+        const position2 = (1.8 * rotate) / 5;
+        star2.rotateOnWorldAxis(
+          vec.clone().set(0, 2, 0).normalize(),
+          ((0.02 / Math.PI) * rotatespeed) / 5
+        );
+        star2.position.x = Math.sin(position2) * 240;
+        star2.position.z = Math.cos(position2) * 240;
+
+        const position3 = (1.5 * rotate) / 5;
+        star3.rotateOnWorldAxis(
+          vec.clone().set(0.2, 1, 0).normalize(),
+          ((0.04 / Math.PI) * rotatespeed) / 5
+        );
+        star3.position.x = Math.sin(position3) * 320;
+        star3.position.z = Math.cos(position3) * 320;
+        const starliteposition3 = (10 * rotate) / 5;
+        starlite3.rotateOnWorldAxis(
+          vec.clone().set(0.1, 1, 0).normalize(),
+          ((0.4 / Math.PI) * rotatespeed) / 3 / 5
+        );
+        starlite3.position.x =
+          Math.sin(starliteposition3 / 2) * 19 + star3.position.x;
+        starlite3.position.z =
+          Math.cos(starliteposition3 / 2) * 19 + star3.position.z;
+        starlite3.position.y =
+          Math.sin(starliteposition3 / 2) * 21 + star3.position.y;
+
+        const position4 = (0.85 * rotate) / 5;
+        star4.rotateOnWorldAxis(
+          vec.clone().set(0, 1, 0).normalize(),
+          ((0.06 / Math.PI) * rotatespeed) / 5
+        );
+        star4.position.x = Math.sin(position4) * 780;
+        star4.position.z = Math.cos(position4) * 780;
+        ring4.rotateOnWorldAxis(
+          vec.clone().set(0, 1, 0).normalize(),
+          ((((0.7 * 0.0005) / Math.PI) * rotatespeed) / 5) * 10
+        );
+        ring4.position.x = Math.sin(position4) * 780;
+        ring4.position.z = Math.cos(position4) * 780;
+
+        const position5 = (1.3 * rotate) / 5;
+        star5.rotateOnWorldAxis(
+          vec.clone().set(1, 4, 1).normalize(),
+          ((0.03 / Math.PI) * rotatespeed) / 5
+        );
+        star5.position.x = Math.sin(position5) * 420;
+        star5.position.z = Math.cos(position5) * 420;
+
+        const position6 = (1.1 * rotate) / 5;
+        star6.rotateOnWorldAxis(
+          vec.clone().set(0, 5, 0).normalize(),
+          ((0.02 / Math.PI) * rotatespeed) / 5
+        );
+        star6.position.x = Math.sin(position6) * 600;
+        star6.position.z = Math.cos(position6) * 600;
+        const starliteposition6 = (2 * rotate) / 5;
+        starlite6.rotateOnWorldAxis(
+          vec.clone().set(0.1, 1, 0.3).normalize(),
+          ((0.2 / Math.PI) * rotatespeed) / 50
+        );
+        starlite6.position.x = Math.sin(starliteposition6) * 50 + star6.position.x;
+        starlite6.position.z = Math.cos(starliteposition6) * 50 + star6.position.z;
+        starlite6.position.y = Math.sin(starliteposition6) * 40 + star6.position.y;
+
+        starlite61.rotateOnWorldAxis(
+          vec.clone().set(0.5, 1, 0.2).normalize(),
+          ((0.2 / Math.PI) * rotatespeed) / 50
+        );
+        starlite61.position.x =
+          Math.sin(starliteposition6 * 2) * 40 + star6.position.x;
+        starlite61.position.z =
+          Math.cos(starliteposition6 * 2) * 40 + star6.position.z;
+        starlite61.position.y =
+          Math.sin(starliteposition6 * 2) * 35 + star6.position.y;
+
+        starlite62.rotateOnWorldAxis(
+          vec.clone().set(0.2, 1, 0.6).normalize(),
+          ((0.2 / Math.PI) * rotatespeed) / 50
+        );
+        starlite62.position.x =
+          Math.sin(starliteposition6 * 1.2) * 55 + star6.position.x;
+        starlite62.position.z =
+          Math.cos(starliteposition6 * 1.2) * 55 + star6.position.z;
+        starlite62.position.y =
+          Math.sin(starliteposition6 * 1.2) * 45 + star6.position.y;
+
+        starlite63.rotateOnWorldAxis(
+          vec.clone().set(0.1, 1, 0.5).normalize(),
+          ((0.2 / Math.PI) * rotatespeed) / 50
+        );
+        starlite63.position.x =
+          Math.sin(starliteposition6 * 1.5) * 60 + star6.position.x;
+        starlite63.position.z =
+          Math.cos(starliteposition6 * 1.5) * 60 + star6.position.z;
+        starlite63.position.y =
+          Math.sin(starliteposition6 * 1.5) * 50 + star6.position.y;
+
+        starlite64.rotateOnWorldAxis(
+          vec.clone().set(0.2, 1, 0.3).normalize(),
+          ((0.2 / Math.PI) * rotatespeed) / 50
+        );
+        starlite64.position.x =
+          Math.sin(starliteposition6 * 0.8) * 65 + star6.position.x;
+        starlite64.position.z =
+          Math.cos(starliteposition6 * 0.8) * 65 + star6.position.z;
+        starlite64.position.y =
+          Math.sin(starliteposition6 * 0.8) * 55 + star6.position.y;
+
+        starlite65.rotateOnWorldAxis(
+          vec.clone().set(0.6, 1, 0.3).normalize(),
+          ((0.2 / Math.PI) * rotatespeed) / 50
+        );
+        starlite65.position.x =
+          Math.sin(starliteposition6 * 0.18) * 70 + star6.position.x;
+        starlite65.position.z =
+          Math.cos(starliteposition6 * 0.18) * 70 + star6.position.z;
+        starlite65.position.y =
+          Math.sin(starliteposition6 * 0.18) * 60 + star6.position.y;
+
+        const position7 = (0.7 * rotate) / 5;
+        star7.rotateOnWorldAxis(
+          vec.clone().set(0.5, 3, 1).normalize(),
+          ((0.015 / Math.PI) * rotatespeed) / 5
+        );
+        star7.position.x = Math.sin(position7) * 900;
+        star7.position.z = Math.cos(position7) * 900;
+
+        const position8 = (0.4 * rotate) / 5;
+        star8.rotateOnWorldAxis(
+          vec.clone().set(0, 1, 0).normalize(),
+          ((0.1 / Math.PI) * rotatespeed) / 5
+        );
+        star8.position.x = Math.sin(position8) * 1050;
+        star8.position.z = Math.cos(position8) * 1050;
+        ring8.rotateOnWorldAxis(
+          vec.clone().set(0, 1, 0).normalize(),
+          ((((0.2 * 0.0005) / Math.PI) * rotatespeed) / 5) * 10
+        );
+        ring8.position.x = Math.sin(position7) * 900;
+        ring8.position.z = Math.cos(position7) * 900;
+
+        const position9 = (0.2 * rotate) / 5;
+        star9.rotateOnWorldAxis(
+          vec.clone().set(0, 10, 1).normalize(),
+          ((0.01 / Math.PI) * rotatespeed) / 5
+        );
+        star9.position.x = Math.sin(position9) * 1200;
+        star9.position.z = Math.cos(position9) * 1200;
+      }
+
+      //Ball Maving
+      for (let i = 0; i < particles.length; i++) {
+        particle = particles[i];
+        particle.scale.x = particle.scale.y =
+          Math.sin(star_s_speed[i] * count * 200) + 3;
+        const d = star_d[i];
+        const ds = star_d_speed[i];
+        particle.position.x += (d.x * Math.cos(ds.x * count)) / 6;
+        particle.position.y += (d.y * Math.cos(ds.y * count)) / 6;
+        particle.position.z += (d.z * Math.cos(ds.z * count)) / 6;
+      }
+      if (meteorites.length < 10) {
+        const meteorite1 = generate_meteoriteObject3D(8);
+        meteorites.push(meteorite1);
+        scene.add(meteorite1[0]);
+      }
+      for (var met in meteorites) {
+        if (meteorite_move(meteorites[met])) meteorites.splice(met, 1);
+      }
+      count += 0.0005 * fps_speed;
+
+      operation_method_1(delta);
+
+      camera.updateProjectionMatrix();
+      renderer.render(scene, camera);
+
+      timeStamp = timeStamp % singleFrameTime;
+    }
+  }
+
+  animate();
+  const MyResize = function () {
+    //get the new sizes
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    //then update the renderer
+    renderer.setSize(width, height);
+    //and update the aspect ratio of the camera
+    camera.aspect = width / height;
+
+    //update the projection matrix given the new values
+    camera.updateProjectionMatrix();
+
+    //and finally render the scene again
+    renderer.render(scene, camera);
+  };
+  window.addEventListener('resize', MyResize);
+</script>
+<script>
+  document.querySelector('body').style.cursor =
+    'url(./img/cursor.png),default';
+  function hideMe() {
+    $('#content').fadeOut(1000);
+    $('#blocker').fadeOut(2000);
+    $('#secondBlocker').delay(1200).fadeIn(1000);
+  }
+  function goIsland() {
+    window.location.href = 'island.html';
+  }
+
+</script>
+
 </html>

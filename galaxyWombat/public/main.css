@@ -27,8 +27,8 @@
 
 #content {
   margin: 10%;
-  width: 100%;
-  height: 100%;
+  /* width: 100%;
+  height: 100%; */
   position: fixed;
   padding: 2% 2% 10% 2%;
   background: #00000000;
@@ -62,14 +62,14 @@
 h1 {
   font-size: 50px;
   margin-bottom: 3%;
-  width: 60%;
+  width: 80%;
   text-align: center;
 }
 
 p {
   margin-top: 1%;
   font-size: 40px;
-  width: 60%;
+  width: 80%;
   text-align: center;
 }
 
@@ -78,21 +78,16 @@ p {
   position: absolute;
   color: #ffffffdd;
   position: relative;
-  width: 60%;
-  right: 20%;
+  width: 80%;
   top: 10%;
   transition: font-size 0.2s, color 0.3s, transform 0.3s;
   -webkit-transition: font-size 0.2s, color 0.3s, -webkit-transform 0.3s;
 }
 
 .btn:hover {
-  font-size: 50px;
-  color: #aaaaaa;
 }
 
 .btn:active {
-  font-size: 40px;
-  color: #888888;
 }
 
 .btn1 {
@@ -100,7 +95,7 @@ p {
   position: absolute;
   color: #ffffffdd;
   position: relative;
-  width: 60%;
+  width: 80%;
   right: 20%;
   top: 10%;
   transition: font-size 0.2s, color 0.3s, transform 0.3s;
@@ -108,12 +103,10 @@ p {
 }
 
 .btn1:hover {
-  font-size: 40px;
   color: #aaaaaa;
 }
 
 .btn1:active {
-  font-size: 36px;
   color: #888888;
 }
 
@@ -136,22 +129,17 @@ p {
   }
 
   .btn:hover {
-    font-size: 30px;
   }
 
   .btn:active {
-    font-size: 25px;
   }
 
   .btn1 {
-    font-size: 28px;
   }
 
   .btn1:hover {
-    font-size: 30px;
   }
 
   .btn1:active {
-    font-size: 25px;
   }
 }
