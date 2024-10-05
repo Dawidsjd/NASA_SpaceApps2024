@@ -154,6 +154,13 @@ const Scene: React.FC = () => {
           onClose={handleCloseAsteroidInfo}
         />
       )}
+
+      <img
+        src="/assets/icon-dark.png" // Zmień na właściwą ścieżkę do logo
+        alt="Logo"
+        className="absolute top-4 right-4 w-24 h-24 select-none" // Dodaj klasę select-none
+        style={{ userSelect: 'none' }} // Wyłącza możliwość wybierania logo
+      />
     </>
   );
 };

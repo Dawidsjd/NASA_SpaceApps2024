@@ -70,7 +70,8 @@ const PlanetDetails: React.FC<PlanetDetailsProps> = ({
         <motion.img
           src="/assets/wombat-hand.png"
           alt="Wombat Hand"
-          className="w-96 h-auto absolute -right-56 -top-20 transform -translate-y-1/2"
+          draggable="false"
+          className="w-96 h-auto absolute -right-56 -top-20 transform -translate-y-1/2 select-none"
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: isVisible ? 1 : 0, x: isVisible ? 0 : 100 }}
           transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
