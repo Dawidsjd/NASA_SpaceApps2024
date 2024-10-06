@@ -31,7 +31,7 @@ const LearningHomePage = () => {
       </div>
       <div className="flex flex-row items-center justify-between mx-2 mb-28">
       <div className="absolute top-6 left-6">
-        <Link to="/learning" className=" text-white text-lg rounded-full border-2 border-gray-700 border-b-[6px] m-2.5 inline-flex items-center justify-center px-6 py-3 transition-all duration-100 hover:bg-gray-800 hover:border-gray-600 active:border-b-2 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50 active:translate-y-[4px] opacity-65 hover:opacity-100 z-50">
+        <Link to="/" className=" text-white text-lg rounded-full border-2 border-gray-700 border-b-[6px] m-2.5 inline-flex items-center justify-center px-6 py-3 transition-all duration-100 hover:bg-gray-800 hover:border-gray-600 active:border-b-2 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50 active:translate-y-[4px] opacity-65 hover:opacity-100 z-50">
           <FaArrowLeft className="mr-2" /> Back
         </Link>
       </div>
@@ -49,7 +49,8 @@ const LearningHomePage = () => {
             <img
               src={selectedPlanet.image}
               alt={selectedPlanet.label}
-              className="w-64 h-64 object-contain"
+              draggable='false'
+              className="w-96 h-96 select-none object-contain"
             />
           </div>
           <div className="w-1/2 flex flex-col items-center justify-center text-2xl text-center">
