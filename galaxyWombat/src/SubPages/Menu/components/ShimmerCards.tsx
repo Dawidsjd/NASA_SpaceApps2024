@@ -6,6 +6,7 @@ import {
   Routes,
   Route,
   useNavigate,
+  Link,
 } from 'react-router-dom'; // Import from react-router-dom
 import Scene from '../../Galaxy/Scene';
 
@@ -37,7 +38,7 @@ const cards: Card[] = [
     image: '/assets/spaceSystem.png',
   },
   {
-    title: 'Stellarium',
+    title: 'Learning Platform',
     description:
       'Stellarium is a sky simulator that allows you to observe stars, planets...',
     icon: <Telescope className="h-6 w-6 text-blue-400" />,
@@ -55,6 +56,11 @@ interface ModalProps {
 }
 
 function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
+
+  const handleLink = () => {
+    onProceed(content ? content.title : '')
+  }
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -85,12 +91,16 @@ function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
             </h2>
             {/* Displaying image */}
             {content?.image && (
-              <img
-                src={content.image}
-                alt={content.title}
-                className="w-full h-auto rounded mb-4"
-              />
+              <div onClick={() => onProceed(content ? content.title : '')}>
+                <img
+                  src={content.image}
+                  alt={content.title}
+                  className="w-full h-auto rounded mb-4 cursor-pointer"
+                />
+              </div>
             )}
+
+
             <div className="text-gray-300 mb-4">{content?.details}</div>
             <div className="flex justify-between mt-6">
               <button
@@ -128,8 +138,10 @@ export default function ShimmerCards() {
   const proceedToScene = (title: string) => {
     if (title === '3D Game') {
       navigate('/game'); // Redirecting to the game component page
-    } else if (title === 'Solar System' || title === 'Stellarium') {
+    } else if (title === 'Solar System') {
       navigate('/space'); // Redirecting to the scene component page
+    } else if (title === 'Learning Platform') {
+      navigate('/learning');
     }
   };
 
