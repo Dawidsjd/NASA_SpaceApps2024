@@ -69,9 +69,8 @@ const Planet: React.FC<PlanetProps> = ({
   );
 };
 
-const Orbit: React.FC<{ rho: number; color: string; opacity?: number }> = ({
+const Orbit: React.FC<{ rho: number; opacity?: number }> = ({
   rho,
-  color,
   opacity = 1,
 }) => {
   const points = [];

@@ -278,7 +278,6 @@
     var noiseRepeat = 60;
     var bumpRepeat = 30;
 
-    // use "this." to create global object
     var customUniforms = {
       baseTexture: { type: 't', value: lavaTexture },
       baseSpeed: { type: 'f', value: baseSpeed },
@@ -469,7 +468,6 @@
       star3.castShadow = true;
       starlite3.castShadow = true;
       star4.castShadow = true;
-      //ring4.castShadow = true;
       star5.castShadow = true;
       star6.castShadow = true;
       starlite6.castShadow = true;
@@ -481,7 +479,6 @@
       starlite65.castShadow = true;
       star7.castShadow = true;
       star8.castShadow = true;
-      //ring8.castShadow = true;
       star9.castShadow = true;
 
       star1.receiveShadow = true;
@@ -902,7 +899,6 @@
               });
 
               root.position.set(0, 0, 0);
-              // root.rotation.x = Math.PI * 1.5;
               root.scale.set(0.05, 0.05, 0.05);
               var ufo_light_material = new THREE.SpriteMaterial({
                 blending: THREE.AdditiveBlending,
@@ -1017,11 +1013,6 @@
                 0.75
               );
               light_for_ufo.penumbra = 0.1;
-              // light_for_ufo.castShadow = true;
-              // light_for_ufo.shadow.mapSize.width = 2048;
-              // light_for_ufo.shadow.mapSize.height = 2048;
-              // light_for_ufo.shadow.camera.far = (100 * ufo_scale) / 10;
-              // light_for_ufo.shadow.camera.near = (0.1 * ufo_scale) / 10;
 
               light_for_ufo.position.set(1111, 1111, 1111);
 
@@ -1032,11 +1023,6 @@
                 0.95
               );
               light_for_ufo1.penumbra = 0.1;
-              // light_for_ufo1.castShadow = true;
-              // light_for_ufo1.shadow.mapSize.width = 2048;
-              // light_for_ufo1.shadow.mapSize.height = 2048;
-              // light_for_ufo1.shadow.camera.far = (30 * ufo_scale) / 10;
-              // light_for_ufo1.shadow.camera.near = (0.1 * ufo_scale) / 10;
 
               light_for_ufo1.position.set(1111, 1111, 1111);
 
@@ -1094,24 +1080,6 @@
       scene.add(all_obj);
     }
     init();
-    // var controls = new (function () {
-    //   this.baseSpeed = 0.025;
-    //   this.noiseRepeat=60;
-    //   this.noiseScale = 0.0025;
-    //   this.bumpSpeed = 0.025;
-    //   this.bumpRepeat=30;
-    //   this.bumpScale = 2.5;
-    // })();
-    // const gui = new GUI();
-    // const sun_shader = gui.addFolder("shader");
-    // sun_shader.add(controls, "baseSpeed", 0.02, 0.2);
-    // sun_shader.add(controls, "noiseRepeat", 1, 100);
-    // sun_shader.add(controls, "noiseScale", 0.002, 0.02);
-    // sun_shader.add(controls, "bumpSpeed", 0.02, 0.5);
-    // sun_shader.add(controls, "bumpRepeat", 1, 100);
-    // sun_shader.add(controls, "bumpScale", 2, 20);
-
-    // sun_shader.open();
 
     function obj_loader(url, url1, scale, double = false) {
       load_items += 2;
@@ -1270,7 +1238,6 @@
           })
         );
       } else if (name == 'star2') {
-        //console.log(name)
         startTexture.wrapS = startTexture.wrapT = THREE.RepeatWrapping;
         startTexture.repeat.set(3, 3);
         var starBall = new THREE.Mesh(
@@ -1318,7 +1285,6 @@
           })
         );
       } else if (name == 'starlite6') {
-        //console.log(name)
         startTexture.wrapS = startTexture.wrapT = THREE.RepeatWrapping;
         startTexture.repeat.set(5, 5);
         var starBall = new THREE.Mesh(
