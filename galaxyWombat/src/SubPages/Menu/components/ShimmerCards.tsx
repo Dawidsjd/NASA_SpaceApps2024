@@ -40,10 +40,10 @@ const cards: Card[] = [
   {
     title: 'Learning Platform',
     description:
-      'Stellarium is a sky simulator that allows you to observe stars, planets...',
+  'Learning Planet is a platform that allows you to explore planets, learn about them, and interact with various educational modules...',
     icon: <Telescope className="h-6 w-6 text-blue-400" />,
     details:
-      'Stellarium is an advanced sky simulator that brings the cosmos to your fingertips. It offers realistic representations of the sky with over 600,000 stars, planets, nebulae, and galaxies. Users can observe the sky from anywhere on Earth and at any time. The app contains detailed information about astronomical objects, allows tracking of artificial satellites, and provides tools for planning astronomical observations.',
+  'Learning Planet is an interactive educational platform that lets users explore planets in detail. Each planet is accompanied by fun facts, high-quality images, and interactive modules. Users can test their knowledge with quizzes, discover key facts about the solar system, and engage in learning activities designed to enhance their understanding of astronomy. Whether you are a student or an astronomy enthusiast, this app provides a great educational experience.',
     image: '/path/to/image3.jpg',
   },
 ];

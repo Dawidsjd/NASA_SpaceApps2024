@@ -14,9 +14,9 @@ const ExercisesPage = () => {
 
         {/* Wyświetlanie grafiki planety */}
         {planet && (
-          <div className="mb-10">
-            <img src={planet.image} alt={planet.label} className="absolute top-1/3 left-[15%] w-96 h-auto object-contain" />
-            <h2 className="absolute top-1/2 right-[15%] text-2xl mt-4 font-bold text-center tracking-wider z-10 text-white" style={{
+          <div className="mb-10 absolute top-1/4 left-[15%]">
+            <img src={planet.image} alt={planet.label} className=" w-96 h-auto object-contain opacity-30 mb-10" />
+            <h2 className=" text-2xl mt-4 font-bold text-center tracking-wider z-10 text-white opacity-30" style={{
           letterSpacing: '8px',
           textShadow: '2px 2px 5px #3b82f6',
           fontSize: '5rem',
