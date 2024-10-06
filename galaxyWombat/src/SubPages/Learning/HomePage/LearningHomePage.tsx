@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import { PlanetsCategory, plantesCategory } from '../PlanetsCategory'; // Adjust the path as needed
+import { Link, useNavigate } from 'react-router-dom';  // Dodaj useNavigate
+import { PlanetsCategory, plantesCategory } from '../PlanetsCategory';
 
 const LearningHomePage = () => {
-  // State to track the currently selected planet
-  const [selectedPlanet, setSelectedPlanet] = useState<PlanetsCategory>(
-    plantesCategory[2]
-  ); // Default to Earth
+  const [selectedPlanet, setSelectedPlanet] = useState<PlanetsCategory>(plantesCategory[2]); 
+  const navigate = useNavigate();  // Inicjalizuj nawigację
+
+  // Funkcja do obsługi kliknięcia planety i przeniesienia na stronę ćwiczeń
+  const handlePlanetClick = (planet: PlanetsCategory) => {
+    setSelectedPlanet(planet); 
+    navigate('/learning/exercise', { state: { planet } });  // Przeniesienie na /learning/exercise z danymi planety
+  };
 
   return (
     <div className="h-screen" style={{ background: 'url(/img/bg.png)' }}>
@@ -27,7 +31,6 @@ const LearningHomePage = () => {
       </div>
       <div className="flex flex-row items-center justify-center h-4/5 border mx-2 border-red-500">
         <div className="flex flex-row w-4/5">
-          {/* Display selected planet's image */}
           <div className="w-1/2 border flex items-center justify-center">
             <img
               src={selectedPlanet.image}
@@ -35,19 +38,17 @@ const LearningHomePage = () => {
               className="w-48 h-48 object-contain"
             />
           </div>
-          {/* Display the name of the selected planet */}
           <div className="w-1/2 border flex items-center justify-center text-2xl">
             {selectedPlanet.label}
           </div>
         </div>
       </div>
       <div className="flex flex-row items-center justify-center border mx-2 border-red-500">
-        {/* Content menu with planet images and labels */}
         <div className="flex flex-row space-x-4">
           {plantesCategory.map((planet) => (
             <button
               key={planet.label}
-              onClick={() => setSelectedPlanet(planet)} // Update selected planet on click
+              onClick={() => handlePlanetClick(planet)}  // Użycie nawigacji po kliknięciu planety
               className="flex flex-col items-center"
             >
               <img
