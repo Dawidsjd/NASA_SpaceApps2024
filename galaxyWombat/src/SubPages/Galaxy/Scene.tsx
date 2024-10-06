@@ -64,8 +64,10 @@ const Scene: React.FC = () => {
     previousSpeed.current = speedMultiplier; // Save current speed before stopping
     setSpeedMultiplier(0); // Stop speed when a planet is clicked
     setSelectedPlanet({ label, description });
-    targetPosition.current = position; // Set the camera target position
-    setIsMoving(true); // Start moving the camera
+    
+    // Set the target position for the camera to move
+    targetPosition.current = position; // Use the provided position directly
+    setIsMoving(true);
   };
 
   const handleAsteroidClick = (
@@ -77,7 +79,7 @@ const Scene: React.FC = () => {
     setSpeedMultiplier(0); // Set speed to 0 when an asteroid is clicked
     setSelectedAsteroid({ label, description }); // Pass label and description correctly
     targetPosition.current = position; // Set camera target position
-    setIsMoving(true); // Start moving the camera
+    setIsMoving(true);
   };
 
   const togglePanel = () => {
@@ -140,8 +142,8 @@ const Scene: React.FC = () => {
                 speed={planet.speed}
                 rotationSpeed={planet.rotationSpeed}
                 speedMultiplier={speedMultiplier}
-                onClick={() => {
-                  handlePlanetClick(planet.label, planet.description, planet.position); // Pass the position as well
+                onClick={(label, description, position) => {
+                  handlePlanetClick(label, description, position);
                 }}
                 angleRef={anglesRef.current} // Pass angleRef
               />
@@ -171,8 +173,8 @@ const Scene: React.FC = () => {
               distanceFromSun={asteroid.distanceFromSun}
               description={asteroid.description} // Pass the description here
               speedMultiplier={speedMultiplier}
-              onClick={() => {
-                handleAsteroidClick(asteroid.label, asteroid.description, asteroid.position); // Pass the position as well
+              onClick={(label, description, position) => {
+                handleAsteroidClick(label, description, position);
               }}
             />
           ))}
