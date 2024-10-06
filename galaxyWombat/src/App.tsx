@@ -1,7 +1,5 @@
 
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Import react-router
-import ShimmerCards from './SubPages/Menu/components/ShimmerCards'; // Import komponentu ShimmerCards
 import "./index.css";
 import Scene from './SubPages/Galaxy/Scene'; // Import komponentu Scene
 

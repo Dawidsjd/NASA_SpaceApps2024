@@ -9,6 +9,7 @@ export interface PlanetData {
   speed: number;
   rotationSpeed: number;
   texture: string;
+  position?: number; 
 }
 
 export const planetData: PlanetData[] = [

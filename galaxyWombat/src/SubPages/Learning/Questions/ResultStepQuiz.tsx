@@ -1,4 +1,3 @@
-import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import wombat_excellent from '../../../assets/wombat_excellent.png';
 import wombat_good from '../../../assets/wombat_good.png';

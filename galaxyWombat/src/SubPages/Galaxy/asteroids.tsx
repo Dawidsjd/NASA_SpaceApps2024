@@ -5,6 +5,7 @@ export interface AsteroidData {
   speed: number;
   distanceFromSun: number;
   texture: string;
+  position?: [number, number, number];
 }
 
 const ADDITIVE_SCALE = 1.0;

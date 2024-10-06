@@ -1,9 +1,8 @@
 
-import React from 'react';
 import "../questionStyles.css"
 
 import { Link, useLocation } from 'react-router-dom';  
-import { FaBook, FaPowerOff, FaWind, FaSun, FaDumbbell, FaOpencart, FaRocket, FaArrowLeft } from 'react-icons/fa';  
+import { FaBook, FaPowerOff, FaWind, FaSun, FaDumbbell, FaOpencart, FaArrowLeft } from 'react-icons/fa';  
 
 
 import DuolingoButton from './ui/DuolingoButton';
