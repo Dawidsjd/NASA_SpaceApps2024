@@ -1,12 +1,10 @@
-// src/SubPages/Learning/Questions/ResultStepQuiz.tsx
-
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const ResultStepQuiz = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { correctCount, incorrectCount, total } = location.state || { correctCount: 0, incorrectCount: 0, total: 0 };
+  const { correctCount, incorrectCount, total, planet } = location.state || { correctCount: 0, incorrectCount: 0, total: 0 };
 
   return (
     <div className="result-container h-screen flex flex-col justify-center items-center bg-[#202937]">
@@ -17,7 +15,9 @@ const ResultStepQuiz = () => {
         <p className="text-2xl text-white mb-6">Razem: {total}</p>
         <button
           className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-all"
-          onClick={() => navigate('/learning/exercise')}
+          onClick={() => {
+            navigate('/learning/exercise', { state: { planet } });
+          }}
         >
           Powrót do ćwiczeń
         </button>
