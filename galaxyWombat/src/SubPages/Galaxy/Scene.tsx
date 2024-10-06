@@ -59,28 +59,40 @@ const Scene: React.FC = () => {
   const handlePlanetClick = (
     label: string,
     description: string,
-    position: [number, number, number]
+    position?: [number, number, number] // Position może być undefined
   ) => {
-    previousSpeed.current = speedMultiplier; // Save current speed before stopping
-    setSpeedMultiplier(0); // Stop speed when a planet is clicked
+    previousSpeed.current = speedMultiplier;
+    setSpeedMultiplier(0);
     setSelectedPlanet({ label, description });
-    
-    // Set the target position for the camera to move
-    targetPosition.current = position; // Use the provided position directly
-    setIsMoving(true);
+  
+    if (position) {
+      // Przypisz tylko, jeśli pozycja jest dostępna
+      targetPosition.current = position;
+      setIsMoving(true);
+    } else {
+      console.warn(`Brak pozycji dla planety ${label}`);
+    }
   };
+  
 
   const handleAsteroidClick = (
     label: string,
     description: string,
-    position: [number, number, number]
+    position?: [number, number, number] // Position może być undefined
   ) => {
-    previousSpeed.current = speedMultiplier; // Save current speed before setting to 0
-    setSpeedMultiplier(0); // Set speed to 0 when an asteroid is clicked
-    setSelectedAsteroid({ label, description }); // Pass label and description correctly
-    targetPosition.current = position; // Set camera target position
-    setIsMoving(true);
+    previousSpeed.current = speedMultiplier;
+    setSpeedMultiplier(0);
+    setSelectedAsteroid({ label, description });
+  
+    if (position) {
+      // Przypisz tylko, jeśli pozycja jest dostępna
+      targetPosition.current = position;
+      setIsMoving(true);
+    } else {
+      console.warn(`Brak pozycji dla asteroidy ${label}`);
+    }
   };
+  
 
   const togglePanel = () => {
     setIsPanelOpen(!isPanelOpen);
@@ -158,7 +170,7 @@ const Scene: React.FC = () => {
               />
 
               {orbitsVisible && (
-                <PlanetOrbit rho={planet.rho} color={planet.color} />
+                <PlanetOrbit rho={planet.rho} />
               )}
             </React.Fragment>
           ))}
@@ -237,7 +249,7 @@ const Scene: React.FC = () => {
               </thead>
               <tbody>
                 {planetData.map((planet) => (
-                  <tr key={planet.label} className="transition-colors duration-300 hover:bg-gray-700" onClick={() => handlePlanetClick(planet.label, planet.description, planet.position)}>
+                  <tr key={planet.label} className="transition-colors duration-300 hover:bg-gray-700" onClick={() => handlePlanetClick(planet.label, planet.description,)}>
                     <td className="p-2">{planet.label}</td>
                   </tr>
                 ))}

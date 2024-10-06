@@ -1,4 +1,3 @@
-import React from 'react';
 
 interface DuolingoButtonProps {
   icon: JSX.Element;  // Definiujemy, że przycisk oczekuje ikony jako elementu JSX

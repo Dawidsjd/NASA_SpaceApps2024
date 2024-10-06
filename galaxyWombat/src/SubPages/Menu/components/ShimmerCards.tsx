@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ArrowRight, Cuboid, Globe, Telescope, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BrowserRouter as Router, Routes, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface Card {
   title: string;
@@ -45,14 +45,10 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   content: Card | null;
-  onProceed: (path: string) => void; // Change the parameter type to accept a path
+  onProceed: (path: string) => void;
 }
 
 function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
-  const handleLink = () => {
-    onProceed(content ? content.title : '');
-  };
-
   return (
     <AnimatePresence>
       {isOpen && (
@@ -81,7 +77,6 @@ function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
             <h2 className="text-2xl font-bold text-white mb-4">
               {content?.title}
             </h2>
-            {/* Displaying image */}
             {content?.image && (
               <div onClick={() => onProceed(content ? content.title : '')}>
                 <img
@@ -117,7 +112,7 @@ function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
 
 export default function ShimmerCards() {
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
-  const navigate = useNavigate(); // Using useNavigate hook for navigation
+  const navigate = useNavigate();
 
   const openModal = (card: Card) => {
     setSelectedCard(card);
@@ -129,9 +124,9 @@ export default function ShimmerCards() {
 
   const proceedToScene = (title: string) => {
     if (title === '3D Game') {
-      navigate('/game'); // Redirecting to the game component page
+      navigate('/game');
     } else if (title === 'Solar System') {
-      navigate('/space'); // Redirecting to the scene component page
+      navigate('/space');
     } else if (title === 'Learning Planet') {
       navigate('/learning');
     }
@@ -164,7 +159,7 @@ export default function ShimmerCards() {
         isOpen={selectedCard !== null}
         onClose={closeModal}
         content={selectedCard}
-        onProceed={proceedToScene} // Passing navigation function to Modal
+        onProceed={proceedToScene}
       />
     </div>
   );
