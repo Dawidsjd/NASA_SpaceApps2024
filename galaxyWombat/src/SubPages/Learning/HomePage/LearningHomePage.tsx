@@ -60,6 +60,7 @@ const LearningHomePage = () => {
             {/* Add onClick to the button to navigate on click */}
             <button
               className=" py-2 px-12 rounded-lg mt-2 text-white hover:text-gray-400 border-2 border-gray-700 border-b-[6px] m-2.5 inline-flex items-center justify-center p-6 transition-all duration-100 hover:bg-gray-800 hover:border-gray-600 active:border-b-2 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50 active:translate-y-[4px] z-50  backdrop-blur-[2px] backdrop-filter"
+
               onClick={() =>
                 navigate('/learning/exercise', {
                   state: { planet: selectedPlanet },
@@ -79,7 +80,9 @@ const LearningHomePage = () => {
             <button
               key={planet.label}
               onClick={() => handlePlanetClick(planet)} // Update selected planet on click
+
               className="flex flex-row items-center space-x-2 py-1 px-2 bg-gray-800 bg-opacity-55 shadow-xl backdrop-blur-[2px] backdrop-filter rounded-lg p-4 hover:text-gray-300  border-2 border-gray-700 border-b-[6px] m-2.5 justify-center transition-all duration-100 hover:bg-gray-800 hover:border-gray-600 active:border-b-2 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50 active:translate-y-[4px] z-50"
+
             >
               <img
                 src={planet.image}
