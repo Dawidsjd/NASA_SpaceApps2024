@@ -46,7 +46,7 @@ const LearningHomePage = () => {
 
             {/* Add onClick to the button to navigate on click */}
             <button
-              className="bg-green-600 py-2 px-4 rounded-lg mt-2 text-white hover:bg-white hover:text-green-600"
+              className="bg-green-600 py-2 px-12 rounded-lg mt-2 text-white hover:bg-white hover:text-green-600"
               onClick={() =>
                 navigate('/learning/exercise', {
                   state: { planet: selectedPlanet },
@@ -59,7 +59,7 @@ const LearningHomePage = () => {
         </div>
       </div>
       <div className="flex flex-col items-center justify-center mx-2">
-        <p className="text-xl text-white bold m-2">Choose other planet</p>
+        <p className="text-xl text-gray-400 bold m-2">Choose other planet</p>
         {/* Content menu with planet images and labels */}
         <div className="flex flex-row space-x-5">
           {plantesCategory.map((planet) => (
