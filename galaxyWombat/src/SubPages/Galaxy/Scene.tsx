@@ -116,7 +116,7 @@ const Scene: React.FC = () => {
                 decay={2}
                 color={'red'}
               />
-              <PlanetOrbit rho={planet.rho} color={planet.color} />
+              <PlanetOrbit rho={planet.rho} />
             </React.Fragment>
           ))}
 
