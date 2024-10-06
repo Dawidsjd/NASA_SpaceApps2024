@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import { PlanetsCategory, plantesCategory } from '../PlanetsCategory'; // Adjust the path as needed
+import { Link, useNavigate } from 'react-router-dom'; // Dodaj useNavigate
+import { PlanetsCategory, plantesCategory } from '../PlanetsCategory';
 
 const LearningHomePage = () => {
-  // State to track the currently selected planet
   const [selectedPlanet, setSelectedPlanet] = useState<PlanetsCategory>(
     plantesCategory[2]
-  ); // Default to Earth
+  );
+  const navigate = useNavigate(); // Inicjalizuj nawigację
+
+  // Funkcja do obsługi kliknięcia planety i przeniesienia na stronę ćwiczeń
+  const handlePlanetClick = (planet: PlanetsCategory) => {
+    setSelectedPlanet(planet);
+    navigate('/learning/exercise', { state: { planet } }); // Przeniesienie na /learning/exercise z danymi planety
+  };
 
   return (
     <div className="h-screen" style={{ background: 'url(/img/bg.png)' }}>
@@ -50,7 +56,7 @@ const LearningHomePage = () => {
           {plantesCategory.map((planet) => (
             <button
               key={planet.label}
-              onClick={() => setSelectedPlanet(planet)} // Update selected planet on click
+              onClick={() => handlePlanetClick(planet)} // Update selected planet on click
               className="flex flex-row items-center space-x-2 py-1 px-2  hover:bg-white bg-gray-800 bg-opacity-55 shadow-xl backdrop-blur-[2px] backdrop-filter rounded-lg p-4  hover:text-[#202937]"
             >
               <img
