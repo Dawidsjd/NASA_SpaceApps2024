@@ -101,7 +101,7 @@ export const planetData: PlanetData[] = [
     speed: 0.0035,
     rotationSpeed: -0.0003651,
     description:
-      'Distance from the Sun: Closest planet to the Sun (~58 million km / 36 million miles). Size: Smallest planet in the Solar System. Surface: Rocky, cratered, and similar to Earths Moon. Temperature: Extreme temperatures, from very hot (430°C/800°F) during the day to very cold (-180°C/-290°F) at night. Atmosphere: Almost no atmosphere, mainly thin traces of oxygen, sodium, and hydrogen.',
+      'Distance from the Sun: Closest planet to the Sun (~58 million km / 36 million miles).\nSize: Smallest planet in the Solar System.\nSurface: Rocky, cratered, and similar to Earths Moon. ',
   },
   {
     label: 'Neptune',
