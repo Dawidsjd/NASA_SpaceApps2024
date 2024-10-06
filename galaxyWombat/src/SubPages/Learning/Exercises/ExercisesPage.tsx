@@ -1,45 +1,49 @@
 import React from 'react';
-import { FaBook, FaPowerOff, FaWind, FaSun, FaDumbbell, FaOpencart } from 'react-icons/fa';  // Import ikon
+import { useLocation } from 'react-router-dom';  // Hook do pobierania stanu z nawigacji
+import { FaBook, FaPowerOff, FaWind, FaSun, FaDumbbell, FaOpencart } from 'react-icons/fa';
 import DuolingoButton from './ui/DuolingoButton';
 
 const ExercisesPage = () => {
+  const location = useLocation();  // Pobieranie stanu przekazanego z nawigacji
+  const { planet } = location.state || {};  // Pobranie danych planety
+
   return (
     <div className="bg-[#202937] h-screen w-full flex items-center justify-center">
-      {/* Główna zawartość, w tym tytuł strony i przyciski */}
       <div className="flex flex-col items-center">
-        {/* Tytuł strony */}
         <h1 className="text-white text-4xl font-bold mb-10">Learning Planet</h1>
 
-        <div>
-
-            {/* <img src="/assets/icon-dark.png" className='absolute top-1/4 left-0 w-1/2 h-auto opacity-5' /> */}
+        {/* Wyświetlanie grafiki planety */}
+        {planet && (
+          <div className="mb-10">
+            <img src={planet.image} alt={planet.label} className="absolute top-1/3 left-[15%] w-96 h-auto object-contain" />
+            <h2 className="absolute top-1/2 right-[15%] text-2xl mt-4 font-bold text-center tracking-wider z-10 text-white" style={{
+          letterSpacing: '8px',
+          textShadow: '2px 2px 5px #3b82f6',
+          fontSize: '5rem',
+        }}>{planet.label}</h2>
             
-            
-
-
+          </div>
+        )}
 
         <div>
-        <DuolingoButton icon={<FaPowerOff size={32} className="text-white" />} />  
-        </div>
-        <div className='ml-32'>
-        <DuolingoButton icon={<FaBook size={32} className="text-white" />} />  
-        </div>
-        <div className='ml-64'>
-        <DuolingoButton icon={<FaWind size={32} className="text-white" />} />  
-        </div>
-
-
-        <div className='ml-40'>
-        <DuolingoButton icon={<FaSun size={32} className="text-white" />} />     
-        </div>
-        <div className='ml-8'>
-        <DuolingoButton icon={<FaDumbbell size={32} className="text-white" />} />  
-        </div>
-        <div className='-ml-24'>
-        <DuolingoButton icon={<FaOpencart size={32} className="text-white" />} />  
-        </div>
-
-
+          <div>
+            <DuolingoButton icon={<FaPowerOff size={32} className="text-white" />} />
+          </div>
+          <div className="ml-32">
+            <DuolingoButton icon={<FaBook size={32} className="text-white" />} />
+          </div>
+          <div className="ml-64">
+            <DuolingoButton icon={<FaWind size={32} className="text-white" />} />
+          </div>
+          <div className="ml-40">
+            <DuolingoButton icon={<FaSun size={32} className="text-white" />} />
+          </div>
+          <div className="ml-8">
+            <DuolingoButton icon={<FaDumbbell size={32} className="text-white" />} />
+          </div>
+          <div className="-ml-24">
+            <DuolingoButton icon={<FaOpencart size={32} className="text-white" />} />
+          </div>
         </div>
       </div>
     </div>

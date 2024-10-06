@@ -5,6 +5,7 @@ import Scene from './SubPages/Galaxy/Scene'; // Import komponentu Scene
 import StartLayout from './SubPages/Menu/StartLayout';
 import SpaceGameMain from './SubPages/SpaceGame/SpaceGameMain';
 import LearningHomePage from './SubPages/Learning/HomePage/LearningHomePage';
+import ExercisesPage from './SubPages/Learning/Exercises/ExercisesPage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/space" element={<Scene />} />
         <Route path="/game" element={<SpaceGameMain />} />
         <Route path="/learning" element={<LearningHomePage />} />
+        <Route path="/learning/exercise" element={<ExercisesPage />} />
       </Routes>
     </Router>
   );
