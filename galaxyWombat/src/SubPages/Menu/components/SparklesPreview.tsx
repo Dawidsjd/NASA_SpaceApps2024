@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { SparklesCore } from './Sparkles';
 import { RocketLaunchIcon } from '@heroicons/react/24/outline';
-import { FaGithub, FaTwitter, FaYoutube, FaArrowLeft } from 'react-icons/fa';
+import { FaArrowLeft } from 'react-icons/fa';
 import ShimmerCards from './ShimmerCards';
 import { motion } from 'framer-motion';
 
@@ -74,34 +74,6 @@ export function SparklesPreview() {
             <span className="relative z-10 text-lg">Explore Space</span>
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover:via-white/20 bg-[length:200%_100%] animate-shimmer"></div>
           </button>
-
-          {/* Social links */}
-          <div className="mt-10 flex space-x-10">
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-700 hover:text-gray-600"
-            >
-              <FaGithub size={30} />
-            </a>
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-700 hover:text-gray-600"
-            >
-              <FaTwitter size={30} />
-            </a>
-            <a
-              href="https://youtube.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-700 hover:text-gray-600"
-            >
-              <FaYoutube size={30} />
-            </a>
-          </div>
         </>
       )}
 
