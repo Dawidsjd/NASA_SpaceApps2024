@@ -65,7 +65,7 @@ const ExercisesPage = () => {
           }}
         />
 
-        <div>
+<div>
           <div>
             <Link to="/learning/exercise/techQuiz" state={{ planet }}>
               <DuolingoButton icon={<FaPowerOff size={32} className="text-white" />} />
