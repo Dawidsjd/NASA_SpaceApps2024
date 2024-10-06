@@ -11,15 +11,21 @@ import CameraController from './CameraController';
 import Asteroid from './Asteroid';
 import { Sphere } from '@react-three/drei';
 import * as THREE from 'three';
-import { FaArrowCircleLeft, FaArrowLeft, FaChevronLeft } from 'react-icons/fa';
+import { FaChevronLeft } from 'react-icons/fa';
 
 const AU = 150;
 
 const Scene: React.FC = () => {
   const [loading, setLoading] = useState(true);
-  const [isPanelOpen, setIsPanelOpen] = useState(false); // State for controlling the slide-out panel
-  const [selectedPlanet, setSelectedPlanet] = useState<null | { label: string; description: string }>(null);
-  const [selectedAsteroid, setSelectedAsteroid] = useState<null | { label: string; description: string }>(null);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [selectedPlanet, setSelectedPlanet] = useState<null | {
+    label: string;
+    description: string;
+  }>(null);
+  const [selectedAsteroid, setSelectedAsteroid] = useState<null | {
+    label: string;
+    description: string;
+  }>(null);
   const [speedMultiplier, setSpeedMultiplier] = useState<number>(1);
   const targetPosition = useRef<[number, number, number] | null>(null);
   const [isMoving, setIsMoving] = useState<boolean>(false);
@@ -51,7 +57,7 @@ const Scene: React.FC = () => {
   };
 
   return (
-    <div className="bg-black h-screen w-full relative overflow-hidden"> {/* Upewnij się, że overflow-hidden jest ustawiony tutaj */}
+    <div className="bg-black h-screen w-full relative overflow-hidden">
       {loading ? (
         <div className="bg-black w-full h-screen">
           <div
@@ -70,10 +76,16 @@ const Scene: React.FC = () => {
       ) : (
         <Canvas style={{ width: '100vw', height: '100vh' }}>
           <Sphere args={[1000, 1000, 1000]} position={[0, 0, 0]}>
-            <meshBasicMaterial map={new THREE.TextureLoader().load('/public/assets/bg-1.jpg')} side={THREE.BackSide} />
+            <meshBasicMaterial
+              map={new THREE.TextureLoader().load('/public/assets/bg-1.jpg')}
+              side={THREE.BackSide}
+            />
           </Sphere>
 
-          <CameraController targetPosition={targetPosition.current} isMoving={isMoving} />
+          <CameraController
+            targetPosition={targetPosition.current}
+            isMoving={isMoving}
+          />
           <ambientLight intensity={0.5} />
           <hemisphereLight intensity={0.3} color="white" groundColor="blue" />
           <directionalLight position={[10, 10, 10]} intensity={1} />
@@ -97,7 +109,13 @@ const Scene: React.FC = () => {
                 }}
                 angleRef={anglesRef.current}
               />
-              <pointLight position={[planet.rho * AU, 0, 0]} intensity={150} distance={planet.rho * AU + 10} decay={2} color={'red'} />
+              <pointLight
+                position={[planet.rho * AU, 0, 0]}
+                intensity={150}
+                distance={planet.rho * AU + 10}
+                decay={2}
+                color={'red'}
+              />
               <PlanetOrbit rho={planet.rho} color={planet.color} />
             </React.Fragment>
           ))}
@@ -107,7 +125,6 @@ const Scene: React.FC = () => {
               key={asteroid.label}
               label={asteroid.label}
               size={asteroid.size}
-              color={asteroid.color}
               speed={asteroid.speed}
               texture={asteroid.texture}
               distanceFromSun={asteroid.distanceFromSun}
@@ -121,12 +138,24 @@ const Scene: React.FC = () => {
           ))}
         </Canvas>
       )}
-
-      <SpeedControl speedMultiplier={speedMultiplier} onChange={setSpeedMultiplier} />
-
-      {selectedPlanet && <PlanetDetails label={selectedPlanet.label} description={selectedPlanet.description} onClose={handleClosePlanetInfo} />}
-      {selectedAsteroid && <AsteroidDetails label={selectedAsteroid.label} description={selectedAsteroid.description} onClose={handleCloseAsteroidInfo} />}
-
+      <SpeedControl
+        speedMultiplier={speedMultiplier}
+        onChange={setSpeedMultiplier}
+      />
+      {selectedPlanet && (
+        <PlanetDetails
+          label={selectedPlanet.label}
+          description={selectedPlanet.description}
+          onClose={handleClosePlanetInfo}
+        />
+      )}
+      {selectedAsteroid && (
+        <AsteroidDetails
+          label={selectedAsteroid.label}
+          description={selectedAsteroid.description}
+          onClose={handleCloseAsteroidInfo}
+        />
+      )}
       <img
         src="/assets/icon-dark.png"
         alt="Logo"
@@ -134,15 +163,13 @@ const Scene: React.FC = () => {
         className="absolute top-5 right-5 w-24 h-24 select-none opacity-40"
         style={{ userSelect: 'none' }}
       />
-
       {/* Slide-out panel toggle button */}
-<button
-  onClick={togglePanel}
-  className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 transition duration-300"
-><FaChevronLeft/>
-</button>
-
-
+      <button
+        onClick={togglePanel}
+        className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 transition duration-300"
+      >
+        <FaChevronLeft />
+      </button>
       {/* Slide-out panel */}
       <div
         className={`absolute top-0 right-0 h-full w-64 bg-gray-800 text-white transition-transform duration-300 ease-in-out transform ${
