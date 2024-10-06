@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom'; // Use useNavigate for navigation
+import { Link, useNavigate } from 'react-router-dom';
 import { PlanetsCategory, plantesCategory } from '../PlanetsCategory';
 import { SparklesCore } from '../../Menu/components/Sparkles';
 
 const LearningHomePage = () => {
   const [selectedPlanet, setSelectedPlanet] = useState<PlanetsCategory>(
-    plantesCategory[2] // Default to Earth
+    plantesCategory[2] //default show Earth
   );
-  const navigate = useNavigate(); // Initialize navigation
+  const navigate = useNavigate();
 
-  // Function to handle planet click and update selected planet
   const handlePlanetClick = (planet: PlanetsCategory) => {
-    setSelectedPlanet(planet); // Update the selected planet state
+    setSelectedPlanet(planet);
   };
 
   return (
@@ -59,15 +58,13 @@ const LearningHomePage = () => {
               <p className="text-3xl font-bold m-2 text-white">
                 Learn something about {selectedPlanet.label}
               </p>
-
-              {/* Add onClick to the button to navigate on click */}
               <button
                 className=" py-2 px-12 rounded-lg mt-2 text-white hover:text-gray-400 border-2 border-gray-700 border-b-[6px] m-2.5 inline-flex items-center justify-center p-6 transition-all duration-100 hover:bg-gray-800 hover:border-gray-600 active:border-b-2 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50 active:translate-y-[4px] z-50  backdrop-blur-[2px] backdrop-filter"
                 onClick={() =>
                   navigate('/learning/exercise', {
                     state: { planet: selectedPlanet },
                   })
-                } // Navigate on click
+                }
               >
                 Get Started
               </button>
@@ -76,12 +73,12 @@ const LearningHomePage = () => {
         </div>
         <div className="flex flex-col items-center justify-center mx-2">
           <p className="text-xl text-gray-400 bold m-2">Choose other planet</p>
-          {/* Content menu with planet images and labels */}
+          {/* Menu */}
           <div className="flex flex-row space-x-5">
             {plantesCategory.map((planet) => (
               <button
                 key={planet.label}
-                onClick={() => handlePlanetClick(planet)} // Update selected planet on click
+                onClick={() => handlePlanetClick(planet)}
                 className="flex flex-row items-center space-x-2 py-1 px-2 bg-gray-800 bg-opacity-55 shadow-xl backdrop-blur-[2px] backdrop-filter rounded-lg p-4 hover:text-gray-300  border-2 border-gray-700 border-b-[6px] m-2.5 justify-center transition-all duration-100 hover:bg-gray-800 hover:border-gray-600 active:border-b-2 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50 active:translate-y-[4px] z-50"
               >
                 <img
