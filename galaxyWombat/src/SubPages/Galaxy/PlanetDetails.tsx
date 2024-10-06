@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion'; // Import Framer Motion
+import { motion } from 'framer-motion';
 
 interface PlanetDetailsProps {
   label: string;
@@ -13,7 +13,7 @@ const PlanetDetails: React.FC<PlanetDetailsProps> = ({
   onClose,
 }) => {
   const popupRef = useRef<HTMLDivElement | null>(null);
-  const [isVisible, setIsVisible] = useState(true); // Nowy stan dla widoczności
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -41,8 +41,8 @@ const PlanetDetails: React.FC<PlanetDetailsProps> = ({
   }, []);
 
   const handleClose = () => {
-    setIsVisible(false); // Ustawia stan na ukryty (uruchomienie animacji zamykania)
-    setTimeout(onClose, 500); // Poczekaj na zakończenie animacji, a następnie wywołaj funkcję zamknięcia
+    setIsVisible(false);
+    setTimeout(onClose, 500);
   };
 
   return (
@@ -59,22 +59,19 @@ const PlanetDetails: React.FC<PlanetDetailsProps> = ({
         }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
       >
-        {/* Tekst po lewej stronie */}
         <div className="flex-1 mr-10">
-          <h2 className="text-3xl font-bold text-white mb-4">{label}</h2>{' '}
-          {/* Zmieniono z text-2xl na text-3xl */}
+          <h2 className="text-3xl font-bold text-white mb-4">{label}</h2>
           <p className="text-lg text-gray-400 mb-6">
             {description.split('\n').map((line, index) => (
               <span key={index}>
                 {line}
-                <br /> {/* Dodaje nową linię */}
+                <br />
               </span>
             ))}
-          </p>{' '}
-          {/* Zmieniono z text-gray-400 na text-lg */}
+          </p>
           <div className="flex justify-between items-center">
             <button
-              onClick={handleClose} // Zmieniono na handleClose, aby dodać animację
+              onClick={handleClose}
               className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
             >
               Close
@@ -82,7 +79,6 @@ const PlanetDetails: React.FC<PlanetDetailsProps> = ({
           </div>
         </div>
 
-        {/* Obrazek nachodzący na div */}
         <motion.img
           src="/assets/wombat-hand.png"
           alt="Wombat Hand"

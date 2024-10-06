@@ -13,7 +13,6 @@ const SpeedControl: React.FC<SpeedControlProps> = ({
 }) => {
   return (
     <div>
-      {/* Speed Control Container */}
       <div className="absolute top-5 left-5 z-10 bg-gray-800 p-4 rounded-lg shadow-lg opacity-55 hover:opacity-100 transition">
         <label
           htmlFor="speed-control"
@@ -37,8 +36,6 @@ const SpeedControl: React.FC<SpeedControlProps> = ({
           <span>10x</span>
         </div>
       </div>
-
-      {/* Back Button positioned right below the speed control */}
       <button className="absolute top-[150px] left-5 px-4 py-2  text-white rounded-lg opacity-70 hover:opacity-100">
         <Link to="/" className="flex items-center">
           <FaArrowLeft className="mr-2" />

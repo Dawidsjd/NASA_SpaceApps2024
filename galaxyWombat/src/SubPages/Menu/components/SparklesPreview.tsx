@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { SparklesCore } from './Sparkles';
 import { RocketLaunchIcon } from '@heroicons/react/24/outline';
-import { FaGithub, FaTwitter, FaYoutube, FaArrowLeft } from 'react-icons/fa'; // Importuj ikony z react-icons
+import { FaGithub, FaTwitter, FaYoutube, FaArrowLeft } from 'react-icons/fa';
 import ShimmerCards from './ShimmerCards';
 import { motion } from 'framer-motion';
 
@@ -35,7 +35,7 @@ export function SparklesPreview() {
             className="flex items-center px-4 py-2  text-white rounded-lg opacity-70 hover:opacity-100"
             onClick={() => setIsExploring(false)}
           >
-            <FaArrowLeft className="mr-2" /> {/* Dodano ikonę strzałki */}
+            <FaArrowLeft className="mr-2" />
             Back
           </button>
         )}
@@ -75,7 +75,7 @@ export function SparklesPreview() {
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover:via-white/20 bg-[length:200%_100%] animate-shimmer"></div>
           </button>
 
-          {/* Dodaj przyciski do mediów społecznościowych */}
+          {/* Social links */}
           <div className="mt-10 flex space-x-10">
             <a
               href="https://github.com"
