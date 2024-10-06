@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="main.css" />
   <title>Galaxy View </title>
 </head>
+
 <body>
   <div id="loading_background"></div>
   <div id="loading" class="new-loading">
@@ -135,32 +136,6 @@
   import { OBJLoader } from './three.js/examples/jsm/loaders/OBJLoader.js';
   import { MTLLoader } from './three.js/examples/jsm/loaders/MTLLoader.js';
   import { GUI } from './three.js/examples/jsm/libs/dat.gui.module.js';
-
-  function go_alian_base() {
-    document.getElementById('blocker').style.backgroundColor =
-      'rgba(0, 0, 0, 1)';
-    $('#blocker').fadeIn(2500);
-    setTimeout(function () {
-      window.location.href = 'alian_base.html';
-    }, 3500);
-  }
-  function go_island() {
-    document.getElementById('blocker').style.backgroundColor =
-      'rgba(0, 0, 0, 1)';
-    $('#blocker').fadeIn(2500);
-    setTimeout(function () {
-      window.location.href = 'island.html';
-    }, 3500);
-  }
-  function go_lightning() {
-    document.getElementById('blocker').style.backgroundColor =
-      'rgba(0, 0, 0, 1)';
-    $('#blocker').fadeIn(2500);
-    setTimeout(function () {
-      window.location.href = 'lightning.html';
-    }, 3500);
-  }
-
   var follow_frame1 = 0;
   var follow_frame2 = 0;
   var follow_frame3 = 0;
@@ -877,25 +852,22 @@
               root.children[k].castShadow = true;
             }
 
-            // Create TextureLoader to load textures
-    const textureLoader = new THREE.TextureLoader();
-    
-    // Load textures
-    const diffuseTexture = textureLoader.load('./texture/4k-TacFighter_Diff.png');
-    const roughnessTexture = textureLoader.load('./texture/4k-TacFighter_Rough.png');
-    const specTexture = textureLoader.load('./texture/4k-TacFighter_spec.png');
-    const photonTorpedoTexture = textureLoader.load('./texture/Photon_Torpedo.png');
-    const quantumTorpedoTexture = textureLoader.load('./texture/Quantum_Torpedo.png');
-    const earthNormalTexture = textureLoader.load('./texture/EarthNormal.png');
+            const textureLoader = new THREE.TextureLoader();
 
-    // Apply textures to the material
+            const diffuseTexture = textureLoader.load('./texture/4k-TacFighter_Diff.png');
+            const roughnessTexture = textureLoader.load('./texture/4k-TacFighter_Rough.png');
+            const specTexture = textureLoader.load('./texture/4k-TacFighter_spec.png');
+            const photonTorpedoTexture = textureLoader.load('./texture/Photon_Torpedo.png');
+            const quantumTorpedoTexture = textureLoader.load('./texture/Quantum_Torpedo.png');
+            const earthNormalTexture = textureLoader.load('./texture/EarthNormal.png');
+
             root.traverse((child) => {
               if (child.isMesh) {
                 child.material.map = diffuseTexture; // Apply diffuse texture (albedo)
                 child.material.roughnessMap = roughnessTexture; // Apply roughness texture
                 child.material.specularMap = specTexture; // Apply specular texture
                 child.material.normalMap = earthNormalTexture; // Apply normal map (optional)
-                
+
                 if (child.name.includes('Photon_Torpedo')) {
                   child.material.map = photonTorpedoTexture; // Apply photon torpedo texture
                 }
@@ -1436,7 +1408,7 @@
     return { x: x, y: y };
   }
 
-  
+
   function mouseMove(e) {
     mouse.x =
       ((document.getElementById('aiming1').offsetLeft + 10) /
@@ -1623,24 +1595,24 @@
     const intersects = raycaster.intersectObjects(scene.children, true);
 
     if (intersects.length > 0) {
-        const point = intersects[0].point;  // The point in 3D space where the cursor intersects
+      const point = intersects[0].point;  // The point in 3D space where the cursor intersects
 
-        // Lock the Y position of the UFO to prevent it from tilting up/down
-        const ufoPosition = ufo.position.clone();
-        
-        // Create a target position for the UFO, but ensure it only rotates around the Y-axis
-        const targetPosition = new THREE.Vector3(point.x, ufoPosition.y, point.z); // Fix Y
+      // Lock the Y position of the UFO to prevent it from tilting up/down
+      const ufoPosition = ufo.position.clone();
 
-        // Get the direction vector from the UFO to the target, ignoring the Y-axis
-        const direction = targetPosition.clone().sub(ufoPosition).normalize();
+      // Create a target position for the UFO, but ensure it only rotates around the Y-axis
+      const targetPosition = new THREE.Vector3(point.x, ufoPosition.y, point.z); // Fix Y
 
-        // Calculate the angle for rotation only around the Y-axis
-        const angle = Math.atan2(direction.x, direction.z); // Y-axis rotation
+      // Get the direction vector from the UFO to the target, ignoring the Y-axis
+      const direction = targetPosition.clone().sub(ufoPosition).normalize();
 
-        // Apply the rotation, rotate 180 degrees (π radians) to reverse it
-        ufo.rotation.set(0, angle + Math.PI, 0);  // Flip 180 degrees on Y-axis
+      // Calculate the angle for rotation only around the Y-axis
+      const angle = Math.atan2(direction.x, direction.z); // Y-axis rotation
+
+      // Apply the rotation, rotate 180 degrees (π radians) to reverse it
+      ufo.rotation.set(0, angle + Math.PI, 0);  // Flip 180 degrees on Y-axis
     }
-}
+  }
 
 
 
@@ -2112,7 +2084,7 @@
 
     const delta = clock.getDelta();
     requestAnimationFrame(animate);
-      rotateUFOToCursor(ufo, camera, scene);
+    rotateUFOToCursor(ufo, camera, scene);
     if (loaded_items > 0 && loaded_items == load_items) hide_loading();
     else return;
     timeStamp += delta;
@@ -2132,13 +2104,6 @@
         follow_frame3 += 1;
       } else {
         follow_frame3 = 0;
-      }
-      if (follow_frame1 > FPS * 5) {
-        go_island();
-      } else if (follow_frame2 > FPS * 5) {
-        go_alian_base();
-      } else if (follow_frame3 > FPS * 5) {
-        go_lightning();
       }
 
       const rotate = angle * Math.PI * rotatespeed;
@@ -2345,7 +2310,7 @@
     renderer.setSize(width, height);
     //and update the aspect ratio of the camera
     camera.aspect = width / height;
-    
+
 
     //update the projection matrix given the new values
     camera.updateProjectionMatrix();
@@ -2363,17 +2328,12 @@
     $('#blocker').fadeOut(2000);
     $('#secondBlocker').delay(1200).fadeIn(1000);
   }
-  function goIsland() {
-    window.location.href = 'island.html';
+  // Funkcja obsługująca ruch myszy
+  function onMouseMove(event) {
+    // Przekształcanie pozycji kursora na współrzędne NDC (Normal Device Coordinates)
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
   }
-// Funkcja obsługująca ruch myszy
-function onMouseMove(event) {
-  // Przekształcanie pozycji kursora na współrzędne NDC (Normal Device Coordinates)
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-}
-
-
 </script>
 
 </html>
