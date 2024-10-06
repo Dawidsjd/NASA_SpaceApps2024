@@ -1,7 +1,6 @@
 import React from 'react';
 import { useFrame, useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
-import { planetData } from './orbits';
 
 const AU = 150; // Astronomical Unit (scaled)
 
@@ -20,7 +19,7 @@ interface PlanetProps {
     position: [number, number, number]
   ) => void;
   color: string;
-  angleRef: Map<string, number>; // Nowa właściwość angleRef
+  angleRef: Map<string, number>;
 }
 
 const Planet: React.FC<PlanetProps> = ({
@@ -33,17 +32,15 @@ const Planet: React.FC<PlanetProps> = ({
   speedMultiplier,
   description,
   onClick,
-  angleRef, // Dodaj angleRef tutaj
+  angleRef,
 }) => {
   const adjustedRho = rho * AU; // Adjusted radius in 3D space
   const planetRef = React.useRef<THREE.Mesh>(null);
 
-  // Load the planet texture
   const planetTexture = useLoader(THREE.TextureLoader, texture);
 
-  // Use frame for position and rotation updates
   useFrame(() => {
-    let angle = angleRef.get(label) || 0; // Pobierz kąt dla danej planety z mapy
+    let angle = angleRef.get(label) || 0;
     const x = adjustedRho * Math.cos(angle);
     const z = adjustedRho * Math.sin(angle);
     const planetMesh = planetRef.current;
@@ -53,12 +50,12 @@ const Planet: React.FC<PlanetProps> = ({
       planetMesh.rotation.y += rotationSpeed * speedMultiplier;
     }
 
-    angle += speed * speedMultiplier; // Zaktualizuj kąt
-    angleRef.set(label, angle); // Zapisz zaktualizowany kąt w mapie
+    angle += speed * speedMultiplier;
+    angleRef.set(label, angle);
   });
 
   const handleClick = () => {
-    const angle = angleRef.get(label) || 0; // Pobierz aktualny kąt planety
+    const angle = angleRef.get(label) || 0;
     const x = adjustedRho * Math.cos(angle);
     const z = adjustedRho * Math.sin(angle);
     onClick(label, description, [x, 0, z]);
@@ -72,7 +69,10 @@ const Planet: React.FC<PlanetProps> = ({
   );
 };
 
-const Orbit: React.FC<{ rho: number; color: string; opacity?: number }> = ({ rho, color, opacity = 1 }) => {
+const Orbit: React.FC<{ rho: number; opacity?: number }> = ({
+  rho,
+  opacity = 1,
+}) => {
   const points = [];
   for (let i = 0; i <= 360; i++) {
     const angle = (i * Math.PI) / 180; // Convert degrees to radians
@@ -87,11 +87,15 @@ const Orbit: React.FC<{ rho: number; color: string; opacity?: number }> = ({ rho
     <line>
       <bufferGeometry attach="geometry" {...orbitGeometry} />{' '}
       {/* Attach the geometry to the line */}
-      <lineBasicMaterial attach="material" color={'#444'} opacity={opacity} transparent={true} />{' '}
+      <lineBasicMaterial
+        attach="material"
+        color={'#444'}
+        opacity={opacity}
+        transparent={true}
+      />{' '}
       {/* Set the orbit color and opacity */}
     </line>
   );
 };
-
 
 export { Planet, Orbit };

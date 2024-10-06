@@ -1,14 +1,7 @@
 import { useState } from 'react';
 import { ArrowRight, Cuboid, Globe, Telescope, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-  Link,
-} from 'react-router-dom'; // Import from react-router-dom
-import Scene from '../../Galaxy/Scene';
+import { BrowserRouter as Router, Routes, useNavigate } from 'react-router-dom';
 
 interface Card {
   title: string;
@@ -43,8 +36,7 @@ const cards: Card[] = [
       'Learning Planet is a platform that allows you to explore planets, learn about them, and interact with various educational modules...',
     icon: <Telescope className="h-6 w-6 text-blue-400" />,
     details:
-
-  'Learning Planet is an interactive educational platform that lets users explore planets in detail. Each planet is accompanied by fun facts, high-quality images, and interactive modules. Users can test their knowledge with quizzes, discover key facts about the solar system, and engage in learning activities designed to enhance their understanding of astronomy. Whether you are a student or an astronomy enthusiast, this app provides a great educational experience.',
+      'Learning Planet is an interactive educational platform that lets users explore planets in detail. Each planet is accompanied by fun facts, high-quality images, and interactive modules. Users can test their knowledge with quizzes, discover key facts about the solar system, and engage in learning activities designed to enhance their understanding of astronomy. Whether you are a student or an astronomy enthusiast, this app provides a great educational experience.',
     image: '/assets/Learning_ss.png',
   },
 ];
@@ -84,7 +76,6 @@ function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
               className="absolute top-4 right-4 text-gray-400 hover:text-white"
               aria-label="Close"
             >
-              
               <X className="h-6 w-6" />
             </button>
             <h2 className="text-2xl font-bold text-white mb-4">
@@ -96,7 +87,7 @@ function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
                 <img
                   src={content.image}
                   alt={content.title}
-                  draggable='false'
+                  draggable="false"
                   className="w-full h-auto rounded mb-4 cursor-pointer select-none"
                 />
               </div>
