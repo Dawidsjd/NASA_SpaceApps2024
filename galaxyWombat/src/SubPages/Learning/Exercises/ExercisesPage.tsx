@@ -54,24 +54,36 @@ const ExercisesPage = () => {
           }}
         />
 
-        <div>
+<div>
           <div>
-            <DuolingoButton icon={<FaPowerOff size={32} className="text-white" />} />
+            <Link to="/learning/exercise/techQuiz" state={{ planet }}>
+              <DuolingoButton icon={<FaPowerOff size={32} className="text-white" />} />
+            </Link>
           </div>
           <div className="ml-32">
-            <DuolingoButton icon={<FaBook size={32} className="text-white" />} />
+            <Link to="/book-quiz" state={{ planet }}>
+              <DuolingoButton icon={<FaBook size={32} className="text-white" />} />
+            </Link>
           </div>
           <div className="ml-64">
-            <DuolingoButton icon={<FaWind size={32} className="text-white" />} />
+            <Link to="/wind-quiz" state={{ planet }}>
+              <DuolingoButton icon={<FaWind size={32} className="text-white" />} />
+            </Link>
           </div>
           <div className="ml-40">
-            <DuolingoButton icon={<FaSun size={32} className="text-white" />} />
+            <Link to="/sun-quiz" state={{ planet }}>
+              <DuolingoButton icon={<FaSun size={32} className="text-white" />} />
+            </Link>
           </div>
           <div className="ml-8">
-            <DuolingoButton icon={<FaDumbbell size={32} className="text-white" />} />
+            <Link to="/dumbbell-quiz" state={{ planet }}>
+              <DuolingoButton icon={<FaDumbbell size={32} className="text-white" />} />
+            </Link>
           </div>
           <div className="-ml-24">
-            <DuolingoButton icon={<FaOpencart size={32} className="text-white" />} />
+            <Link to="/cart-quiz" state={{ planet }}>
+              <DuolingoButton icon={<FaOpencart size={32} className="text-white" />} />
+            </Link>
           </div>
         </div>
       </div>
