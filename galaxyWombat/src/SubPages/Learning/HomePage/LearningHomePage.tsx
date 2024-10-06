@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';  // Dodaj useNavigate
+import { Link, useNavigate } from 'react-router-dom'; // Dodaj useNavigate
 import { PlanetsCategory, plantesCategory } from '../PlanetsCategory';
 
 const LearningHomePage = () => {
-  const [selectedPlanet, setSelectedPlanet] = useState<PlanetsCategory>(plantesCategory[2]); 
-  const navigate = useNavigate();  // Inicjalizuj nawigację
+  const [selectedPlanet, setSelectedPlanet] = useState<PlanetsCategory>(
+    plantesCategory[2]
+  );
+  const navigate = useNavigate(); // Inicjalizuj nawigację
 
   // Funkcja do obsługi kliknięcia planety i przeniesienia na stronę ćwiczeń
   const handlePlanetClick = (planet: PlanetsCategory) => {
-    setSelectedPlanet(planet); 
-    navigate('/learning/exercise', { state: { planet } });  // Przeniesienie na /learning/exercise z danymi planety
+    setSelectedPlanet(planet);
+    navigate('/learning/exercise', { state: { planet } }); // Przeniesienie na /learning/exercise z danymi planety
   };
 
   return (
@@ -29,34 +31,40 @@ const LearningHomePage = () => {
           className="w-24 h-24 mt-2 select-none"
         />
       </div>
-      <div className="flex flex-row items-center justify-center h-4/5 border mx-2 border-red-500">
-        <div className="flex flex-row w-4/5">
-          <div className="w-1/2 border flex items-center justify-center">
+      <div className="flex flex-row items-center justify-center h-4/6  mx-2 ">
+        <div className="flex flex-row w-3/5 h-2/3 bg-gray-800 bg-opacity-55 shadow-xl backdrop-blur-[2px] backdrop-filter rounded-lg p-4">
+          <div className="w-1/2  flex items-center justify-center">
             <img
               src={selectedPlanet.image}
               alt={selectedPlanet.label}
-              className="w-48 h-48 object-contain"
+              className="w-64 h-64 object-contain"
             />
           </div>
-          <div className="w-1/2 border flex items-center justify-center text-2xl">
-            {selectedPlanet.label}
+          <div className="w-1/2  flex flex-col items-center justify-center text-2xl">
+            <p className="text-3xl bold m-2 text-white">
+              Learn something about {selectedPlanet.label}
+            </p>
+            <button className="bg-green-600 py-2 px-4 rounded-lg mt-2 text-white hover:bg-white hover:text-green-600">
+              Get Started
+            </button>
           </div>
         </div>
       </div>
-      <div className="flex flex-row items-center justify-center border mx-2 border-red-500">
-        <div className="flex flex-row space-x-4">
+      <div className="flex flex-row items-center justify-center mx-2 ">
+        {/* Content menu with planet images and labels */}
+        <div className="flex flex-row space-x-5">
           {plantesCategory.map((planet) => (
             <button
               key={planet.label}
-              onClick={() => handlePlanetClick(planet)}  // Użycie nawigacji po kliknięciu planety
-              className="flex flex-col items-center"
+              onClick={() => handlePlanetClick(planet)} // Update selected planet on click
+              className="flex flex-row items-center space-x-2 py-1 px-2  hover:bg-white bg-gray-800 bg-opacity-55 shadow-xl backdrop-blur-[2px] backdrop-filter rounded-lg p-4  hover:text-[#202937]"
             >
               <img
                 src={planet.image}
                 alt={planet.label}
-                className="w-16 h-16 object-contain mb-1"
+                className="w-8 h-8 object-contain"
               />
-              <span>{planet.label}</span>
+              <span className="">{planet.label}</span>
             </button>
           ))}
         </div>
