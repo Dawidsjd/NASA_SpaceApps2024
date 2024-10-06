@@ -6,49 +6,95 @@ import { asteroidData } from './asteroids';
 import PlanetDetails from './PlanetDetails';
 import AsteroidDetails from './AsteroidDetails';
 import SpeedControl from './SpeedControl';
-import Sun from './Sun';
-import CameraController from './CameraController';
-import Asteroid from './Asteroid';
+import Sun from './Sun'; // Assuming Sun is in a separate file
+import CameraController from './CameraController'; // Assuming CameraController is in a separate file
+import Asteroid from './Asteroid'; // Import the new Asteroid component
 import { Sphere } from '@react-three/drei';
 import * as THREE from 'three';
-import { FaArrowCircleLeft, FaArrowLeft, FaChevronLeft } from 'react-icons/fa';
+import { FaChevronLeft } from 'react-icons/fa';
 
-const AU = 150;
+const AU = 150; // Astronomical Unit (scaled)
 
 const Scene: React.FC = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // State for loading
   const [isPanelOpen, setIsPanelOpen] = useState(false); // State for controlling the slide-out panel
-  const [selectedPlanet, setSelectedPlanet] = useState<null | { label: string; description: string }>(null);
-  const [selectedAsteroid, setSelectedAsteroid] = useState<null | { label: string; description: string }>(null);
+  const [selectedPlanet, setSelectedPlanet] = useState<null | {
+    label: string;
+    description: string;
+  }>(null);
+  const [selectedAsteroid, setSelectedAsteroid] = useState<null | {
+    label: string;
+    description: string;
+  }>(null);
   const [speedMultiplier, setSpeedMultiplier] = useState<number>(1);
   const targetPosition = useRef<[number, number, number] | null>(null);
   const [isMoving, setIsMoving] = useState<boolean>(false);
   const previousSpeed = useRef<number>(1);
-  const anglesRef = useRef(new Map<string, number>());
+  const anglesRef = useRef(new Map<string, number>()); // Store angles for planets
 
   useEffect(() => {
+    // Simulate loading process, replace this with actual loading logic if needed
     const loadAssets = async () => {
+      // Simulate loading delay
       await new Promise((resolve) => setTimeout(resolve, 1000));
       setLoading(false);
     };
+
     loadAssets();
   }, []);
-
-  const togglePanel = () => {
-    setIsPanelOpen(!isPanelOpen);
-  };
 
   const handleClosePlanetInfo = () => {
     setSelectedPlanet(null);
     setIsMoving(false);
-    setSpeedMultiplier(previousSpeed.current);
+    setSpeedMultiplier(previousSpeed.current); // Restore previous speed when closing modal
   };
 
   const handleCloseAsteroidInfo = () => {
     setSelectedAsteroid(null);
     setIsMoving(false);
-    setSpeedMultiplier(previousSpeed.current);
+    setSpeedMultiplier(previousSpeed.current); // Restore previous speed when closing modal
   };
+
+  const handlePlanetClick = (
+    label: string,
+    description: string,
+    position: [number, number, number]
+  ) => {
+    previousSpeed.current = speedMultiplier; // Save current speed before stopping
+    setSpeedMultiplier(0); // Stop speed when a planet is clicked
+    setSelectedPlanet({ label, description });
+
+    // Exceptions for planets - adjust Z axis for camera position
+    if (label === 'Saturn') {
+      targetPosition.current = [position[0], position[1], position[2] * 1.5]; // Saturn zoom
+    } else if (label === 'Jupiter') {
+      targetPosition.current = [position[0], position[1], position[2] * 2]; // Jupiter zoom
+    } else if (label === 'Uranus') {
+      targetPosition.current = [position[0], position[1], position[2] * 1.25]; // Uranus zoom
+    } else {
+      targetPosition.current = position; // Default zoom for other planets
+    }
+
+    setIsMoving(true);
+  };
+
+  const handleAsteroidClick = (
+    label: string,
+    description: string,
+    position: [number, number, number]
+  ) => {
+    previousSpeed.current = speedMultiplier; // Save current speed before setting to 0
+    setSpeedMultiplier(0); // Set speed to 0 when an asteroid is clicked
+    setSelectedAsteroid({ label, description }); // Pass label and description correctly
+    targetPosition.current = position; // Set camera target position
+    setIsMoving(true);
+  };
+
+  const togglePanel = () => {
+    setIsPanelOpen(!isPanelOpen);
+  };
+
+  const orbitsVisible = !selectedPlanet && !selectedAsteroid; // Orbits should only be visible when no planet or asteroid is selected
 
   return (
     <div className="bg-black h-screen w-full relative overflow-hidden"> {/* Upewnij się, że overflow-hidden jest ustawiony tutaj */}
@@ -68,12 +114,24 @@ const Scene: React.FC = () => {
           </div>
         </div>
       ) : (
-        <Canvas style={{ width: '100vw', height: '100vh' }}>
+        <Canvas
+          style={{
+            width: '100vw',
+            height: '100vh',
+          }}
+        >
+          {/* Sphere background */}
           <Sphere args={[1000, 1000, 1000]} position={[0, 0, 0]}>
-            <meshBasicMaterial map={new THREE.TextureLoader().load('/public/assets/bg-1.jpg')} side={THREE.BackSide} />
+            <meshBasicMaterial
+              map={new THREE.TextureLoader().load('/public/assets/bg-1.jpg')}
+              side={THREE.BackSide}
+            />
           </Sphere>
 
-          <CameraController targetPosition={targetPosition.current} isMoving={isMoving} />
+          <CameraController
+            targetPosition={targetPosition.current}
+            isMoving={isMoving}
+          />
           <ambientLight intensity={0.5} />
           <hemisphereLight intensity={0.3} color="white" groundColor="blue" />
           <directionalLight position={[10, 10, 10]} intensity={1} />
@@ -81,6 +139,7 @@ const Scene: React.FC = () => {
 
           {planetData.map((planet) => (
             <React.Fragment key={planet.label}>
+              {/* Planet Component */}
               <Planet
                 label={planet.label}
                 rho={planet.rho}
@@ -92,13 +151,23 @@ const Scene: React.FC = () => {
                 rotationSpeed={planet.rotationSpeed}
                 speedMultiplier={speedMultiplier}
                 onClick={(label, description, position) => {
-                  setSelectedPlanet({ label, description });
-                  targetPosition.current = position;
+                  handlePlanetClick(label, description, position);
                 }}
-                angleRef={anglesRef.current}
+                angleRef={anglesRef.current} // Pass angleRef
               />
-              <pointLight position={[planet.rho * AU, 0, 0]} intensity={150} distance={planet.rho * AU + 10} decay={2} color={'red'} />
-              <PlanetOrbit rho={planet.rho} color={planet.color} />
+
+              {/* Glow effect around the planet */}
+              <pointLight
+                position={[planet.rho * AU, 0, 0]} // Positioning the light near the planet
+                intensity={150} // Intensity of the glow
+                distance={planet.rho * AU + 10} // Distance for the light to affect
+                decay={2} // How quickly the light fades
+                color={'red'} // Glow color matching the planet
+              />
+
+              {orbitsVisible && (
+                <PlanetOrbit rho={planet.rho} color={planet.color} />
+              )}
             </React.Fragment>
           ))}
 
@@ -111,62 +180,109 @@ const Scene: React.FC = () => {
               speed={asteroid.speed}
               texture={asteroid.texture}
               distanceFromSun={asteroid.distanceFromSun}
-              description={asteroid.description}
+              description={asteroid.description} // Pass the description here
               speedMultiplier={speedMultiplier}
               onClick={(label, description, position) => {
-                setSelectedAsteroid({ label, description });
-                targetPosition.current = position;
+                handleAsteroidClick(label, description, position);
               }}
             />
           ))}
         </Canvas>
       )}
 
-      <SpeedControl speedMultiplier={speedMultiplier} onChange={setSpeedMultiplier} />
-
-      {selectedPlanet && <PlanetDetails label={selectedPlanet.label} description={selectedPlanet.description} onClose={handleClosePlanetInfo} />}
-      {selectedAsteroid && <AsteroidDetails label={selectedAsteroid.label} description={selectedAsteroid.description} onClose={handleCloseAsteroidInfo} />}
-
-      <img
-        src="/assets/icon-dark.png"
-        alt="Logo"
-        draggable="false"
-        className="absolute top-5 right-5 w-24 h-24 select-none opacity-40"
-        style={{ userSelect: 'none' }}
+      <SpeedControl
+        speedMultiplier={speedMultiplier}
+        onChange={setSpeedMultiplier}
       />
 
-      {/* Slide-out panel toggle button */}
-<button
-  onClick={togglePanel}
-  className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 transition duration-300"
-><FaChevronLeft/>
-</button>
+      {selectedPlanet && (
+        <PlanetDetails
+          label={selectedPlanet.label}
+          description={selectedPlanet.description}
+          onClose={handleClosePlanetInfo}
+        />
+      )}
 
+      {selectedAsteroid && (
+        <AsteroidDetails
+          label={selectedAsteroid.label}
+          description={selectedAsteroid.description} // Ensure this matches
+          onClose={handleCloseAsteroidInfo}
+        />
+      )}
 
-      {/* Slide-out panel */}
-      <div
-        className={`absolute top-0 right-0 h-full w-64 bg-gray-800 text-white transition-transform duration-300 ease-in-out transform ${
-          isPanelOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-      >
-        <h2 className="text-lg font-bold p-4">Planets</h2>
-        <ul className="pl-4">
-          {planetData.map((planet) => (
-            <li key={planet.label} className="mb-2">
-              {planet.label}
-            </li>
-          ))}
-        </ul>
+      <img
+        src="/assets/icon-dark.png" // Zmień na właściwą ścieżkę do logo
+        alt="Logo"
+        draggable="false"
+        className="absolute top-5 right-5 w-24 h-24 select-none opacity-40" // Dodaj klasę select-none
+        style={{ userSelect: 'none' }} // Wyłącza możliwość wybierania logo
+      />
 
-        <h2 className="text-lg font-bold p-4">Asteroids</h2>
-        <ul className="pl-4">
-          {asteroidData.map((asteroid) => (
-            <li key={asteroid.label} className="mb-2">
-              {asteroid.label}
-            </li>
-          ))}
-        </ul>
+<div className="absolute top-1/2 right-0"> {/* Kontener dla przycisku i panelu */}
+  {/* Slide-out panel toggle button */}
+  <button
+    onClick={togglePanel}
+    className={`absolute top-1/2 right-0 transform -translate-y-1/2  text-2xl text-gray-200 hover:text-gray-400 p-2 transition duration-300 ${
+      isPanelOpen ? '-translate-x-80' : 'translate-x-0' // Przesuwanie przycisku w lewo przy otwarciu panelu
+    }`}
+  >
+    <FaChevronLeft />
+  </button>
+
+  {/* Slide-out panel */}
+  <div
+    className={`absolute top-1/2 right-0 transform -translate-y-1/2 w-80  text-white transition
+      
+      bg-gray-800 p-4 rounded-lg shadow-lg opacity-55 hover:opacity-90
+      ${
+      isPanelOpen ? 'translate-x-0' : 'translate-x-full'
+    }`}
+  >
+    <div className="flex justify-between h-1/2"> {/* Flexbox do układania w wierszu */}
+      <div className="overflow-y-auto w-1/2"> {/* Przewijanie dla tabeli planet */}
+        <h2 className="text-lg font-bold p-2 text-center">Planets</h2>
+        <table className="table table-zebra w-full">
+          <thead>
+            <tr>
+              <th className="p-2">Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {planetData.map((planet) => (
+              <tr key={planet.label}>
+                <td className="p-2">{planet.label}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
+
+      <div className="overflow-y-auto w-1/2"> {/* Przewijanie dla tabeli asteroid */}
+        <h2 className="text-lg font-bold p-2 text-center">Asteroids</h2>
+        <table className="table table-zebra w-full">
+          <thead>
+            <tr>
+              <th className="p-2">Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {asteroidData.map((asteroid) => (
+              <tr key={asteroid.label}>
+                <td className="p-2">{asteroid.label}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
     </div>
   );
 };
