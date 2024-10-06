@@ -169,7 +169,7 @@ const Scene: React.FC = () => {
             <Asteroid
               key={asteroid.label}
               label={asteroid.label}
-              size={4}
+              size={asteroid.size}
               color={asteroid.color}
               speed={asteroid.speed}
               texture={asteroid.texture}
