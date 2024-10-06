@@ -1,0 +1,23 @@
+.custom_border {
+    position: relative;
+    padding: 20px;
+    padding-left: 40px; 
+    border: 5px solid #374151;
+    border-radius: 15px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    margin-left: 35px;
+  }
+  
+  .arrow-icon {
+    position: absolute;
+    background-color: #1f2937;
+    border-radius: 5px;
+    left: -30px; 
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 40px; 
+    color: #374151; 
+  }
+  
