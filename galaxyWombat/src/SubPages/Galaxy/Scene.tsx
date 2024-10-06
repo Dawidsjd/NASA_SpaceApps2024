@@ -104,7 +104,7 @@ const Scene: React.FC = () => {
               color: 'white',
             }}
           >
-            <span className="loading loading-bars loading-lg w-16 h-auto"></span>
+            <span className="loading loading-bars loading-lg h-auto"></span>
           </div>
         </div>
       ) : (

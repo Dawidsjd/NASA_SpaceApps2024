@@ -38,13 +38,14 @@ const cards: Card[] = [
     image: '/assets/spaceSystem.png',
   },
   {
-    title: 'Learning Platform',
+    title: 'Learning Planet',
     description:
-      'Stellarium is a sky simulator that allows you to observe stars, planets...',
+      'Learning Planet is a platform that allows you to explore planets, learn about them, and interact with various educational modules...',
     icon: <Telescope className="h-6 w-6 text-blue-400" />,
     details:
-      'Stellarium is an advanced sky simulator that brings the cosmos to your fingertips. It offers realistic representations of the sky with over 600,000 stars, planets, nebulae, and galaxies. Users can observe the sky from anywhere on Earth and at any time. The app contains detailed information about astronomical objects, allows tracking of artificial satellites, and provides tools for planning astronomical observations.',
-    image: '/path/to/image3.jpg',
+
+  'Learning Planet is an interactive educational platform that lets users explore planets in detail. Each planet is accompanied by fun facts, high-quality images, and interactive modules. Users can test their knowledge with quizzes, discover key facts about the solar system, and engage in learning activities designed to enhance their understanding of astronomy. Whether you are a student or an astronomy enthusiast, this app provides a great educational experience.',
+    image: '/assets/Learning_ss.png',
   },
 ];
 
@@ -56,10 +57,9 @@ interface ModalProps {
 }
 
 function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
-
   const handleLink = () => {
-    onProceed(content ? content.title : '')
-  }
+    onProceed(content ? content.title : '');
+  };
 
   return (
     <AnimatePresence>
@@ -100,7 +100,6 @@ function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
               </div>
             )}
 
-
             <div className="text-gray-300 mb-4">{content?.details}</div>
             <div className="flex justify-between mt-6">
               <button
@@ -140,13 +139,13 @@ export default function ShimmerCards() {
       navigate('/game'); // Redirecting to the game component page
     } else if (title === 'Solar System') {
       navigate('/space'); // Redirecting to the scene component page
-    } else if (title === 'Learning Platform') {
+    } else if (title === 'Learning Planet') {
       navigate('/learning');
     }
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 max-w-6xl mx-auto">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 lg:w-1/2 max-w-6xl mx-auto">
       {cards.map((card, index) => (
         <div
           key={index}
