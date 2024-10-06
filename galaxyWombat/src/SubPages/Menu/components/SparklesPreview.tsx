@@ -37,7 +37,7 @@ export function SparklesPreview() {
             onClick={() => setIsExploring(false)}
           >
             <FaArrowLeft className="mr-2" /> {/* Dodano ikonę strzałki */}
-            Powrót
+            Back
           </button>
         )}
       </div>
