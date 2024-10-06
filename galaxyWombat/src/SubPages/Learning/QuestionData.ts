@@ -1,100 +1,99 @@
 interface Question {
-    question: string;
-    answers: { text: string; isCorrect: boolean }[];
-  }
-  
-  export const techQuestions: { [planet: string]: Question[] } = {
-    Mercury: [
-      {
-        question: 'Jakie jest najważniejsze zadanie sondy kosmicznej Messenger na Merkurym?',
-        answers: [
-          { text: 'Badanie powierzchni Merkurego', isCorrect: true },
-          { text: 'Poszukiwanie wody na Merkurym', isCorrect: false },
-          { text: 'Badanie atmosfery Merkurego', isCorrect: false },
-        ],
-      },
-      {
-        question: 'Dlaczego Merkury jest trudny do badania z Ziemi?',
-        answers: [
-          { text: 'Jest zbyt blisko Słońca', isCorrect: true },
-          { text: 'Ma silną atmosferę', isCorrect: false },
-          { text: 'Jest zbyt daleko', isCorrect: false },
-        ],
-      },
-      {
-        question: 'Która z tych technologii jest kluczowa dla badania Merkurego?',
-        answers: [
-          { text: 'Technologia termoizolacji', isCorrect: true },
-          { text: 'Technologia silników rakietowych', isCorrect: false },
-          { text: 'Technologia solarna', isCorrect: false },
-        ],
-      },
-    ],
-    Venus: [
-      {
-        question: 'Która technologia jest używana do badania powierzchni Wenus?',
-        answers: [
-          { text: 'Radar penetracyjny', isCorrect: true },
-          { text: 'Teleskop optyczny', isCorrect: false },
-          { text: 'Satelity komunikacyjne', isCorrect: false },
-        ],
-      },
-      {
-        question: 'Dlaczego lądowniki mają trudności z lądowaniem na Wenus?',
-        answers: [
-          { text: 'Z powodu ekstremalnych temperatur i ciśnienia', isCorrect: true },
-          { text: 'Z powodu braku atmosfery', isCorrect: false },
-          { text: 'Z powodu silnych burz', isCorrect: false },
-        ],
-      },
-      {
-        question: 'Jakie technologie pomagają w badaniach atmosfery Wenus?',
-        answers: [
-          { text: 'Balony atmosferyczne', isCorrect: true },
-          { text: 'Łaziki', isCorrect: false },
-          { text: 'Sondy oceaniczne', isCorrect: false },
-        ],
-      },
-    ],
-    Earth: [
-      {
-        question: 'Która technologia pomaga w prognozowaniu pogody na Ziemi?',
-        answers: [
-          { text: 'Satelity meteorologiczne', isCorrect: true },
-          { text: 'Teleskopy kosmiczne', isCorrect: false },
-          { text: 'Radary morskie', isCorrect: false },
-        ],
-      },
-      {
-        question: 'Która technologia jest kluczowa dla badań klimatu na Ziemi?',
-        answers: [
-          { text: 'Satelity obserwacyjne', isCorrect: true },
-          { text: 'Łaziki', isCorrect: false },
-          { text: 'Druk 3D', isCorrect: false },
-        ],
-      },
-      {
-        question: 'Jakie narzędzie jest używane do badania głębokiego oceanu na Ziemi?',
-        answers: [
-          { text: 'Batyskaf', isCorrect: true },
-          { text: 'Satelita', isCorrect: false },
-          { text: 'Radar', isCorrect: false },
-        ],
-      },
-    ],
-  };
-  
-  export const bookQuestions: { [planet: string]: Question[] } = {
-    Mercury: [
-      {
-        question: 'Jaka książka opisuje podróż na Merkurego?',
-        answers: [
-          { text: 'Podróż na Księżyc', isCorrect: false },
-          { text: 'Podróż na Merkurego', isCorrect: true },
-          { text: 'Kosmiczne Wędrówki', isCorrect: false },
-        ],
-      },
-    ],
-  };
-  
-  
+  question: string;
+  answers: { text: string; isCorrect: boolean }[];
+}
+
+export const techQuestions: { [planet: string]: Question[] } = {
+  Mercury: [
+    {
+      question:
+        'What is the primary mission of the Messenger space probe on Mercury?',
+      answers: [
+        { text: 'Studying Mercury’s surface', isCorrect: true },
+        { text: 'Searching for water on Mercury', isCorrect: false },
+        { text: 'Studying Mercury’s atmosphere', isCorrect: false },
+      ],
+    },
+    {
+      question: 'Why is Mercury difficult to observe from Earth?',
+      answers: [
+        { text: 'It is too close to the Sun', isCorrect: true },
+        { text: 'It has a strong atmosphere', isCorrect: false },
+        { text: 'It is too far away', isCorrect: false },
+      ],
+    },
+    {
+      question: 'Which technology is crucial for studying Mercury?',
+      answers: [
+        { text: 'Thermal insulation technology', isCorrect: true },
+        { text: 'Rocket engine technology', isCorrect: false },
+        { text: 'Solar technology', isCorrect: false },
+      ],
+    },
+  ],
+  Venus: [
+    {
+      question: 'Which technology is used to study the surface of Venus?',
+      answers: [
+        { text: 'Penetrating radar', isCorrect: true },
+        { text: 'Optical telescope', isCorrect: false },
+        { text: 'Communication satellites', isCorrect: false },
+      ],
+    },
+    {
+      question: 'Why do landers face difficulties landing on Venus?',
+      answers: [
+        { text: 'Due to extreme temperatures and pressure', isCorrect: true },
+        { text: 'Due to the lack of an atmosphere', isCorrect: false },
+        { text: 'Due to strong storms', isCorrect: false },
+      ],
+    },
+    {
+      question: 'What technologies aid in studying the atmosphere of Venus?',
+      answers: [
+        { text: 'Atmospheric balloons', isCorrect: true },
+        { text: 'Rovers', isCorrect: false },
+        { text: 'Oceanic probes', isCorrect: false },
+      ],
+    },
+  ],
+  Earth: [
+    {
+      question: 'Which technology aids in weather forecasting on Earth?',
+      answers: [
+        { text: 'Weather satellites', isCorrect: true },
+        { text: 'Space telescopes', isCorrect: false },
+        { text: 'Marine radars', isCorrect: false },
+      ],
+    },
+    {
+      question: 'Which technology is key to climate research on Earth?',
+      answers: [
+        { text: 'Observational satellites', isCorrect: true },
+        { text: 'Rovers', isCorrect: false },
+        { text: '3D printing', isCorrect: false },
+      ],
+    },
+    {
+      question: 'What tool is used to explore the deep ocean on Earth?',
+      answers: [
+        { text: 'Bathyscaphe', isCorrect: true },
+        { text: 'Satellite', isCorrect: false },
+        { text: 'Radar', isCorrect: false },
+      ],
+    },
+  ],
+};
+
+export const bookQuestions: { [planet: string]: Question[] } = {
+  Mercury: [
+    {
+      question: 'Which book describes a journey to Mercury?',
+      answers: [
+        { text: 'Journey to the Moon', isCorrect: false },
+        { text: 'Journey to Mercury', isCorrect: true },
+        { text: 'Cosmic Wanderings', isCorrect: false },
+      ],
+    },
+  ],
+};
