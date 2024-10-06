@@ -39,7 +39,7 @@ const LearningHomePage = () => {
               className="w-64 h-64 object-contain"
             />
           </div>
-          <div className="w-1/2 flex flex-col items-center justify-center text-2xl">
+          <div className="w-1/2 flex flex-col items-center justify-center text-2xl text-center">
             <p className="text-3xl font-bold m-2 text-white">
               Learn something about {selectedPlanet.label}
             </p>
