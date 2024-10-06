@@ -6,6 +6,7 @@ import {
   Routes,
   Route,
   useNavigate,
+  Link,
 } from 'react-router-dom'; // Import from react-router-dom
 import Scene from '../../Galaxy/Scene';
 
@@ -55,6 +56,11 @@ interface ModalProps {
 }
 
 function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
+
+  const handleLink = () => {
+    onProceed(content ? content.title : '')
+  }
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -85,12 +91,16 @@ function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
             </h2>
             {/* Displaying image */}
             {content?.image && (
-              <img
-                src={content.image}
-                alt={content.title}
-                className="w-full h-auto rounded mb-4"
-              />
+              <div onClick={() => onProceed(content ? content.title : '')}>
+                <img
+                  src={content.image}
+                  alt={content.title}
+                  className="w-full h-auto rounded mb-4 cursor-pointer"
+                />
+              </div>
             )}
+
+
             <div className="text-gray-300 mb-4">{content?.details}</div>
             <div className="flex justify-between mt-6">
               <button
