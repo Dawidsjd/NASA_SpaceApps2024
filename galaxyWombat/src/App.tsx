@@ -1,5 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Scene from './SubPages/Galaxy/Scene';
+
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Import react-router
+import ShimmerCards from './SubPages/Menu/components/ShimmerCards'; // Import komponentu ShimmerCards
+import "./index.css";
+import Scene from './SubPages/Galaxy/Scene'; // Import komponentu Scene
+
 import StartLayout from './SubPages/Menu/StartLayout';
 import SpaceGameMain from './SubPages/SpaceGame/SpaceGameMain';
 import LearningHomePage from './SubPages/Learning/HomePage/LearningHomePage';
