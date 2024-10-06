@@ -2,7 +2,6 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';  
 import { FaBook, FaPowerOff, FaWind, FaSun, FaDumbbell, FaOpencart, FaRocket, FaArrowLeft } from 'react-icons/fa';  // Import nowej ikony
 import DuolingoButton from './ui/DuolingoButton';
-import { Link } from 'react-router-dom';
 
 const ExercisesPage = () => {
   const location = useLocation();  
