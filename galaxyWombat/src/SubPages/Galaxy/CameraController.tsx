@@ -8,7 +8,7 @@ const CameraController: React.FC<{
   isMoving: boolean;
 }> = ({ targetPosition, isMoving }) => {
   const cameraRef = useRef<THREE.PerspectiveCamera>(null);
-  const zoomDistance = 10; // Adjust this value for how close you want to zoom in
+  const zoomDistance = 10; // How close to zoom in
   const smoothSpeed = 0.1; // Smoothness of the camera movement
 
   useFrame(() => {
@@ -31,7 +31,7 @@ const CameraController: React.FC<{
 
       // Stop moving if the camera is close enough to the target
       if (currentPos.distanceTo(target) < 0.5) {
-        cameraRef.current.position.copy(target); // Snap to the desired position
+        cameraRef.current.position.copy(target);
       }
     }
   });
@@ -41,11 +41,11 @@ const CameraController: React.FC<{
       <PerspectiveCamera
         ref={cameraRef}
         makeDefault
-        position={[0, 180, 500]} // Initial camera position; can adjust as necessary
+        position={[0, 180, 500]}
         fov={60}
       />
       <OrbitControls
-        minDistance={10} // Set a minimum distance to prevent zooming in too close
+        minDistance={10} // Minimum distance to zoom
         maxDistance={990} // Maximum distance to zoom out
         enablePan={true} // Allow panning
         enableZoom={true} // Allow zooming
