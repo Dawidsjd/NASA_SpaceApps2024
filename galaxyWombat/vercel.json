@@ -1,13 +1,4 @@
 {
-    "builds": [
-      {
-        "src": "src/main.tsx",
-        "use": "@vercel/static-build",
-        "config": {
-          "distDir": "dist"
-        }
-      }
-    ],
     "routes": [
       {
         "src": "/(.*)",
