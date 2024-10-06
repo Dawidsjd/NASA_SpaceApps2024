@@ -44,7 +44,7 @@ const cards: Card[] = [
     icon: <Telescope className="h-6 w-6 text-blue-400" />,
     details:
   'Learning Planet is an interactive educational platform that lets users explore planets in detail. Each planet is accompanied by fun facts, high-quality images, and interactive modules. Users can test their knowledge with quizzes, discover key facts about the solar system, and engage in learning activities designed to enhance their understanding of astronomy. Whether you are a student or an astronomy enthusiast, this app provides a great educational experience.',
-    image: '/path/to/image3.jpg',
+    image: '/assets/Learning_ss.png',
   },
 ];
 
