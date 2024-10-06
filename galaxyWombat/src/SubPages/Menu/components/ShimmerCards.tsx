@@ -38,11 +38,12 @@ const cards: Card[] = [
     image: '/assets/spaceSystem.png',
   },
   {
-    title: 'Learning Platform',
+    title: 'Learning Planet',
     description:
-  'Learning Planet is a platform that allows you to explore planets, learn about them, and interact with various educational modules...',
+      'Learning Planet is a platform that allows you to explore planets, learn about them, and interact with various educational modules...',
     icon: <Telescope className="h-6 w-6 text-blue-400" />,
     details:
+
   'Learning Planet is an interactive educational platform that lets users explore planets in detail. Each planet is accompanied by fun facts, high-quality images, and interactive modules. Users can test their knowledge with quizzes, discover key facts about the solar system, and engage in learning activities designed to enhance their understanding of astronomy. Whether you are a student or an astronomy enthusiast, this app provides a great educational experience.',
     image: '/assets/Learning_ss.png',
   },
@@ -56,10 +57,9 @@ interface ModalProps {
 }
 
 function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
-
   const handleLink = () => {
-    onProceed(content ? content.title : '')
-  }
+    onProceed(content ? content.title : '');
+  };
 
   return (
     <AnimatePresence>
@@ -100,7 +100,6 @@ function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
               </div>
             )}
 
-
             <div className="text-gray-300 mb-4">{content?.details}</div>
             <div className="flex justify-between mt-6">
               <button
@@ -140,7 +139,7 @@ export default function ShimmerCards() {
       navigate('/game'); // Redirecting to the game component page
     } else if (title === 'Solar System') {
       navigate('/space'); // Redirecting to the scene component page
-    } else if (title === 'Learning Platform') {
+    } else if (title === 'Learning Planet') {
       navigate('/learning');
     }
   };
