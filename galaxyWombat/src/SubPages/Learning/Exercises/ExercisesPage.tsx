@@ -2,7 +2,6 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';  
 import { FaBook, FaPowerOff, FaWind, FaSun, FaDumbbell, FaOpencart, FaRocket, FaArrowLeft } from 'react-icons/fa';  // Import nowej ikony
 import DuolingoButton from './ui/DuolingoButton';
-import { Link } from 'react-router-dom';
 
 const ExercisesPage = () => {
   const location = useLocation();  
@@ -31,15 +30,6 @@ const ExercisesPage = () => {
 
         {/* Wyświetlanie grafiki planety */}
         {planet && (
-<<<<<<< HEAD
-          <div className="mb-10">
-            <img src={planet.image} alt={planet.label} className="absolute top-1/3 left-[15%] w-96 h-auto object-contain" />
-            <h2 className="absolute top-1/2 right-[15%] text-2xl mt-4 font-bold text-center tracking-wider z-10 text-white" style={{
-              letterSpacing: '8px',
-              textShadow: '2px 2px 5px #3b82f6',
-              fontSize: '5rem',
-            }}>{planet.label}</h2>
-=======
           <div className="mb-10 absolute top-1/4 left-[15%]">
             <img src={planet.image} alt={planet.label} className=" w-96 h-auto object-contain  mb-10" style={{
                 filter: 'drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5))'
@@ -51,7 +41,6 @@ const ExercisesPage = () => {
               fontSize: '5rem',
             }}>{planet.label}</h2>
             
->>>>>>> main
           </div>
         )}
 

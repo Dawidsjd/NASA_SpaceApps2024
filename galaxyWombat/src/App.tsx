@@ -7,6 +7,7 @@ import SpaceGameMain from './SubPages/SpaceGame/SpaceGameMain';
 import LearningHomePage from './SubPages/Learning/HomePage/LearningHomePage';
 import ExercisesPage from './SubPages/Learning/Exercises/ExercisesPage';
 import TechQuiz from './SubPages/Learning/Questions/Quiz1step/TechQuiz';
+import ResultStepQuiz from './SubPages/Learning/Questions/ResultStepQuiz';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/learning" element={<LearningHomePage />} />
         <Route path="/learning/exercise" element={<ExercisesPage />} />
         <Route path="/learning/exercise/techQuiz" element={<TechQuiz />} />
+        <Route path="/learning/exercise/result-step-quiz" element={<ResultStepQuiz />} />
       </Routes>
     </Router>
   );
