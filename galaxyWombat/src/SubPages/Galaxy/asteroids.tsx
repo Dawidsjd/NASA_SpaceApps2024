@@ -8,10 +8,12 @@ export interface AsteroidData {
   texture: string; // Add a texture property
 }
 
+const ADDITIVE_SCALE = 1.0; // Stała dodawana do każdej wielkości
+
 export const asteroidData: AsteroidData[] = [
   {
     label: 'Apophis',
-    size: 0.325,
+    size: 0.34 + ADDITIVE_SCALE, // Dodana stała
     color: 'darkgray',
     speed: 0.002 + Math.random() * 0.001,
     distanceFromSun: 1.1,
@@ -21,7 +23,7 @@ export const asteroidData: AsteroidData[] = [
   },
   {
     label: 'Ryugu',
-    size: 0.144,
+    size: 0.896 + ADDITIVE_SCALE, // Dodana stała
     color: 'lightgray',
     speed: 0.0025 + Math.random() * 0.001,
     distanceFromSun: 1.5,
@@ -31,7 +33,7 @@ export const asteroidData: AsteroidData[] = [
   },
   {
     label: 'Bennu',
-    size: 0.16,
+    size: 0.482 + ADDITIVE_SCALE, // Dodana stała
     color: 'green',
     speed: 0.002 + Math.random() * 0.001,
     distanceFromSun: 1.6,
@@ -41,7 +43,7 @@ export const asteroidData: AsteroidData[] = [
   },
   {
     label: 'Didymos',
-    size: 0.15,
+    size: 0.78 + ADDITIVE_SCALE, // Dodana stała
     color: 'brown',
     speed: 0.0015 + Math.random() * 0.001,
     distanceFromSun: 2.2,
@@ -51,7 +53,7 @@ export const asteroidData: AsteroidData[] = [
   },
   {
     label: 'Braille',
-    size: 0.08,
+    size: 2.155 + ADDITIVE_SCALE, // Dodana stała
     color: 'gray',
     speed: 0.003 + Math.random() * 0.001,
     distanceFromSun: 2.5,
@@ -60,8 +62,8 @@ export const asteroidData: AsteroidData[] = [
     texture: '/assets/braille.jpg', // Add texture for Braille
   },
   {
-    label: 'Anne Frank',
-    size: 0.1,
+    label: 'Annefrank',
+    size: 4.8 + ADDITIVE_SCALE, // Dodana stała
     color: 'lightyellow',
     speed: 0.002 + Math.random() * 0.001,
     distanceFromSun: 3.0,
