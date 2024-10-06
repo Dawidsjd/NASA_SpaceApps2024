@@ -84,6 +84,7 @@ function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
               className="absolute top-4 right-4 text-gray-400 hover:text-white"
               aria-label="Close"
             >
+              
               <X className="h-6 w-6" />
             </button>
             <h2 className="text-2xl font-bold text-white mb-4">
@@ -95,7 +96,8 @@ function Modal({ isOpen, onClose, content, onProceed }: ModalProps) {
                 <img
                   src={content.image}
                   alt={content.title}
-                  className="w-full h-auto rounded mb-4 cursor-pointer"
+                  draggable='false'
+                  className="w-full h-auto rounded mb-4 cursor-pointer select-none"
                 />
               </div>
             )}
