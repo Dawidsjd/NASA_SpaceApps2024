@@ -16,8 +16,10 @@ import { FaChevronLeft } from 'react-icons/fa';
 const AU = 150; // Astronomical Unit (scaled)
 
 const Scene: React.FC = () => {
+
   const [loading, setLoading] = useState(true); // State for loading
   const [isPanelOpen, setIsPanelOpen] = useState(false); // State for controlling the slide-out panel
+
   const [selectedPlanet, setSelectedPlanet] = useState<null | {
     label: string;
     description: string;
@@ -97,7 +99,7 @@ const Scene: React.FC = () => {
   const orbitsVisible = !selectedPlanet && !selectedAsteroid; // Orbits should only be visible when no planet or asteroid is selected
 
   return (
-    <div className="bg-black h-screen w-full relative overflow-hidden"> {/* Upewnij się, że overflow-hidden jest ustawiony tutaj */}
+    <div className="bg-black h-screen w-full relative overflow-hidden">
       {loading ? (
         <div className="bg-black w-full h-screen">
           <div
@@ -168,6 +170,7 @@ const Scene: React.FC = () => {
               {orbitsVisible && (
                 <PlanetOrbit rho={planet.rho} color={planet.color} />
               )}
+
             </React.Fragment>
           ))}
 
@@ -176,7 +179,6 @@ const Scene: React.FC = () => {
               key={asteroid.label}
               label={asteroid.label}
               size={asteroid.size}
-              color={asteroid.color}
               speed={asteroid.speed}
               texture={asteroid.texture}
               distanceFromSun={asteroid.distanceFromSun}
@@ -203,6 +205,7 @@ const Scene: React.FC = () => {
         />
       )}
 
+
       {selectedAsteroid && (
         <AsteroidDetails
           label={selectedAsteroid.label}
@@ -211,6 +214,7 @@ const Scene: React.FC = () => {
         />
       )}
 
+
       <img
         src="/assets/icon-dark.png" // Zmień na właściwą ścieżkę do logo
         alt="Logo"
@@ -218,6 +222,7 @@ const Scene: React.FC = () => {
         className="absolute top-5 right-5 w-24 h-24 select-none opacity-40" // Dodaj klasę select-none
         style={{ userSelect: 'none' }} // Wyłącza możliwość wybierania logo
       />
+
 
 <div className="absolute top-1/2 right-0"> {/* Kontener dla przycisku i panelu */}
   {/* Slide-out panel toggle button */}
@@ -229,6 +234,7 @@ const Scene: React.FC = () => {
   >
     <FaChevronLeft />
   </button>
+
 
   {/* Slide-out panel */}
   <div

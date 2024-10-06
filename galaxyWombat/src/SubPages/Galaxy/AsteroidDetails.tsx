@@ -1,6 +1,5 @@
-// AsteroidDetails.tsx
 import React, { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion'; // Import Framer Motion
+import { motion } from 'framer-motion';
 
 interface AsteroidDetailsProps {
   label: string;
@@ -72,9 +71,8 @@ const AsteroidDetails: React.FC<AsteroidDetailsProps> = ({
           </div>
         </div>
 
-        {/* Image overlapping the div */}
         <motion.img
-          src="/assets/wombat-hand.png" // You can replace this with the relevant asteroid texture
+          src="/assets/wombat-hand.png"
           alt="Asteroid"
           className="w-96 h-auto absolute -right-56 -top-20 transform -translate-y-1/2"
           initial={{ opacity: 0, x: 100 }}

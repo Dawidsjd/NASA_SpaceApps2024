@@ -8,7 +8,6 @@ const AU = 150;
 interface AsteroidProps {
   label: string;
   size: number;
-  color: string;
   speed: number;
   distanceFromSun: number;
   speedMultiplier: number;
@@ -24,7 +23,6 @@ interface AsteroidProps {
 const Asteroid: React.FC<AsteroidProps> = ({
   label,
   size,
-  color,
   texture,
   speed,
   distanceFromSun,
@@ -68,7 +66,7 @@ const Asteroid: React.FC<AsteroidProps> = ({
         width={5} // Increase the thickness of the trail
         length={8} // Increase the length of the trail
         decay={0.9} // How quickly the trail fades away
-        color={color}
+        color="#ffffff"
         attenuation={(t) => t * t}
       >
         <mesh ref={asteroidRef} onClick={handleClick}>
