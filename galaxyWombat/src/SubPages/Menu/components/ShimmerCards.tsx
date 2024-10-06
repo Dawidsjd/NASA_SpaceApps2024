@@ -37,7 +37,7 @@ const cards: Card[] = [
     image: '/assets/spaceSystem.png',
   },
   {
-    title: 'Stellarium',
+    title: 'Learning Platform',
     description:
       'Stellarium is a sky simulator that allows you to observe stars, planets...',
     icon: <Telescope className="h-6 w-6 text-blue-400" />,
@@ -128,8 +128,10 @@ export default function ShimmerCards() {
   const proceedToScene = (title: string) => {
     if (title === '3D Game') {
       navigate('/game'); // Redirecting to the game component page
-    } else if (title === 'Solar System' || title === 'Stellarium') {
+    } else if (title === 'Solar System') {
       navigate('/space'); // Redirecting to the scene component page
+    } else if (title === 'Learning Platform') {
+      navigate('/learning');
     }
   };
 
