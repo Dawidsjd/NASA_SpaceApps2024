@@ -4,7 +4,7 @@ interface DuolingoButtonProps {
   icon: JSX.Element;  // Definiujemy, że przycisk oczekuje ikony jako elementu JSX
 }
 
-const DuolingoButton: React.FC<DuolingoButtonProps> = ({ icon }) => {
+const DuolingoButton= ({ icon }: DuolingoButtonProps) => {
   return (
     <div className="flex flex-col justify-center items-center w-[700px] mx-auto mb-3">
       <button 
