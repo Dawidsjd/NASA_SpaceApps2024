@@ -92,8 +92,6 @@ STELLAR JOURNEY was created to address the challenge of making science education
 4. Run the app:
    ```bash
    npm run dev
-
-
 <div align="center">
   <img src="galaxyWombat/public/assets/wombat-layout.png" alt="Wombat" width="350"/>
 </div>
